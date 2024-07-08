@@ -55,15 +55,81 @@ class ProjectRecipe1ApplicationTests {
 //		CookingStep cookingStep = new CookingStep(1, "안녕하세요", recipe);
 //		cookingStepRepository.save(cookingStep);
 		
-//		Optional<Recipe> oi = this.recipeRepository.findById(102);
-//		assertTrue(oi.isPresent());
-//		Recipe r = oi.get();
-//		
-//		Ingredient i = new Ingredient();
-//		i.setAmount("조금");
-//		i.setIngredient("간장");
-//		i.setRecipe(r);
-//		this.ingredientRepository.save(i);
+		Optional<Recipe> oi = this.recipeRepository.findById(102);
+		assertTrue(oi.isPresent());
+		Recipe r = oi.get();
+		
+		Ingredient i1 = new Ingredient();
+		i1.setAmount("1적당히");
+		i1.setIngredient("1소금");
+		i1.setRecipe(r);
+		this.ingredientRepository.save(i1);
+		
+		Ingredient i2 = new Ingredient();
+		i2.setAmount("2적당히");
+		i2.setIngredient("2소금");
+		i2.setRecipe(r);
+		this.ingredientRepository.save(i2);
+		
+		Ingredient i3 = new Ingredient();
+		i3.setAmount("3적당히");
+		i3.setIngredient("3소금");
+		i3.setRecipe(r);
+		this.ingredientRepository.save(i3);
+		
+		Ingredient i4 = new Ingredient();
+		i4.setAmount("4적당히");
+		i4.setIngredient("4소금");
+		i4.setRecipe(r);
+		this.ingredientRepository.save(i4);
+		
+		Ingredient i5 = new Ingredient();
+		i5.setAmount("5적당히");
+		i5.setIngredient("5소금");
+		i5.setRecipe(r);
+		this.ingredientRepository.save(i5);
+		
+		Ingredient i6 = new Ingredient();
+		i6.setAmount("6적당히");
+		i6.setIngredient("6소금");
+		i6.setRecipe(r);
+		this.ingredientRepository.save(i6);
+		
+		Ingredient i7 = new Ingredient();
+		i7.setAmount("1적당히");
+		i7.setIngredient("1소금");
+		i7.setRecipe(r);
+		this.ingredientRepository.save(i7);
+		
+		Ingredient i8 = new Ingredient();
+		i8.setAmount("2적당히");
+		i8.setIngredient("2소금");
+		i8.setRecipe(r);
+		this.ingredientRepository.save(i8);
+		
+		Ingredient i9 = new Ingredient();
+		i9.setAmount("3적당히");
+		i9.setIngredient("3소금");
+		i9.setRecipe(r);
+		this.ingredientRepository.save(i9);
+		
+		Ingredient i10 = new Ingredient();
+		i10.setAmount("4적당히");
+		i10.setIngredient("4소금");
+		i10.setRecipe(r);
+		this.ingredientRepository.save(i10);
+		
+		Ingredient i11 = new Ingredient();
+		i11.setAmount("5적당히");
+		i11.setIngredient("5소금");
+		i11.setRecipe(r);
+		this.ingredientRepository.save(i11);
+		
+		Ingredient i12 = new Ingredient();
+		i12.setAmount("6적당히");
+		i12.setIngredient("6소금");
+		i12.setRecipe(r);
+		this.ingredientRepository.save(i12);
 //		
 //		Optional<Recipe> oc = this.recipeRepository.findById(52);
 //		assertTrue(oc.isPresent());
@@ -117,15 +183,15 @@ class ProjectRecipe1ApplicationTests {
 //		}
 //	}
 	
-	for(int i = 1; i<=100; i++) {
-		String name = String.format("이름 테스트: [%03d]", i);
-		int amount = i;
-		String category = String.format("분류 테스트: [%03d]", i);
-		String introduction = String.format("설명 테스트: [%03d]", i);
-		String level = String.format("난이도: [%03d]", i);
-		int time = i;
-		create(name, amount, category, introduction, level, time);
-	}
+//	for(int i = 1; i<=100; i++) {
+//		String name = String.format("이름 테스트: [%03d]", i);
+//		int amount = i;
+//		String category = String.format("분류 테스트: [%03d]", i);
+//		String introduction = String.format("설명 테스트: [%03d]", i);
+//		String level = String.format("난이도: [%03d]", i);
+//		int time = i;
+//		create(name, amount, category, introduction, level, time);
+//	}
 	
 }
 

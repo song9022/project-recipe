@@ -26,6 +26,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@JsonIgnoreProperties
 public class Recipe {
 
 
@@ -49,11 +50,13 @@ public class Recipe {
     
     private String level;          // 요리 난이도
     
-//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-//    private List<CookingStep> cookingSteps;
-////    
-//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-//    private List<Ingredient> ingredients;
+    @JsonIgnore
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<CookingStep> cookingSteps;
+//    
+    @JsonIgnore
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<Ingredient> ingredients;
    
  // 기본 생성자 
     public Recipe() {

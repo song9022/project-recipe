@@ -21,6 +21,8 @@ public class Ingredient {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
+    private Integer order;	//재료 아이디(수동)
+    
     private String ingredient;  // 요리 제료
     
     private String amount;      // 재료 양

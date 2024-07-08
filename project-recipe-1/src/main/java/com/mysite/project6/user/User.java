@@ -34,8 +34,5 @@ public class User {
 	@Column(unique = true)
 	private String email;
 	
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Recipe> recipes = new ArrayList<>();	//사용자는 레시피를 여러번 쓸 수 있음
-	
 	
 }

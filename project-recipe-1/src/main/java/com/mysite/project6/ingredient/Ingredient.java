@@ -25,8 +25,7 @@ public class Ingredient {
     
     private String amount;      // 재료 양
     
-    @ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "recipe_id")
+    @ManyToOne
     private Recipe recipe;      
     
  // 기본 생성자 

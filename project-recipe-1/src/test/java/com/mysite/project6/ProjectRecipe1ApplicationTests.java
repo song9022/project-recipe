@@ -33,7 +33,7 @@ class ProjectRecipe1ApplicationTests {
 	@Test
 	void contextLoads() {
 		
-//		Recipe recipe = new Recipe("짬뽕", null, "짬뽕입니다", "중식", 3, 30, "중", null);
+//		Recipe recipe = new Recipe("라면", null, "라면입니다", "중식", 3, 30, "중");
 //		recipeRepository.save(recipe);
 		
 //		Recipe recipe = new Recipe("우동", null, "우동입니다", "일식", 3, 30, "하", null);
@@ -55,15 +55,15 @@ class ProjectRecipe1ApplicationTests {
 //		CookingStep cookingStep = new CookingStep(1, "안녕하세요", recipe);
 //		cookingStepRepository.save(cookingStep);
 		
-		Optional<Recipe> oi = this.recipeRepository.findById(102);
-		assertTrue(oi.isPresent());
-		Recipe r = oi.get();
-		
-		Ingredient i = new Ingredient();
-		i.setAmount("조금");
-		i.setIngredient("간장");
-		i.setRecipe(r);
-		this.ingredientRepository.save(i);
+//		Optional<Recipe> oi = this.recipeRepository.findById(102);
+//		assertTrue(oi.isPresent());
+//		Recipe r = oi.get();
+//		
+//		Ingredient i = new Ingredient();
+//		i.setAmount("조금");
+//		i.setIngredient("간장");
+//		i.setRecipe(r);
+//		this.ingredientRepository.save(i);
 //		
 //		Optional<Recipe> oc = this.recipeRepository.findById(52);
 //		assertTrue(oc.isPresent());
@@ -86,7 +86,7 @@ class ProjectRecipe1ApplicationTests {
 //		assertTrue(oi.isPresent());
 //		Ingredient i = oi.get();
 //		this.ingredientRepository.delete(i);
-	}
+//	}
 	
 //	@Test
 //	void put() {
@@ -116,5 +116,30 @@ class ProjectRecipe1ApplicationTests {
 ////			System.out.println(car);
 //		}
 //	}
-
+	
+	for(int i = 1; i<=100; i++) {
+		String name = String.format("이름 테스트: [%03d]", i);
+		int amount = i;
+		String category = String.format("분류 테스트: [%03d]", i);
+		String introduction = String.format("설명 테스트: [%03d]", i);
+		String level = String.format("난이도: [%03d]", i);
+		int time = i;
+		create(name, amount, category, introduction, level, time);
+	}
+	
 }
+
+
+	public void create(String name, Integer amount, String category, String introduction,
+			String level, Integer time) {
+		Recipe r = new Recipe();
+		r.setName(name);
+		r.setAmount(amount);
+		r.setCategory(category);
+		r.setIntroduction(introduction);
+		r.setLevel(level);
+		r.setTime(time);
+		this.recipeRepository.save(r);
+	}
+}
+

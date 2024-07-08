@@ -3,6 +3,8 @@ package com.mysite.project6.recipe;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.user.User;
@@ -10,6 +12,7 @@ import com.mysite.project6.user.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +27,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Recipe {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -44,13 +48,19 @@ public class Recipe {
     private Integer time;           // 요리에 걸리는 시간
     
     private String level;          // 요리 난이도
+    
+//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+//    private List<CookingStep> cookingSteps;
+////    
+//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+//    private List<Ingredient> ingredients;
    
  // 기본 생성자 
     public Recipe() {
     }
     
     // 생성자
-    public Recipe(String name, byte[] photo, String introduction, String category, Integer amount, Integer time, String level, User user) {
+    public Recipe(String name, byte[] photo, String introduction, String category, Integer amount, Integer time, String level) {
         this.name = name;
         this.photo = photo;
         this.introduction = introduction;
@@ -58,15 +68,11 @@ public class Recipe {
         this.amount = amount;
         this.time = time;
         this.level = level;
-        this.user = user;
     }
-//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-//    private List<CookingStep> cookingSteps = new ArrayList<>();
-//    
-//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-//    private List<Ingredient> ingredients = new ArrayList<>();
+    
     
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;	//레시피는 한 사용자 한테만 종속됨
+    
+    
 }

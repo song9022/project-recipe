@@ -28,8 +28,7 @@ public class CookingStep {
     @Lob
     private String description;     // 단계 설명
     
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "recipe_id")
+    @ManyToOne
     private Recipe recipe;
     
  // 기본 생성자 

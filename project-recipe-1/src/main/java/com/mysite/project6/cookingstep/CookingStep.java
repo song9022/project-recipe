@@ -1,8 +1,10 @@
 package com.mysite.project6.cookingstep;
 
 import com.mysite.project6.recipe.Recipe;
+import com.mysite.project6.user.User;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -26,8 +28,18 @@ public class CookingStep {
     @Lob
     private String description;     // 단계 설명
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
     
+ // 기본 생성자 
+    public CookingStep() {
+    }
+    
+    // 생성자
+    public CookingStep(int stepNumber, String description, Recipe recipe) {
+        this.stepNumber = stepNumber;
+        this.description = description;
+        this.recipe = recipe;
+    }
 }

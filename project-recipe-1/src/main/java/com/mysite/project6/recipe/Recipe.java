@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.ingredient.Ingredient;
+import com.mysite.project6.user.User;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,7 +13,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,13 +45,28 @@ public class Recipe {
     
     private String level;          // 요리 난이도
    
+ // 기본 생성자 
+    public Recipe() {
+    }
     
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private List<CookingStep> cookingSteps = new ArrayList<>();
+    // 생성자
+    public Recipe(String name, byte[] photo, String introduction, String category, Integer amount, Integer time, String level, User user) {
+        this.name = name;
+        this.photo = photo;
+        this.introduction = introduction;
+        this.category = category;
+        this.amount = amount;
+        this.time = time;
+        this.level = level;
+        this.user = user;
+    }
+//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+//    private List<CookingStep> cookingSteps = new ArrayList<>();
+//    
+//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+//    private List<Ingredient> ingredients = new ArrayList<>();
     
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private List<Ingredient> ingredients = new ArrayList<>();
-    
-    // 생성자, 게터/세터 생략
-    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;	//레시피는 한 사용자 한테만 종속됨
 }

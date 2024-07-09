@@ -40,13 +40,13 @@ public class MainController {
 		return ingredientRepository.findAll();
 	}
 //	
-//	@Autowired
-//	private CookingStepRepository cookingStepRepository;
-//	
-//	@GetMapping("/cookingstep")
-//	public Iterable<CookingStep> getCookingStep() {
-//		return cookingStepRepository.findAll();
-//	}
+	@Autowired
+	private CookingStepRepository cookingStepRepository;
+	
+	@GetMapping("/cookingstep")
+	public Iterable<CookingStep> getCookingStep() {
+		return cookingStepRepository.findAll();
+	}
 //	
 ////	@CrossOrigin(origins = "http://localhost:3001")
 ////    @PostMapping("/recipes")

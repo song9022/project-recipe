@@ -52,8 +52,8 @@ public class Recipe {
     private String level;          // 요리 난이도
     
 //    @JsonIgnore
-//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-//    private List<CookingStep> cookingSteps;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CookingStep> cookingSteps = new ArrayList<>();
 //    
 //    @JsonIgnore
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)

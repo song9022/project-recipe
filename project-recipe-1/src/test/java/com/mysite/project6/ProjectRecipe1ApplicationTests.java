@@ -131,153 +131,154 @@ class ProjectRecipe1ApplicationTests {
 //		i12.setRecipe(r);
 //		this.ingredientRepository.save(i12);
 //		
-		Optional<Recipe> oc = this.recipeRepository.findById(202);
-		assertTrue(oc.isPresent());
-		Recipe r = oc.get();
-		
-		CookingStep c1 = new CookingStep();
-		c1.setDescription("1푹 익혀주세요");
-		c1.setStepNumber(1);
-		c1.setRecipe(r);
-		this.cookingStepRepository.save(c1);
-		
-		CookingStep c2 = new CookingStep();
-		c2.setDescription("2푹 익혀주세요");
-		c2.setStepNumber(12);
-		c2.setRecipe(r);
-		this.cookingStepRepository.save(c2);
-		
-		CookingStep c3 = new CookingStep();
-		c3.setDescription("푹 3익혀주세요");
-		c3.setStepNumber(13);
-		c3.setRecipe(r);
-		this.cookingStepRepository.save(c3);
-		
-		CookingStep c4 = new CookingStep();
-		c4.setDescription("푹 익혀주세요");
-		c4.setStepNumber(14);
-		c4.setRecipe(r);
-		this.cookingStepRepository.save(c4);
-		
-		CookingStep c5 = new CookingStep();
-		c5.setDescription("푹 익혀주세요");
-		c5.setStepNumber(16);
-		c5.setRecipe(r);
-		this.cookingStepRepository.save(c5);
-		
-		CookingStep c6 = new CookingStep();
-		c6.setDescription("푹 익혀주세요");
-		c6.setStepNumber(16);
-		c6.setRecipe(r);
-		this.cookingStepRepository.save(c6);
-		
-		CookingStep c7 = new CookingStep();
-		c7.setDescription("푹 익혀주세요");
-		c7.setStepNumber(17);
-		c7.setRecipe(r);
-		this.cookingStepRepository.save(c7);
-		
-		CookingStep c8 = new CookingStep();
-		c8.setDescription("푹 익혀주세요");
-		c8.setStepNumber(18);
-		c8.setRecipe(r);
-		this.cookingStepRepository.save(c8);
-		
-		CookingStep c9 = new CookingStep();
-		c9.setDescription("푹 익혀주세요");
-		c9.setStepNumber(1);
-		c9.setRecipe(r);
-		this.cookingStepRepository.save(c9);
-		
-		CookingStep c12 = new CookingStep();
-		c12.setDescription("푹 익혀주세요");
-		c12.setStepNumber(112);
-		c12.setRecipe(r);
-		this.cookingStepRepository.save(c12);
-		
-		CookingStep c13 = new CookingStep();
-		c13.setDescription("푹 익혀주세요");
-		c13.setStepNumber(113);
-		c13.setRecipe(r);
-		this.cookingStepRepository.save(c13);
-		
-		CookingStep c14 = new CookingStep();
-		c14.setDescription("푹 익혀주세요");
-		c14.setStepNumber(1);
-		c14.setRecipe(r);
-		this.cookingStepRepository.save(c14);
-		
-		CookingStep c15 = new CookingStep();
-		c15.setDescription("푹 익혀주세요");
-		c15.setStepNumber(115);
-		c15.setRecipe(r);
-		this.cookingStepRepository.save(c15);
+//		Optional<Recipe> oc = this.recipeRepository.findById(202);
+//		assertTrue(oc.isPresent());
+//		Recipe r = oc.get();
 //		
-//		assertEquals(3, this.recipeRepository.count());
-//		Optional<Recipe> or = this.recipeRepository.findById(52);
-//		assertTrue(or.isPresent());
-//		Recipe r = or.get();
-//		this.recipeRepository.delete(r);
-//		assertEquals(1, this.recipeRepository.count());
-		
-//		Optional<Ingredient> oi = this.ingredientRepository.findById(52);
-//		assertTrue(oi.isPresent());
-//		Ingredient i = oi.get();
-//		this.ingredientRepository.delete(i);
-//	}
-	
-//	@Test
-//	void put() {
-//		//소유자 객체를 추가하고 데이터베이스에 저장
-//		Owner owner1=new Owner();
-//		owner1.setFirstname("John");
-//		owner1.setLastname("Johnson");
-//		Owner owner2=new Owner();
-//		owner2.setFirstname("Mary");
-//		owner2.setLastname("Robinson");
-//		//여러 엔티티를 저장하는 saveAll메서드
-//		oRepository.saveAll(Arrays.asList(owner1,owner2));
-//		//자동차 객체를 추가하고 소유자와 연결한 후 데이터베이스에 저장
-//		Car car1=new Car(
-//				"Ford","Mustang","Red",
-//				"ADF-1121",2021,59000,owner1);
-//		Car car2=new Car(
-//				"Nissan","Leaf","White",
-//				"SSJ-3002",2019,29000,owner2);
-//		Car car3=new Car(
-//				"Toyota","Prius","Silver",
-//				"KKO-0212",2020,39000,owner2);
-//		cRepository.saveAll(Arrays.asList(car1,car2,car3));
+//		CookingStep c1 = new CookingStep();
+//		c1.setDescription("1푹 익혀주세요");
+//		c1.setStepNumber(1);
+//		c1.setRecipe(r);
+//		this.cookingStepRepository.save(c1);
 //		
-//		for(Car car:cRepository.findAll()) {
-//			log.info(car.toString());
-////			System.out.println(car);
-//		}
+//		CookingStep c2 = new CookingStep();
+//		c2.setDescription("2푹 익혀주세요");
+//		c2.setStepNumber(12);
+//		c2.setRecipe(r);
+//		this.cookingStepRepository.save(c2);
+//		
+//		CookingStep c3 = new CookingStep();
+//		c3.setDescription("푹 3익혀주세요");
+//		c3.setStepNumber(13);
+//		c3.setRecipe(r);
+//		this.cookingStepRepository.save(c3);
+//		
+//		CookingStep c4 = new CookingStep();
+//		c4.setDescription("푹 익혀주세요");
+//		c4.setStepNumber(14);
+//		c4.setRecipe(r);
+//		this.cookingStepRepository.save(c4);
+//		
+//		CookingStep c5 = new CookingStep();
+//		c5.setDescription("푹 익혀주세요");
+//		c5.setStepNumber(16);
+//		c5.setRecipe(r);
+//		this.cookingStepRepository.save(c5);
+//		
+//		CookingStep c6 = new CookingStep();
+//		c6.setDescription("푹 익혀주세요");
+//		c6.setStepNumber(16);
+//		c6.setRecipe(r);
+//		this.cookingStepRepository.save(c6);
+//		
+//		CookingStep c7 = new CookingStep();
+//		c7.setDescription("푹 익혀주세요");
+//		c7.setStepNumber(17);
+//		c7.setRecipe(r);
+//		this.cookingStepRepository.save(c7);
+//		
+//		CookingStep c8 = new CookingStep();
+//		c8.setDescription("푹 익혀주세요");
+//		c8.setStepNumber(18);
+//		c8.setRecipe(r);
+//		this.cookingStepRepository.save(c8);
+//		
+//		CookingStep c9 = new CookingStep();
+//		c9.setDescription("푹 익혀주세요");
+//		c9.setStepNumber(1);
+//		c9.setRecipe(r);
+//		this.cookingStepRepository.save(c9);
+//		
+//		CookingStep c12 = new CookingStep();
+//		c12.setDescription("푹 익혀주세요");
+//		c12.setStepNumber(112);
+//		c12.setRecipe(r);
+//		this.cookingStepRepository.save(c12);
+//		
+//		CookingStep c13 = new CookingStep();
+//		c13.setDescription("푹 익혀주세요");
+//		c13.setStepNumber(113);
+//		c13.setRecipe(r);
+//		this.cookingStepRepository.save(c13);
+//		
+//		CookingStep c14 = new CookingStep();
+//		c14.setDescription("푹 익혀주세요");
+//		c14.setStepNumber(1);
+//		c14.setRecipe(r);
+//		this.cookingStepRepository.save(c14);
+//		
+//		CookingStep c15 = new CookingStep();
+//		c15.setDescription("푹 익혀주세요");
+//		c15.setStepNumber(115);
+//		c15.setRecipe(r);
+//		this.cookingStepRepository.save(c15);
+////		
+////		assertEquals(3, this.recipeRepository.count());
+////		Optional<Recipe> or = this.recipeRepository.findById(52);
+////		assertTrue(or.isPresent());
+////		Recipe r = or.get();
+////		this.recipeRepository.delete(r);
+////		assertEquals(1, this.recipeRepository.count());
+//		
+////		Optional<Ingredient> oi = this.ingredientRepository.findById(52);
+////		assertTrue(oi.isPresent());
+////		Ingredient i = oi.get();
+////		this.ingredientRepository.delete(i);
+////	}
+//	
+////	@Test
+////	void put() {
+////		//소유자 객체를 추가하고 데이터베이스에 저장
+////		Owner owner1=new Owner();
+////		owner1.setFirstname("John");
+////		owner1.setLastname("Johnson");
+////		Owner owner2=new Owner();
+////		owner2.setFirstname("Mary");
+////		owner2.setLastname("Robinson");
+////		//여러 엔티티를 저장하는 saveAll메서드
+////		oRepository.saveAll(Arrays.asList(owner1,owner2));
+////		//자동차 객체를 추가하고 소유자와 연결한 후 데이터베이스에 저장
+////		Car car1=new Car(
+////				"Ford","Mustang","Red",
+////				"ADF-1121",2021,59000,owner1);
+////		Car car2=new Car(
+////				"Nissan","Leaf","White",
+////				"SSJ-3002",2019,29000,owner2);
+////		Car car3=new Car(
+////				"Toyota","Prius","Silver",
+////				"KKO-0212",2020,39000,owner2);
+////		cRepository.saveAll(Arrays.asList(car1,car2,car3));
+////		
+////		for(Car car:cRepository.findAll()) {
+////			log.info(car.toString());
+//////			System.out.println(car);
+////		}
+////	}
+//	
+////	for(int i = 1; i<=100; i++) {
+////		String name = String.format("이름 테스트: [%03d]", i);
+////		int amount = i;
+////		String category = String.format("분류 테스트: [%03d]", i);
+////		String introduction = String.format("설명 테스트: [%03d]", i);
+////		String level = String.format("난이도: [%03d]", i);
+////		int time = i;
+////		create(name, amount, category, introduction, level, time);
+////	}
+//	
+//}
+//
+//
+//	public void create(String name, Integer amount, String category, String introduction,
+//			String level, Integer time) {
+//		Recipe r = new Recipe();
+//		r.setName(name);
+//		r.setAmount(amount);
+//		r.setCategory(category);
+//		r.setIntroduction(introduction);
+//		r.setLevel(level);
+//		r.setTime(time);
+//		this.recipeRepository.save(r);
 //	}
-	
-//	for(int i = 1; i<=100; i++) {
-//		String name = String.format("이름 테스트: [%03d]", i);
-//		int amount = i;
-//		String category = String.format("분류 테스트: [%03d]", i);
-//		String introduction = String.format("설명 테스트: [%03d]", i);
-//		String level = String.format("난이도: [%03d]", i);
-//		int time = i;
-//		create(name, amount, category, introduction, level, time);
-//	}
-	
 }
-
-
-	public void create(String name, Integer amount, String category, String introduction,
-			String level, Integer time) {
-		Recipe r = new Recipe();
-		r.setName(name);
-		r.setAmount(amount);
-		r.setCategory(category);
-		r.setIntroduction(introduction);
-		r.setLevel(level);
-		r.setTime(time);
-		this.recipeRepository.save(r);
-	}
 }
 

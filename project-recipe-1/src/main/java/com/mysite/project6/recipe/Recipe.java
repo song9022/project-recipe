@@ -20,18 +20,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-@JsonIgnoreProperties
 public class Recipe {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
     
@@ -51,11 +51,11 @@ public class Recipe {
     
     private String level;          // 요리 난이도
     
-    @JsonIgnore
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private List<CookingStep> cookingSteps;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+//    private List<CookingStep> cookingSteps;
 //    
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ingredient> ingredients = new ArrayList<>();
    
@@ -76,7 +76,9 @@ public class Recipe {
     
     
     @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;	//레시피는 한 사용자 한테만 종속됨
     
     
 }
+

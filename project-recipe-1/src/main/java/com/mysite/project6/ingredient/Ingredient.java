@@ -1,5 +1,6 @@
 package com.mysite.project6.ingredient;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mysite.project6.recipe.Recipe;
 
 import jakarta.persistence.Entity;
@@ -9,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +20,7 @@ import lombok.Setter;
 public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
     
@@ -28,6 +30,7 @@ public class Ingredient {
     
     @ManyToOne
     @JoinColumn(name="recipe_id")
+    @JsonIgnoreProperties("ingredients")
     private Recipe recipe;  
     
 
@@ -44,3 +47,5 @@ public class Ingredient {
     }
     
 }
+
+

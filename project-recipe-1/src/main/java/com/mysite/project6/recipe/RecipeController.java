@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.mysite.project6.cookingstep.CookingStep;
+import com.mysite.project6.cookingstep.CookingStepRepository;
 import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.ingredient.IngredientRepository;
 
@@ -42,6 +44,9 @@ public class RecipeController {
 
     @Autowired
     private IngredientRepository ingredientRepository;
+    
+    @Autowired
+    private CookingStepRepository cookingStepRepository;
 
     @PostMapping("/recipes/add")
     public Recipe createRecipe(@RequestBody Recipe recipe) {
@@ -50,6 +55,14 @@ public class RecipeController {
         if (ingredients != null) {
             for (Ingredient ingredient : ingredients) {
                 ingredient.setRecipe(recipe);
+            }
+        }
+        
+        // 요리 단계들이 속한 레시피를 설정
+        List<CookingStep> cookingSteps = recipe.getCookingSteps();
+        if (cookingSteps != null) {
+            for (CookingStep step : cookingSteps) {
+                step.setRecipe(recipe);
             }
         }
         return recipeRepository.save(recipe);

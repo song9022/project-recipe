@@ -1,5 +1,6 @@
 package com.mysite.project6.ingredient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mysite.project6.recipe.Recipe;
 
@@ -30,7 +31,8 @@ public class Ingredient {
     
     @ManyToOne
     @JoinColumn(name="recipe_id")
-    @JsonIgnoreProperties("ingredients")
+//    @JsonIgnoreProperties("ingredients")
+    @JsonBackReference
     private Recipe recipe;  
     
 

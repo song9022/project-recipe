@@ -1,5 +1,6 @@
 package com.mysite.project6.cookingstep;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mysite.project6.recipe.Recipe;
 import com.mysite.project6.user.User;
@@ -31,7 +32,8 @@ public class CookingStep {
     
     @ManyToOne
     @JoinColumn(name="recipe_id")
-    @JsonIgnoreProperties("cookingSteps")
+//    @JsonIgnoreProperties("cookingSteps")
+    @JsonBackReference
     private Recipe recipe;
     
  // 기본 생성자 

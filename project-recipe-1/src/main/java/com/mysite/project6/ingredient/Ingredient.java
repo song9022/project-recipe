@@ -26,10 +26,10 @@ public class Ingredient {
     
     private String amount;      // 재료 양
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="recipe_id")
     private Recipe recipe;  
     
-    private Integer inputID;	//재료 아이디(수동)
 
     
  // 기본 생성자 

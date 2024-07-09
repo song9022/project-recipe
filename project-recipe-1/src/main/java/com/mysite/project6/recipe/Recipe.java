@@ -34,6 +34,7 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     
+    
     private String name;            // 요리 이름
     
     @Lob

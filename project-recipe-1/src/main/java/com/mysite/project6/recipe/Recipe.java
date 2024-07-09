@@ -31,7 +31,7 @@ public class Recipe {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
     
@@ -56,8 +56,8 @@ public class Recipe {
     private List<CookingStep> cookingSteps;
 //    
     @JsonIgnore
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private List<Ingredient> ingredients;
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Ingredient> ingredients = new ArrayList<>();
    
  // 기본 생성자 
     public Recipe() {

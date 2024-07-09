@@ -18,7 +18,7 @@ import lombok.Setter;
 public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     
     
@@ -26,7 +26,7 @@ public class Ingredient {
     
     private String amount;      // 재료 양
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name="recipe_id")
     private Recipe recipe;  
     

@@ -1,0 +1,122 @@
+import React, { useState } from "react";
+import Delete from "./delete";
+
+export default function Main() {
+  const [recipes, setRecipes] = useState({
+    name: "",
+    photo: null,
+    introduction: "",
+    category: "",
+    amount: "",
+    time: "",
+    level: "",
+    ingredients: [] // 재료들을 포함할 배열 추가
+  });
+
+  const recipeChange = (e) => {
+    setRecipes({ ...recipes, [e.target.name]: e.target.value });
+  };
+
+  const ingredientChange = (e, index) => {
+    const { name, value } = e.target;
+    const updatedIngredients = [...recipes.ingredients];
+    updatedIngredients[index][name] = value;
+    setRecipes({ ...recipes, ingredients: updatedIngredients });
+  };
+
+  const handleAddIngredient = () => {
+    setRecipes({
+      ...recipes,
+      ingredients: [...recipes.ingredients, { ingredient: "", amount: "" }]
+    });
+  };
+
+  const handleRemoveIngredient = (index) => {
+    const updatedIngredients = [...recipes.ingredients];
+    updatedIngredients.splice(index, 1);
+    setRecipes({ ...recipes, ingredients: updatedIngredients });
+  };
+
+  const handleSave = () => {
+    // 서버에 recipes 전송 로직
+    console.log(recipes);
+    // fetch 함수 호출 등
+  };
+
+  return (
+    <>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <h1>레시피</h1>
+        <input
+          placeholder="name"
+          id="name"
+          name="name"
+          value={recipes.name}
+          onChange={recipeChange}
+        />
+        <input
+          placeholder="introduction"
+          id="introduction"
+          name="introduction"
+          value={recipes.introduction}
+          onChange={recipeChange}
+        />
+        <input
+          placeholder="category"
+          id="category"
+          name="category"
+          value={recipes.category}
+          onChange={recipeChange}
+        />
+        <input
+          placeholder="amount"
+          id="amount"
+          name="amount"
+          value={recipes.amount}
+          onChange={recipeChange}
+        />
+        <input
+          placeholder="time"
+          id="time"
+          name="time"
+          value={recipes.time}
+          onChange={recipeChange}
+        />
+        <input
+          placeholder="level"
+          id="level"
+          name="level"
+          value={recipes.level}
+          onChange={recipeChange}
+        />
+      </form>
+
+      {/* 재료 입력 폼 */}
+      <h1>재료</h1>
+      {recipes.ingredients.map((ingredient, index) => (
+        <div key={index}>
+          <input
+            placeholder="ingredient"
+            name="ingredient"
+            value={ingredient.ingredient}
+            onChange={(e) => ingredientChange(e, index)}
+          />
+          <input
+            placeholder="amount"
+            name="amount"
+            value={ingredient.amount}
+            onChange={(e) => ingredientChange(e, index)}
+          />
+          <button onClick={() => handleRemoveIngredient(index)}>삭제</button>
+        </div>
+      ))}
+      <button onClick={handleAddIngredient}>재료 추가</button>
+
+      <button onClick={handleSave}>저장</button>
+    </>
+  );
+}

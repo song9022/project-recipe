@@ -19,20 +19,7 @@ export const TabButton = styled.button`
   padding: 10px 20px;
   cursor: pointer;
   font-size: 16px;
-  border-bottom: ${props => (props.active ? '2px solid #000' : 'none')};
-`;
-
-export const SubTabMenu = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-bottom: 20px;
-  align-items: center;
-`;
-
-export const SortOptions = styled.div`
-  display: flex;
-  gap: 10px;
+  border-bottom: ${(props) => (props.active ? '2px solid #000' : 'none')};
 `;
 
 export const Content = styled.div`
@@ -46,6 +33,9 @@ export const Content = styled.div`
 export const CenterImage = styled.img`
   width: 150px;
   height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
 `;
 
 export const RegisterButton = styled(Link)`
@@ -57,26 +47,27 @@ export const RegisterButton = styled(Link)`
   font-size: 16px;
 `;
 
-export const SearchContainer = styled.div`
+export const NicknameContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 20px;
 `;
 
-export const SearchInput = styled.input`
-  padding: 10px;
+export const NicknameInput = styled.input`
+  padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
 `;
 
-export const SearchButton = styled.button`
-  padding: 10px;
+export const SaveButton = styled.button`
+  padding: 8px 16px;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   background-color: #007bff;
   color: white;
   cursor: pointer;
-  font-size: 16px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
 `;

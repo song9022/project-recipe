@@ -7,10 +7,17 @@ import {
   Content,
   CenterImage,
   RegisterButton,
+  NicknameContainer,
+  NicknameInput,
+  SaveButton
 } from '../styles/MyPageStyles';
 
 const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [image, setImage] = useState('https://via.placeholder.com/150');
+  const [imagePreview, setImagePreview] = useState('');
+  const [nickname, setNickname] = useState('사용자 닉네임');
+  const [isEditing, setIsEditing] = useState(false);
 
   const recipes = [
     { id: 1, title: 'Delicious Spaghetti', description: 'A delightful spaghetti recipe' },
@@ -26,6 +33,28 @@ const MyPage = () => {
     setIsModalOpen(false);
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+      setImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleNicknameChange = (e) => {
+    setNickname(e.target.value);
+  };
+
+  const toggleEditing = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const saveNickname = () => {
+    setIsEditing(false);
+  };
+
   return (
     <MyPageContainer>
       <TabMenu>
@@ -38,11 +67,26 @@ const MyPage = () => {
       </TabMenu>
 
       <Content>
-        <CenterImage src="https://via.placeholder.com/150" alt="cupcake" />
-        <h2>레시피를 직접 올려보세요!</h2>
+        <CenterImage src={image} alt="profile" />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <NicknameContainer>
+          {isEditing ? (
+            <NicknameInput
+              type="text"
+              value={nickname}
+              onChange={handleNicknameChange}
+            />
+          ) : (
+            <h2>{nickname}</h2>
+          )}
+          {isEditing ? (
+            <SaveButton onClick={saveNickname}>저장</SaveButton>
+          ) : (
+            <SaveButton onClick={toggleEditing}>닉네임 수정</SaveButton>
+          )}
+        </NicknameContainer>
         <p>자랑하고 싶은 나만의 레시피! 공유하고 싶은 멋진 레시피를 올려 주세요.</p>
         <RegisterButton to="/write">레시피 등록하기</RegisterButton>
-
       </Content>
       <Modal isOpen={isModalOpen} closeModal={closeModal}>
         <h2>내가 작성한 레시피</h2>

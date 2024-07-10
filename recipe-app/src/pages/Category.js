@@ -63,11 +63,11 @@ const Category = ({ searchQuery }) => {
           </label>
         </div>
       </div>
-      <div className="ranking-list">
+      <div className="category-list">
         {filteredRankings.map((post) => (
-          <div key={post.id} className="ranking-item">
-            <img src={post.image} alt={post.title} className="ranking-image" />
-            <div className="ranking-details">
+          <div key={post.id} className="category-item">
+            <img src={post.image} alt={post.title} className="category-image" />
+            <div className="category-details">
               <h3>{post.title}</h3>
               <p>작성자: {post.author}</p>
               <p>별점: {post.rating}</p>

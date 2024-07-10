@@ -27,13 +27,13 @@
   margin-right: 5px;
 }
 
-.ranking-list {
+.category-list {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
-.ranking-item {
+.category-item {
   background-color: #f8f9fa;
   border: 1px solid #e0e0e0;
   border-radius: 10px;
@@ -41,12 +41,12 @@
   text-align: center;
 }
 
-.ranking-image {
+.category-image {
   max-width: 100%;
   height: auto;
   border-radius: 10px;
 }
 
-.ranking-details {
+.category-details {
   margin-top: 10px;
 }

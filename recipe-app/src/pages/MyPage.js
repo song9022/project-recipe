@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Modal from '../components/modal/Modal';
 import {
   MyPageContainer,
   TabMenu,
   TabButton,
-  SubTabMenu,
-  SortOptions,
   Content,
   CenterImage,
   RegisterButton,
-  SearchContainer,
-  SearchInput,
-  SearchButton
 } from '../styles/MyPageStyles';
 
 const MyPage = () => {

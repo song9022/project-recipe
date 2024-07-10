@@ -6,6 +6,8 @@ import Category from '../pages/Category';
 import Ranking from '../pages/Ranking';
 import RecipeDetail from '../pages/RecipeDetail';
 import Review from '../pages/Review';
+import ReviewDetail from '../pages/ReviewDetail';
+import ReviewWrite from '../pages/ReviewWrite';
 import Write from '../pages/Write';
 import Fridge from '../pages/Fridge';
 import Login from '../pages/Login';
@@ -20,6 +22,8 @@ const RouterConfig = ({ searchQuery, setIsLoggedIn, isLoggedIn }) => (
     <Route path="/ranking" element={<Ranking />} />
     <Route path="/ranking/:id" element={<RecipeDetail />} />
     <Route path="/review" element={<Review />} />
+    <Route path="/review/:id" element={<ReviewDetail />} />
+    <Route path="/review/write" element={<ReviewWrite />} />
     <Route path="/write" element={<Write />} />
     <Route path="/fridge" element={<Fridge />} />
     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />

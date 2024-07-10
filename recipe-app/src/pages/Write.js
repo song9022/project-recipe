@@ -8,6 +8,7 @@ const Write = () => {
   const [description, setDescription] = useState('');
   const [image, setImage] = useState('');
   const [category, setCategory] = useState('');
+  const [level, setLevel] = useState(''); // 난이도 상태 추가
   const [info, setInfo] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [steps, setSteps] = useState('');
@@ -22,6 +23,7 @@ const Write = () => {
       description,
       image,
       category,
+      level, // 난이도 추가
       info,
       ingredients: ingredients.split('\n'),
       steps: steps.split('\n'),
@@ -82,12 +84,22 @@ const Write = () => {
         </div>
         <div className="form-group">
           <label>카테고리:</label>
-          <input
-            type="text"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-          />
+          <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+            <option value="">카테고리를 선택하세요</option>
+            <option value="한식">한식</option>
+            <option value="일식">일식</option>
+            <option value="중식">중식</option>
+            <option value="양식">양식</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <label>난이도:</label>
+          <select value={level} onChange={(e) => setLevel(e.target.value)} required>
+            <option value="">난이도를 선택하세요</option>
+            <option value="상">상</option>
+            <option value="중">중</option>
+            <option value="하">하</option>
+          </select>
         </div>
         <div className="form-group">
           <label>요리 정보:</label>

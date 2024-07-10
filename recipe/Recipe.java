@@ -44,7 +44,7 @@ public class Recipe {
     private Integer time;           // 요리에 걸리는 시간
     
     private String level;          // 요리 난이도
-   
+    
     
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<CookingStep> cookingSteps = new ArrayList<>();

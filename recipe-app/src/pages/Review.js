@@ -1,27 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import rankings from '../data/data';
-import './Ranking.css';
+import reviews from '../data/reviews';
+import {
+  ReviewPage,
+  ReviewList,
+  ReviewItem,
+  ReviewButton,
+  ReviewLink,
+} from '../styles/ReviewStyles';
 
 const Review = () => {
   return (
-    <div className="ranking-page">
-      <h2>후기 페이지</h2>
-      <div className="ranking-list">
-        {rankings.map((post) => (
-          <div key={post.id} className="ranking-item">
-            <Link to={`/ranking/${post.id}`}>
-              <img src={post.image} alt={post.title} className="ranking-image" />
-            </Link>
-            <div className="ranking-details">
-              <h3>{post.title}</h3>
-              <p>작성자: {post.author}</p>
-              <p>별점: {post.rating}</p>
-            </div>
-          </div>
+    <ReviewPage>
+      <h2>요리 후기 게시판</h2>
+      <ReviewButton to="/review/write">글쓰기</ReviewButton>
+      <ReviewList>
+        {reviews.map((review) => (
+          <ReviewItem key={review.id}>
+            <ReviewLink to={`/review/${review.id}`}>
+              <h3>{review.title}</h3>
+              <p>작성자: {review.author}</p>
+              <p>작성일: {review.date}</p>
+            </ReviewLink>
+          </ReviewItem>
         ))}
-      </div>
-    </div>
+      </ReviewList>
+    </ReviewPage>
   );
 };
 

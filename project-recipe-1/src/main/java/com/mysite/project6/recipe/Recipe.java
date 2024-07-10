@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.user.User;
@@ -53,10 +54,12 @@ public class Recipe {
     
 //    @JsonIgnore
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<CookingStep> cookingSteps = new ArrayList<>();
 //    
 //    @JsonIgnore
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Ingredient> ingredients = new ArrayList<>();
    
  // 기본 생성자 

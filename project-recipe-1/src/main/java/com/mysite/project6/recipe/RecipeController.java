@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.cookingstep.CookingStepRepository;
 import com.mysite.project6.image.Image;
+import com.mysite.project6.image.ImageRepository;
 import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.ingredient.IngredientRepository;
 
@@ -90,6 +91,9 @@ public class RecipeController {
     
     @Autowired
     private CookingStepRepository cookingStepRepository;
+    
+    @Autowired
+    private ImageRepository imageRepository;
 
 //    // 사진이 없는 경우의 레시피 생성
 //    @PostMapping("/recipes/add")
@@ -147,5 +151,24 @@ public class RecipeController {
       return new ResponseEntity<>(savedRecipe, HttpStatus.CREATED);
   }
   
+  
+  //이미지 파일 업로드 처리
+  @PostMapping("/recipes/upload-photos")
+  public ResponseEntity<List<Image>> uploadPhotos(@RequestParam("file") List<MultipartFile> files) {
+      try {
+          // 각 파일을 Image 엔티티로 변환하여 저장
+          for (MultipartFile file : files) {
+              byte[] photoData = file.getBytes();
+              Image image = new Image(photoData, null); // Recipe는 나중에 설정
+              imageRepository.save(image);
+          }
+      } catch (IOException e) {
+          return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+
+      // 저장된 이미지 목록을 반환
+      List<Image> savedImages = imageRepository.findAll();
+      return new ResponseEntity<>(savedImages, HttpStatus.OK);
+  }
 }
 

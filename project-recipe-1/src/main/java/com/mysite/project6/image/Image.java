@@ -29,7 +29,7 @@ public class Image {
 	@Column(name = "photo")
 	private byte[] photoData;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="recipe_id")
 	@JsonBackReference
 	private Recipe recipe;

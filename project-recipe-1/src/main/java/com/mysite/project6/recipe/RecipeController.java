@@ -16,6 +16,8 @@ import com.mysite.project6.image.Image;
 import com.mysite.project6.image.ImageRepository;
 import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.ingredient.IngredientRepository;
+import com.mysite.project6.user.User;
+import com.mysite.project6.user.UserRepository;
 
 //@RestController
 //@RequestMapping("/recipes")
@@ -96,6 +98,9 @@ public class RecipeController {
     
     @Autowired
     private ImageRepository imageRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
 //    // 사진이 없는 경우의 레시피 생성
 //    @PostMapping("/recipes/add")
@@ -177,6 +182,48 @@ public class RecipeController {
           return new ResponseEntity<>(savedImages, HttpStatus.OK);
       } catch (IOException e) {
           return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+  }
+  
+  @PostMapping("/recipes/{recipeId}/like")
+  public ResponseEntity<String> likeRecipe(@PathVariable Integer recipeId, @RequestParam Long userId) {
+      Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+      if (recipeOptional.isPresent()) {
+          Recipe recipe = recipeOptional.get();
+          Optional<User> userOptional = userRepository.findById(userId);
+          if (userOptional.isPresent()) {
+              User user = userOptional.get();
+              recipe.getLikedByUsers().add(user);
+              user.getLikedRecipes().add(recipe);
+              recipeRepository.save(recipe);
+              userRepository.save(user);
+              return new ResponseEntity<>("Recipe liked successfully", HttpStatus.OK);
+          } else {
+              return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+          }
+      } else {
+          return new ResponseEntity<>("Recipe not found", HttpStatus.NOT_FOUND);
+      }
+  }
+
+  @PostMapping("/recipes/{recipeId}/unlike")
+  public ResponseEntity<String> unlikeRecipe(@PathVariable Integer recipeId, @RequestParam Long userId) {
+      Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+      if (recipeOptional.isPresent()) {
+          Recipe recipe = recipeOptional.get();
+          Optional<User> userOptional = userRepository.findById(userId);
+          if (userOptional.isPresent()) {
+              User user = userOptional.get();
+              recipe.getLikedByUsers().remove(user);
+              user.getLikedRecipes().remove(recipe);
+              recipeRepository.save(recipe);
+              userRepository.save(user);
+              return new ResponseEntity<>("Recipe unliked successfully", HttpStatus.OK);
+          } else {
+              return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+          }
+      } else {
+          return new ResponseEntity<>("Recipe not found", HttpStatus.NOT_FOUND);
       }
   }
 }

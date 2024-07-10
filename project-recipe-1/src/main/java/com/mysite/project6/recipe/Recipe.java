@@ -1,11 +1,15 @@
 package com.mysite.project6.recipe;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.mysite.project6.answer.Answer;
 import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.image.Image;
 import com.mysite.project6.ingredient.Ingredient;
@@ -20,6 +24,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -66,6 +71,10 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Image> images = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Answer> answers = new ArrayList<>();
    
  // 기본 생성자 
     public Recipe() {
@@ -84,8 +93,10 @@ public class Recipe {
     
     @ManyToOne
     @JoinColumn(name="user_id")
+    @JsonBackReference
     private User user;	//레시피는 한 사용자 한테만 종속됨
     
-    
+    @ManyToMany(mappedBy = "likedRecipes")
+    private Set<User> likedByUsers = new HashSet<>();
 }
 

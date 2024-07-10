@@ -11,6 +11,7 @@ import {
   NavList,
   NavItem
 } from '../styles/Navbar';
+import { PiCookingPotFill, PiBooksDuotone, PiRankingFill, PiPenBold, PiMagnifyingGlassBold, PiFinnTheHumanFill, PiCookieDuotone } from "react-icons/pi";
 
 const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
   const [input, setInput] = useState('');
@@ -44,7 +45,7 @@ const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
           onChange={handleSearchChange}
           onKeyDown={handleSearchSubmit}
         />
-        <SearchButton onClick={handleSearchSubmit}>Search</SearchButton>
+        <SearchButton onClick={handleSearchSubmit}><PiMagnifyingGlassBold size={40} /></SearchButton>
         <AuthButtons>
           {isLoggedIn ? (
             <>
@@ -55,8 +56,8 @@ const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
             </>
           ) : (
             <>
-              <NavButton to="/login" className='login-button'>Login</NavButton>
-              <NavButton to="/signup" className='signup-button'>Sign Up</NavButton>
+              <NavButton to="/login" className='login-button'><PiFinnTheHumanFill size={40} /></NavButton>
+              <NavButton to="/signup" className='signup-button'><PiCookieDuotone size={40} /></NavButton>
             </>
           )}
         </AuthButtons>
@@ -64,16 +65,16 @@ const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
       <BottomNav>
         <NavList>
           <NavItem>
-            <Link to="/recommend">추천</Link>
+            <Link to="/recommend"><PiCookingPotFill size={40} /></Link>
           </NavItem>
           <NavItem>
-            <Link to="/category">분류</Link>
+            <Link to="/category"><PiBooksDuotone size={40} /></Link>
           </NavItem>
           <NavItem>
-            <Link to="/ranking">랭킹</Link>
+            <Link to="/ranking"><PiRankingFill size={40} /></Link>
           </NavItem>
           <NavItem>
-            <Link to="/review">요리후기</Link>
+            <Link to="/review"><PiPenBold size={40} /></Link>
           </NavItem>
           <NavItem>
             <Link to="/fridge">냉장고 털이</Link>

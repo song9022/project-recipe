@@ -4,17 +4,19 @@ import { Link } from 'react-router-dom';
 export const NavbarContainer = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center; /* 중앙 정렬 */
   padding: 10px 20px;
-  background-color: #2E64FE;
-  border-bottom: 1px solid #2E64FE;
+  background-color: #fff;
+  border-bottom: 1px solid #fff;
+  gap: 10px; /* 요소 사이의 간격 조절 */
 `;
 
 export const Logo = styled(Link)`
   font-size: 80px;
   font-weight: bold;
   text-decoration: none;
-  color: white;
-  margin-right: 50px;
+  color: #5882FA;
+  margin-right: 10px; /* 간격을 줄임 */
 
   &:hover {
     text-decoration: none;
@@ -23,11 +25,12 @@ export const Logo = styled(Link)`
 `;
 
 export const SearchBar = styled.input`
-  flex: 1;
-  margin: 0 10px;
+  width: 17.5%; /* 서치바의 길이를 줄임 */
+  min-height: 30px;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin: 0 10px; /* 요소 사이의 간격 조절 */
 `;
 
 export const SearchButton = styled.button`
@@ -37,7 +40,7 @@ export const SearchButton = styled.button`
   background-color: #007bff;
   color: white;
   cursor: pointer;
-  margin-right: 20px;
+  margin-left: 10px; /* 서치바와의 간격 조절 */
 
   &:hover {
     background-color: #0056b3;
@@ -46,8 +49,9 @@ export const SearchButton = styled.button`
 
 export const AuthButtons = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 10px; /* 요소 사이의 간격 조절 */
   justify-content: flex-end;
+  margin-left: 10px; /* 간격을 줄임 */
 `;
 
 export const NavButton = styled(Link)`
@@ -63,7 +67,7 @@ export const NavButton = styled(Link)`
   }
 
   &.signup-button {
-    background-color: #28a745;
+    background-color: #F7D358;
   }
 
   &.mypage-button {
@@ -76,17 +80,21 @@ export const NavButton = styled(Link)`
 `;
 
 export const BottomNav = styled.div`
-  background-color: #343a40;
+  background-color: #5882FA;
   padding: 10px 0;
 `;
 
 export const NavList = styled.ul`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   list-style: none;
   margin: 0;
   padding: 0;
   color: white;
+
+  & > li {
+    margin: 0 50px; /* 항목 사이의 간격을 조절 */
+  }
 `;
 
 export const NavItem = styled.li`

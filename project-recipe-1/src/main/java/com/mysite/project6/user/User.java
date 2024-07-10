@@ -63,4 +63,7 @@ public class User {
 //            inverseJoinColumns = @JoinColumn(name = "answer_id")
 //        )
     private Set<Answer> likedAnswers = new HashSet<>();
+    
+    @ManyToMany 
+    private Set<Recipe> bookmarks = new HashSet<>();
 }

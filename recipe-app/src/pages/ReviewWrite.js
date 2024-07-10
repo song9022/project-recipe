@@ -10,13 +10,37 @@ import {
 
 const ReviewWrite = () => {
   const [title, setTitle] = useState('');
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState('');
   const [content, setContent] = useState('');
   const navigate = useNavigate();
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // 여기서 리뷰 데이터를 저장하는 로직을 추가합니다. 예: API 호출
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('image', image);
+    formData.append('content', content);
+
+    // 예시로, formData를 서버로 전송하는 로직을 작성합니다.
+    // fetch('http://localhost:5000/reviews', {
+    //   method: 'POST',
+    //   body: formData,
+    // }).then(() => {
+    //   navigate('/review');
+    // });
+
     console.log({ title, image, content });
     navigate('/review');
   };
@@ -35,13 +59,14 @@ const ReviewWrite = () => {
           />
         </div>
         <div>
-          <label>이미지 URL:</label>
+          <label>이미지 업로드:</label>
           <ReviewInput 
-            type="text" 
-            value={image} 
-            onChange={(e) => setImage(e.target.value)} 
+            type="file" 
+            accept="image/*"
+            onChange={handleImageChange}
             required 
           />
+          {imagePreview && <img src={imagePreview} alt="Preview" style={{ marginTop: '10px', maxWidth: '100%' }} />}
         </div>
         <div>
           <label>내용:</label>

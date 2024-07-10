@@ -9,6 +9,7 @@ const data = [
     image: "https://via.placeholder.com/150",
     description: "A delightful spaghetti recipe with rich tomato sauce and savory meatballs.",
     category: "Italian",
+  
     info: "Cooking Time: 30 mins | Servings: 4",
     ingredients: ["Spaghetti", "Tomato Sauce", "Meatballs", "Parmesan Cheese"],
     steps: ["Boil spaghetti.", "Prepare tomato sauce.", "Cook meatballs.", "Mix and serve."]

@@ -43,6 +43,10 @@ const RecipeDetail = () => {
             <p>{recipe.category}</p>
           </div>
           <div className="card">
+            <h3>난이도</h3>
+            <p>{recipe.difficulty}</p>
+          </div>
+          <div className="card">
             <h3>요리 정보</h3>
             <p>{recipe.info}</p>
           </div>

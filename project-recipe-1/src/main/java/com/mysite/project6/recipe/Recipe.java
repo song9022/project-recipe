@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mysite.project6.cookingstep.CookingStep;
+import com.mysite.project6.image.Image;
 import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.user.User;
 
@@ -38,8 +39,8 @@ public class Recipe {
     
     private String name;            // 요리 이름
     
-    @Lob
-    private byte[] photo;           // 요리 사진 (이미지 파일의 바이트 배열)
+//    @Lob
+//    private byte[] photo;           // 요리 사진 (이미지 파일의 바이트 배열)
     
     @Column(columnDefinition = "TEXT")
     private String introduction;    // 요리 소개
@@ -61,15 +62,18 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Ingredient> ingredients = new ArrayList<>();
+    
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Image> images = new ArrayList<>();
    
  // 기본 생성자 
     public Recipe() {
     }
     
     // 생성자
-    public Recipe(String name, byte[] photo, String introduction, String category, Integer amount, Integer time, String level) {
+    public Recipe(String name, String introduction, String category, Integer amount, Integer time, String level) {
         this.name = name;
-        this.photo = photo;
         this.introduction = introduction;
         this.category = category;
         this.amount = amount;

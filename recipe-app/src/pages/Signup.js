@@ -17,6 +17,10 @@ const Signup = () => {
           <label>비밀번호:</label>
           <input type="password" name="password" required />
         </div>
+        <div>
+          <label>닉네임:</label>
+          <input type="nickname" name="nickname" required />
+        </div>
         <button type="submit">회원가입</button>
       </form>
     </div>

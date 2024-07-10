@@ -117,3 +117,69 @@ export const RecipeContent = styled.div`
     margin-bottom: 5px;
   }
 `;
+
+export const CommentsSection = styled.div`
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin-top: 0;
+  }
+`;
+
+export const CommentForm = styled.form`
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+`;
+
+export const CommentInput = styled.input`
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+
+  &:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+`;
+
+export const CommentButton = styled.button`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+export const CommentList = styled.ul`
+  list-style: none;
+  padding: 0;
+`;
+
+export const CommentItem = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+
+  p {
+    margin: 0;
+    flex: 1;
+  }
+
+  div {
+    display: flex;
+    gap: 10px;
+  }
+`;

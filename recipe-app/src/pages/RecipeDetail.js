@@ -10,7 +10,13 @@ import {
   LikeButton,
   ButtonGroup,
   BookmarkButton,
-  RecipeInfo 
+  RecipeInfo,
+  CommentsSection,
+  CommentForm,
+  CommentInput,
+  CommentButton,
+  CommentList,
+  CommentItem
 } from '../styles/RecipeDetail';
 import { FaThumbsUp, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 
@@ -20,6 +26,11 @@ const RecipeDetail = () => {
 
   const [likes, setLikes] = useState(0);
   const [bookmarked, setBookmarked] = useState(false);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
+  const [commentAuthor, setCommentAuthor] = useState('작성자1');
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editingCommentText, setEditingCommentText] = useState('');
 
   const handleLikeClick = () => {
     setLikes(likes + 1);
@@ -27,6 +38,35 @@ const RecipeDetail = () => {
 
   const handleBookmarkClick = () => {
     setBookmarked(!bookmarked);
+  };
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    if (editingCommentId !== null) {
+      setComments(comments.map(comment => 
+        comment.id === editingCommentId ? { ...comment, text: editingCommentText } : comment
+      ));
+      setEditingCommentId(null);
+      setEditingCommentText('');
+    } else {
+      const newCommentObj = {
+        id: Date.now(),
+        text: newComment,
+        author: commentAuthor
+      };
+      setComments([...comments, newCommentObj]);
+      setNewComment('');
+      setCommentAuthor(`작성자${comments.length + 2}`);
+    }
+  };
+
+  const handleCommentEdit = (id, text) => {
+    setEditingCommentId(id);
+    setEditingCommentText(text);
+  };
+
+  const handleCommentDelete = (id) => {
+    setComments(comments.filter(comment => comment.id !== id));
   };
 
   if (!recipe) {
@@ -68,6 +108,30 @@ const RecipeDetail = () => {
           ))}
         </ol>
       </RecipeContent>
+      <CommentsSection>
+        <h3>댓글</h3>
+        <CommentForm onSubmit={handleCommentSubmit}>
+          <CommentInput
+            type="text"
+            placeholder="댓글을 입력하세요..."
+            value={editingCommentId !== null ? editingCommentText : newComment}
+            onChange={(e) => editingCommentId !== null ? setEditingCommentText(e.target.value) : setNewComment(e.target.value)}
+            required
+          />
+          <CommentButton type="submit">{editingCommentId !== null ? '수정' : '입력'}</CommentButton>
+        </CommentForm>
+        <CommentList>
+          {comments.map((comment) => (
+            <CommentItem key={comment.id}>
+              <p><strong>{comment.author}</strong>: {comment.text}</p>
+              <div>
+                <CommentButton onClick={() => handleCommentEdit(comment.id, comment.text)}>수정</CommentButton>
+                <CommentButton onClick={() => handleCommentDelete(comment.id)}>삭제</CommentButton>
+              </div>
+            </CommentItem>
+          ))}
+        </CommentList>
+      </CommentsSection>
     </RecipeDetailPage>
   );
 };

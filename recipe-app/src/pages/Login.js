@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  LoginPage,
+  LoginForm,
+  LoginInput,
+  LoginButton,
+  LoginContainer,
+  LoginTitle
+} from '../styles/Login';
 
 const Login = ({ setIsLoggedIn }) => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
@@ -14,30 +22,32 @@ const Login = ({ setIsLoggedIn }) => {
   };
 
   return (
-    <div className="login-page">
-      <h2>로그인</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>사용자명:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>비밀번호:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">로그인</button>
-      </form>
-    </div>
+    <LoginPage>
+      <LoginContainer>
+        <LoginTitle>로그인</LoginTitle>
+        <LoginForm onSubmit={handleSubmit}>
+          <div>
+            <label>이메일:</label>
+            <LoginInput
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label>비밀번호:</label>
+            <LoginInput
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <LoginButton type="submit">로그인</LoginButton>
+        </LoginForm>
+      </LoginContainer>
+    </LoginPage>
   );
 };
 

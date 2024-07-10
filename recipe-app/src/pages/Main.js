@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import './Main.css';
+import '../styles/Main.css';
 
 function Main() {
   const settings = {

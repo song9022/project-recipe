@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import fridge from '../data/data';
-import './Fridge.css';
+import '../styles/Fridge.css';
 
 const Fridge = () => {
   return (

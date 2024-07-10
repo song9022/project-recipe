@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import rankings from '../data/data';
-import './Ranking.css';
+import '../styles/Ranking.css';
 
 const Ranking = () => {
   return (

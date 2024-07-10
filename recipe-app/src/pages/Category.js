@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import rankings from '../data/data';
-import './Category.css';
+import '../styles/Category.css';
 
 const Category = ({ searchQuery }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);

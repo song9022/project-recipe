@@ -7,7 +7,7 @@ import {
   ReviewItem,
   ReviewButton,
   ReviewLink,
-} from '../styles/ReviewStyles';
+} from '../styles/Review';
 
 const Review = () => {
   return (

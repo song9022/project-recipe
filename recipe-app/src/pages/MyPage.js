@@ -10,7 +10,7 @@ import {
   NicknameContainer,
   NicknameInput,
   SaveButton
-} from '../styles/MyPageStyles';
+} from '../styles/MyPage';
 
 const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

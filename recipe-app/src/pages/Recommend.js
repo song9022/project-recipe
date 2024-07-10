@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from 'react-slick';
-import './Recommend.css';
+import '../styles/Recommend.css';
 
 function Main() {
   const settings = {

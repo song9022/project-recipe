@@ -6,7 +6,7 @@ import {
   ReviewInput, 
   ReviewTextarea, 
   ReviewButton 
-} from '../styles/ReviewWriteStyles';
+} from '../styles/ReviewWrite';
 
 const ReviewWrite = () => {
   const [title, setTitle] = useState('');

@@ -10,7 +10,7 @@ import {
   BottomNav,
   NavList,
   NavItem
-} from '../styles/NavbarStyles';
+} from '../styles/Navbar';
 
 const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
   const [input, setInput] = useState('');

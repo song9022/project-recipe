@@ -4,7 +4,7 @@ import {
   FooterText,
   FooterLinks,
   FooterLink
-} from '../styles/FooterStyles';
+} from '../styles/Footer';
 
 const Footer = () => {
   return (

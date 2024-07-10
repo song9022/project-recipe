@@ -5,7 +5,7 @@ import {
   ReviewDetailPage,
   ReviewTitle,
   ReviewContent,
-} from '../styles/ReviewDetailStyles';
+} from '../styles/ReviewDetail';
 
 const ReviewDetail = () => {
   const { id } = useParams();

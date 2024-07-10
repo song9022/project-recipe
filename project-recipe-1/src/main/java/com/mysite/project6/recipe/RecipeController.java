@@ -1,7 +1,9 @@
 package com.mysite.project6.recipe;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.cookingstep.CookingStepRepository;
 import com.mysite.project6.image.Image;
+import com.mysite.project6.image.ImageRepository;
 import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.ingredient.IngredientRepository;
 
@@ -90,6 +93,9 @@ public class RecipeController {
     
     @Autowired
     private CookingStepRepository cookingStepRepository;
+    
+    @Autowired
+    private ImageRepository imageRepository;
 
 //    // 사진이 없는 경우의 레시피 생성
 //    @PostMapping("/recipes/add")
@@ -147,5 +153,31 @@ public class RecipeController {
       return new ResponseEntity<>(savedRecipe, HttpStatus.CREATED);
   }
   
+  
+  //이미지 파일 업로드 처리
+  @PostMapping("/recipes/upload-photos")
+  public ResponseEntity<List<Image>> uploadPhotos(@RequestParam("file") List<MultipartFile> files, @RequestParam("recipeId") Integer recipeId) {
+      try {
+          Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+          if (!recipeOptional.isPresent()) {
+              return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+          }
+          Recipe recipe = recipeOptional.get();
+
+          List<Image> savedImages = new ArrayList<>();
+          
+          for (MultipartFile file : files) {
+              byte[] photoData = file.getBytes();
+              Image image = new Image(photoData, recipe); // 레시피 설정
+              imageRepository.save(image);
+              savedImages.add(image);
+          }
+
+          // 저장된 이미지 목록을 반환
+          return new ResponseEntity<>(savedImages, HttpStatus.OK);
+      } catch (IOException e) {
+          return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+  }
 }
 

@@ -5,15 +5,15 @@ export const NavbarContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 10px 20px;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: #2E64FE;
+  border-bottom: 1px solid #2E64FE;
 `;
 
 export const Logo = styled(Link)`
   font-size: 80px;
   font-weight: bold;
   text-decoration: none;
-  color: blue;
+  color: white;
   margin-right: 50px;
 
   &:hover {

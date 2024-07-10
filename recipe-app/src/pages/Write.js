@@ -1,59 +1,121 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../styles/Write.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/Write.css";
 
 const Write = () => {
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState('');
-  const [category, setCategory] = useState('');
-  const [level, setLevel] = useState(''); // 난이도 상태 추가
-  const [info, setInfo] = useState('');
-  const [ingredients, setIngredients] = useState('');
-  const [steps, setSteps] = useState('');
+  const [recipe, setRecipe] = useState({
+    name: "",
+    introduction: "",
+    category: "",
+    amount: "",
+    time: "",
+    level: "",
+    cookingSteps: [],
+    ingredients: [], // ingredients를 배열로 관리
+  });
+
+  const [author, setAuthor] = useState("");
+  const [image, setImage] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newRecipe = {
-      id: Date.now(), // 임시 ID
-      title,
-      author,
-      description,
-      image,
-      category,
-      level, // 난이도 추가
-      info,
-      ingredients: ingredients.split('\n'),
-      steps: steps.split('\n'),
-    };
+  const recipeChange = (e) => {
+    setRecipe({ ...recipe, [e.target.name]: e.target.value });
+  };
 
-    fetch('http://localhost:5000/rankings', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newRecipe),
-    }).then(() => {
-      navigate('/category');
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
+
+  const ingredientChange = (index, e) => {
+    const newIngredients = [...recipe.ingredients];
+    newIngredients[index] = {
+      ...newIngredients[index],
+      [e.target.name]: e.target.value,
+    };
+    setRecipe({ ...recipe, ingredients: newIngredients });
+  };
+
+  const handleAddIngredient = () => {
+    setRecipe({
+      ...recipe,
+      ingredients: [...recipe.ingredients, { ingredient: "", amount: "" }],
     });
   };
 
+  const handleRemoveIngredient = (index) => {
+    const newIngredients = recipe.ingredients.filter((_, i) => i !== index);
+    setRecipe({ ...recipe, ingredients: newIngredients });
+  };
+
+  const stepChange = (index, e) => {
+    const newSteps = [...recipe.cookingSteps];
+    newSteps[index] = { ...newSteps[index], [e.target.name]: e.target.value };
+    setRecipe({ ...recipe, cookingSteps: newSteps });
+  };
+
+  const handleAddStep = () => {
+    setRecipe((prevRecipe) => ({
+      ...prevRecipe,
+      cookingSteps: [
+        ...prevRecipe.cookingSteps,
+        { stepNumber: prevRecipe.cookingSteps.length + 1, description: "" },
+      ],
+    }));
+  };
+
+  const handleRemoveStep = (index) => {
+    const newSteps = recipe.cookingSteps.filter((_, i) => i !== index);
+    setRecipe({ ...recipe, cookingSteps: newSteps });
+  };
+
+  const handleSave = () => {
+    const formData = new FormData();
+    formData.append('name', recipe.name);
+    formData.append('introduction', recipe.introduction);
+    formData.append('category', recipe.category);
+    formData.append('amount', recipe.amount);
+    formData.append('time', recipe.time);
+    formData.append('level', recipe.level);
+    formData.append('author', author);
+    formData.append('image', image);
+    recipe.ingredients.forEach((ingredient, index) => {
+      formData.append(`ingredients[${index}][ingredient]`, ingredient.ingredient);
+      formData.append(`ingredients[${index}][amount]`, ingredient.amount);
+    });
+    recipe.cookingSteps.forEach((step, index) => {
+      formData.append(`cookingSteps[${index}][stepNumber]`, step.stepNumber);
+      formData.append(`cookingSteps[${index}][description]`, step.description);
+    });
+
+    fetch("http://localhost:8080/recipes/add", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Recipe saved:", data);
+        navigate("/category");
+      })
+      .catch((err) => console.error("Failed to save recipe:", err));
+  };
+
   const handleCancel = () => {
-    navigate('/category');
+    navigate("/category");
   };
 
   return (
     <div className="write-page">
       <h2>글 작성</h2>
-      <form onSubmit={handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSave();
+        }}
+      >
         <div className="form-group">
           <label>레시피 제목:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-          />
+          <input name="name" value={recipe.name} onChange={recipeChange} />
         </div>
         <div className="form-group">
           <label>작성자:</label>
@@ -67,24 +129,28 @@ const Write = () => {
         <div className="form-group">
           <label>요리 소개:</label>
           <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
+            name="introduction"
+            value={recipe.introduction}
+            onChange={recipeChange}
           ></textarea>
         </div>
         <div className="form-group">
           <label>요리 대표 사진:</label>
           <input
-            type="text"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            placeholder="이미지 URL을 입력하세요"
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange}
             required
           />
         </div>
         <div className="form-group">
           <label>카테고리:</label>
-          <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+          <select
+            name="category"
+            value={recipe.category}
+            onChange={recipeChange}
+            required
+          >
             <option value="">카테고리를 선택하세요</option>
             <option value="한식">한식</option>
             <option value="일식">일식</option>
@@ -93,44 +159,99 @@ const Write = () => {
           </select>
         </div>
         <div className="form-group">
-          <label>난이도:</label>
-          <select value={level} onChange={(e) => setLevel(e.target.value)} required>
-            <option value="">난이도를 선택하세요</option>
+          <label>요리 수준:</label>
+          <select
+            name="level"
+            value={recipe.level}
+            onChange={recipeChange}
+            required
+          >
+            <option value="">요리 수준을 선택하세요</option>
             <option value="상">상</option>
             <option value="중">중</option>
             <option value="하">하</option>
           </select>
         </div>
         <div className="form-group">
-          <label>요리 정보:</label>
+          <label>몇 인분:</label>
           <input
-            type="text"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
-            required
+            placeholder="Amount"
+            name="amount"
+            value={recipe.amount}
+            onChange={recipeChange}
+          />
+        </div>
+        <div className="form-group">
+          <label>요리 시간:</label>
+          <input
+            placeholder="Time"
+            name="time"
+            value={recipe.time}
+            onChange={recipeChange}
           />
         </div>
         <div className="form-group">
           <label>재료:</label>
-          <textarea
-            value={ingredients}
-            onChange={(e) => setIngredients(e.target.value)}
-            placeholder="각 재료를 줄바꿈으로 구분하여 입력하세요"
-            required
-          ></textarea>
+          {recipe.ingredients.map((ingredient, index) => (
+            <div key={index}>
+              <input
+                placeholder="Ingredient Name"
+                name="ingredient"
+                value={ingredient.ingredient}
+                onChange={(e) => ingredientChange(index, e)}
+              />
+              <input
+                placeholder="Amount"
+                name="amount"
+                value={ingredient.amount}
+                onChange={(e) => ingredientChange(index, e)}
+              />
+              <button
+                type="button"
+                onClick={() => handleRemoveIngredient(index)}
+              >
+                삭제
+              </button>
+            </div>
+          ))}
+          <button type="button" onClick={handleAddIngredient}>
+            재료 추가
+          </button>
         </div>
         <div className="form-group">
           <label>요리 순서:</label>
-          <textarea
-            value={steps}
-            onChange={(e) => setSteps(e.target.value)}
-            placeholder="각 순서를 줄바꿈으로 구분하여 입력하세요"
-            required
-          ></textarea>
+          {recipe.cookingSteps.map((step, index) => (
+            <div key={index}>
+              <input
+                name="stepNumber"
+                defaultValue={(step.stepNumber = index + 1)}
+              />
+              <input
+                placeholder="description"
+                name="description"
+                value={step.description}
+                onChange={(e) => stepChange(index, e)}
+              />
+              <button type="button" onClick={() => handleRemoveStep(index)}>
+                삭제
+              </button>
+            </div>
+          ))}
+          <button type="button" onClick={handleAddStep}>
+            순서 추가
+          </button>
         </div>
         <div className="form-buttons">
-          <button type="submit" className="submit-button">작성 완료</button>
-          <button type="button" className="cancel-button" onClick={handleCancel}>취소</button>
+          <button type="submit" className="submit-button">
+            작성 완료
+          </button>
+          <button
+            type="button"
+            className="cancel-button"
+            onClick={handleCancel}
+          >
+            취소
+          </button>
         </div>
       </form>
     </div>

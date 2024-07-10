@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import rankings from '../data/data';
 import '../styles/Category.css';
 
-const Category = ({ searchQuery }) => {
+const Category = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedLevels, setSelectedLevels] = useState([]);
 
@@ -27,8 +28,7 @@ const Category = ({ searchQuery }) => {
   const filteredRankings = rankings.filter((post) => {
     const categoryMatch = selectedCategories.length === 0 || selectedCategories.includes(post.category);
     const levelMatch = selectedLevels.length === 0 || selectedLevels.includes(post.level);
-    const searchMatch = post.title.toLowerCase().includes(searchQuery.toLowerCase());
-    return categoryMatch && levelMatch && searchMatch;
+    return categoryMatch && levelMatch;
   });
 
   return (
@@ -66,11 +66,13 @@ const Category = ({ searchQuery }) => {
       <div className="category-list">
         {filteredRankings.map((post) => (
           <div key={post.id} className="category-item">
-            <img src={post.image} alt={post.title} className="category-image" />
+            <Link to={`/Recipedetail/${post.id}`}>
+              <img src={post.image} alt={post.title} className="category-image" />
+            </Link>
             <div className="category-details">
               <h3>{post.title}</h3>
               <p>작성자: {post.author}</p>
-              <p>별점: {post.rating}</p>
+              <p>별점: {post.good}</p>
             </div>
           </div>
         ))}

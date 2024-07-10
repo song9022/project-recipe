@@ -16,7 +16,7 @@ const Fridge = () => {
             <div className="fridge-details">
               <h3>{post.title}</h3>
               <p>작성자: {post.author}</p>
-              <p>별점: {post.rating}</p>
+              <p>별점: {post.good}</p>
             </div>
           </div>
         ))}

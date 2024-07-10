@@ -1,93 +1,74 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import rankings from '../data/data';
-import '../styles/RecipeDetail.css';
+import { 
+  RecipeDetailPage, 
+  RecipeTitle, 
+  RecipeImage, 
+  RecipeContent, 
+  RecipeSection, 
+  LikeButton,
+  ButtonGroup,
+  BookmarkButton,
+  RecipeInfo 
+} from '../styles/RecipeDetail';
+import { FaThumbsUp, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 
 const RecipeDetail = () => {
   const { id } = useParams();
-  const [recipe, setRecipe] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('');
+  const recipe = rankings.find((recipe) => recipe.id === parseInt(id));
 
-  useEffect(() => {
-    const foundRecipe = rankings.find(r => r.id === parseInt(id));
-    setRecipe(foundRecipe);
-  }, [id]);
+  const [likes, setLikes] = useState(0);
+  const [bookmarked, setBookmarked] = useState(false);
 
-  const handleCommentChange = (e) => {
-    setNewComment(e.target.value);
+  const handleLikeClick = () => {
+    setLikes(likes + 1);
   };
 
-  const handleCommentSubmit = (e) => {
-    e.preventDefault();
-    if (newComment.trim()) {
-      setComments([...comments, newComment]);
-      setNewComment('');
-    }
+  const handleBookmarkClick = () => {
+    setBookmarked(!bookmarked);
   };
+
+  if (!recipe) {
+    return <div>Recipe not found</div>;
+  }
 
   return (
-    <div className="recipe-detail-page">
-      {recipe ? (
-        <>
-          <div className="card">
-            <h2>{recipe.title}</h2>
-            <img src={recipe.image} alt={recipe.title} className="recipe-image" />
-          </div>
-          <div className="card">
-            <h3>요리 소개</h3>
-            <p>{recipe.description}</p>
-          </div>
-          <div className="card">
-            <h3>카테고리</h3>
-            <p>{recipe.category}</p>
-          </div>
-          <div className="card">
-            <h3>난이도</h3>
-            <p>{recipe.difficulty}</p>
-          </div>
-          <div className="card">
-            <h3>요리 정보</h3>
-            <p>{recipe.info}</p>
-          </div>
-          <div className="card">
-            <h3>재료</h3>
-            <ul>
-              {recipe.ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="card">
-            <h3>요리 순서</h3>
-            <ol>
-              {recipe.steps.map((step, index) => (
-                <li key={index}>{step}</li>
-              ))}
-            </ol>
-          </div>
-          <div className="card">
-            <h3>댓글</h3>
-            <ul>
-              {comments.map((comment, index) => (
-                <li key={index}>{comment}</li>
-              ))}
-            </ul>
-            <form onSubmit={handleCommentSubmit} className="comment-form">
-              <textarea
-                value={newComment}
-                onChange={handleCommentChange}
-                placeholder="댓글을 작성하세요"
-                required
-              ></textarea>
-              <button type="submit">댓글 작성</button>
-            </form>
-          </div>
-        </>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+    <RecipeDetailPage>
+      <RecipeTitle>{recipe.title}</RecipeTitle>
+      <RecipeImage src={recipe.image} alt={recipe.title} />
+      <ButtonGroup>
+        <LikeButton onClick={handleLikeClick}>
+          <FaThumbsUp /> {likes}
+        </LikeButton>
+        <BookmarkButton onClick={handleBookmarkClick}>
+          {bookmarked ? <FaBookmark /> : <FaRegBookmark />}
+        </BookmarkButton>
+      </ButtonGroup>
+      <RecipeInfo>
+        <p><strong>카테고리:</strong> {recipe.category}</p>
+        <p><strong>난이도:</strong> {recipe.level}</p>
+        <p><strong>요리 정보:</strong> {recipe.info}</p>
+      </RecipeInfo>
+      <RecipeSection>
+        <h3>작성자: {recipe.author}</h3>
+        <p>{recipe.description}</p>
+      </RecipeSection>
+      <RecipeContent>
+        <h3>재료</h3>
+        <ul>
+          {recipe.ingredients.map((ingredient, index) => (
+            <li key={index}>{ingredient}</li>
+          ))}
+        </ul>
+        <h3>요리 순서</h3>
+        <ol>
+          {recipe.steps.map((step, index) => (
+            <li key={index}>{step}</li>
+          ))}
+        </ol>
+      </RecipeContent>
+    </RecipeDetailPage>
   );
 };
 

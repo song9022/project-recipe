@@ -16,7 +16,7 @@ const Ranking = () => {
             <div className="ranking-details">
               <h3>{post.title}</h3>
               <p>작성자: {post.author}</p>
-              <p>별점: {post.rating}</p>
+              <p>좋아요: {post.good}</p>
             </div>
           </div>
         ))}

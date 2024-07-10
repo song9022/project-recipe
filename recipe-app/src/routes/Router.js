@@ -20,7 +20,7 @@ const RouterConfig = ({ searchQuery, setIsLoggedIn, isLoggedIn }) => (
     <Route path="/recommend" element={<Recommend />} />
     <Route path="/category" element={<Category searchQuery={searchQuery} />} />
     <Route path="/ranking" element={<Ranking />} />
-    <Route path="/ranking/:id" element={<RecipeDetail />} />
+    <Route path="/Recipedetail/:id" element={<RecipeDetail />} />
     <Route path="/review" element={<Review />} />
     <Route path="/review/:id" element={<ReviewDetail />} />
     <Route path="/review/write" element={<ReviewWrite />} />

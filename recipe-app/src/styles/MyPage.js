@@ -63,7 +63,7 @@ export const SaveButton = styled.button`
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: #93A9D1;
   color: white;
   cursor: pointer;
 

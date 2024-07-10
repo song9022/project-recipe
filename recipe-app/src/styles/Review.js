@@ -9,7 +9,7 @@ export const ReviewButton = styled(Link)`
   display: inline-block;
   padding: 10px 20px;
   margin-bottom: 20px;
-  background-color: #007bff;
+  background-color: #93A9D1;
   color: white;
   text-decoration: none;
   border-radius: 5px;

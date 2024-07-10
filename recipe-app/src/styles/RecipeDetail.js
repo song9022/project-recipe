@@ -34,7 +34,7 @@ export const LikeButton = styled.button`
   padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #93A9D1;
   color: white;
   font-size: 16px;
   cursor: pointer;
@@ -143,7 +143,7 @@ export const CommentInput = styled.input`
   border-radius: 4px;
 
   &:focus {
-    border-color: #007bff;
+    border-color: #93A9D1;
     outline: none;
   }
 `;
@@ -152,7 +152,7 @@ export const CommentButton = styled.button`
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: #93A9D1;
   color: white;
   cursor: pointer;
 

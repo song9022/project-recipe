@@ -11,7 +11,7 @@ import {
   NavList,
   NavItem
 } from '../styles/Navbar';
-import { PiCookingPotFill, PiBooksDuotone, PiRankingFill, PiPenBold, PiMagnifyingGlassBold, PiFinnTheHumanFill, PiCookieDuotone } from "react-icons/pi";
+import { PiCookingPotFill, PiBooksDuotone, PiRankingFill, PiPenBold, PiMagnifyingGlassBold, PiFinnTheHumanFill, PiBreadBold, PiDoorBold } from "react-icons/pi";
 
 const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
   const [input, setInput] = useState('');
@@ -49,15 +49,15 @@ const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
         <AuthButtons>
           {isLoggedIn ? (
             <>
-              <NavButton to="/mypage" className='mypage-button'>My Page</NavButton>
+              <NavButton to="/mypage" className='mypage-button'><PiFinnTheHumanFill size={40} /></NavButton>
               <NavButton as="button" className='logout-button' onClick={handleLogout}>
-                Logout
+              <PiDoorBold size={40} />
               </NavButton>
             </>
           ) : (
             <>
               <NavButton to="/login" className='login-button'><PiFinnTheHumanFill size={40} /></NavButton>
-              <NavButton to="/signup" className='signup-button'><PiCookieDuotone size={40} /></NavButton>
+              <NavButton to="/signup" className='signup-button'><PiBreadBold size={40} /></NavButton>
             </>
           )}
         </AuthButtons>

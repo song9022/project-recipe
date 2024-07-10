@@ -15,7 +15,7 @@ export const Logo = styled(Link)`
   font-size: 80px;
   font-weight: bold;
   text-decoration: none;
-  color: #5882FA;
+  color: #93A9D1;
   margin-right: 10px; /* 간격을 줄임 */
 
   &:hover {
@@ -37,7 +37,7 @@ export const SearchButton = styled.button`
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: #93A9D1;
   color: white;
   cursor: pointer;
   margin-left: 10px; /* 서치바와의 간격 조절 */
@@ -63,7 +63,7 @@ export const NavButton = styled(Link)`
   color: white;
 
   &.login-button {
-    background-color: #007bff;
+    background-color: #93A9D1;
   }
 
   &.signup-button {
@@ -71,16 +71,16 @@ export const NavButton = styled(Link)`
   }
 
   &.mypage-button {
-    background-color: #6c757d;
+    background-color: #F7D358;
   }
 
   &.logout-button {
-    background-color: #dc3545;
+    background-color: #ffc5d0;
   }
 `;
 
 export const BottomNav = styled.div`
-  background-color: #5882FA;
+  background-color: #93A9D1;
   padding: 10px 0;
 `;
 

@@ -15,11 +15,16 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 여기에 회원가입 로직을 추가합니다.
+    if (password !== confirmPassword) {
+      setErrorMessage('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+    // 회원가입 로직을 추가합니다.
     console.log({ username, nickname, email, password, confirmPassword });
     navigate('/login');
   };
@@ -74,6 +79,7 @@ const Signup = () => {
               required
             />
           </div>
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
           <SignupButton type="submit">회원가입</SignupButton>
         </SignupForm>
       </SignupContainer>

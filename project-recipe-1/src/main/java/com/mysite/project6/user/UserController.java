@@ -22,6 +22,7 @@ public class UserController {
         // 사용자 정보를 받아와서 저장하는 로직
         try {
             User newUser = new User();
+            newUser.setUserID(userDto.getUserID());
             newUser.setUsername(userDto.getUsername());
             newUser.setPassword(userDto.getPassword());
             newUser.setEmail(userDto.getEmail());

@@ -98,5 +98,8 @@ public class Recipe {
     
     @ManyToMany(mappedBy = "likedRecipes")
     private Set<User> likedByUsers = new HashSet<>();
+    
+    @ManyToMany(mappedBy = "bookmarks")
+    private Set<User> bookmarkedByUsers = new HashSet<>();
 }
 

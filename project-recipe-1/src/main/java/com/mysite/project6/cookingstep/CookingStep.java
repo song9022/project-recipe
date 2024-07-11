@@ -21,29 +21,29 @@ import lombok.Setter;
 @Setter
 public class CookingStep {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    
-    private Integer stepNumber;     // 단계 번호
-    
-    @Lob
-    private String description;     // 단계 설명
-    
-    @ManyToOne
-    @JoinColumn(name="recipe_id")
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+
+	private Integer stepNumber; // 단계 번호
+
+	@Lob
+	private String description; // 단계 설명
+
+	@ManyToOne
+	@JoinColumn(name = "recipe_id")
 //    @JsonIgnoreProperties("cookingSteps")
-    @JsonBackReference
-    private Recipe recipe;
-    
- // 기본 생성자 
-    public CookingStep() {
-    }
-    
-    // 생성자
-    public CookingStep(int stepNumber, String description, Recipe recipe) {
-        this.stepNumber = stepNumber;
-        this.description = description;
-        this.recipe = recipe;
-    }
+	@JsonBackReference
+	private Recipe recipe;
+
+	// 기본 생성자
+	public CookingStep() {
+	}
+
+	// 생성자
+	public CookingStep(int stepNumber, String description, Recipe recipe) {
+		this.stepNumber = stepNumber;
+		this.description = description;
+		this.recipe = recipe;
+	}
 }

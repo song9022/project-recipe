@@ -11,19 +11,19 @@ import lombok.Setter;
 @Setter
 public class RecipeDto {
 
-    private String name;
+	private String name;
 
-    private String introduction;
+	private String introduction;
 
-    private String category;
+	private String category;
 
-    private String amount;
+	private String amount;
 
-    private String time;
+	private String time;
 
-    private String level;
+	private String level;
 
-    private List<Ingredient> ingredients;
+	private List<Ingredient> ingredients;
 
-    // getters and setters
+	// getters and setters
 }

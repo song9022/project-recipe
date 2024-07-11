@@ -13,6 +13,7 @@ import Fridge from '../pages/Fridge';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import MyPage from '../pages/MyPage';
+import SearchRecipes from '../pages/SearchRecipes';
 
 const RouterConfig = ({ searchQuery, setIsLoggedIn, isLoggedIn }) => (
   <Routes>
@@ -29,6 +30,7 @@ const RouterConfig = ({ searchQuery, setIsLoggedIn, isLoggedIn }) => (
     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/mypage" element={<MyPage />} />
+    <Route path="/search-results" element={<SearchRecipes searchQuery={searchQuery} />} /> {/* SearchResults 경로 추가 */}
   </Routes>
 );
 

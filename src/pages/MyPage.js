@@ -12,7 +12,7 @@ import {
   SaveButton
 } from '../styles/MyPage';
 
-export default function MyPage () {
+const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [image, setImage] = useState('https://via.placeholder.com/150');
   const [imagePreview, setImagePreview] = useState('');
@@ -103,4 +103,4 @@ export default function MyPage () {
   );
 };
 
-// export default MyPage;
+export default MyPage;

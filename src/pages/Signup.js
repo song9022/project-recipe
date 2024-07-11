@@ -31,7 +31,6 @@ const Signup = () => {
         }
         return response.json();
       })
-      // 아이디 중복 검사
       .then((data) => {
         setUserDuple(data._embedded.users);
       })
@@ -45,6 +44,8 @@ const Signup = () => {
     fetchDuple();
   }, []);
 
+  console.log(userDuple)
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (user.password !== confirmPassword) {
@@ -55,8 +56,7 @@ const Signup = () => {
       setErrorMessage("")
     }
 
-    fetchDuple();
-
+    // 중복 검사 실시
     const isUserID = userDuple.some((UD) => UD.userID === user.userID);
     if (isUserID) {
       alert("이미 있는 아이디입니다.");
@@ -74,11 +74,13 @@ const Signup = () => {
       alert("이미 있는 이메일입니다.");
       return; // 중복이면 여기서 함수 종료
     }
+
+    // 중복이 없으면 로그인 화면으로 이동
     if (!isUserID && !isUsername && !isEmail) {
       navigate("/login");
     }
 
-    // 여기에 회원가입 로직을 추가합니다.
+    // 회원 가입 정보를 데이터베이스에 저장
     fetch("http://localhost:8080/users/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -87,13 +89,9 @@ const Signup = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        // 저장 후 필요한 동작 수행
       })
       .catch((err) => console.error("Failed to save recipe:", err));
 
-    // if(DupleCheck === false) {
-    //   navigate("/login");
-    // }
   };
 
   const userChange = (e) => {

@@ -21,13 +21,13 @@ public class BookmarkController {
 	 @PostMapping("/bookmarks/add")
 	 public ResponseEntity<Void> addBookmark(@RequestParam Long userId, @RequestParam Long recipeId) {
 		 User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-	        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new IllegalArgumentException("Recipe not found"));
+	     Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new IllegalArgumentException("Recipe not found"));
 
-	        user.getBookmarks().add(recipe);
-	        userRepository.save(user);
+	     user.getBookmarks().add(recipe);
+	     userRepository.save(user);
 	        
-	        return ResponseEntity.ok().build();
-	    }
+	     return ResponseEntity.ok().build();
+	 }
 
 	    @PostMapping("/bookmarks/remove")
 	    public ResponseEntity<Void> removeBookmark(@RequestParam Long userId, @RequestParam Long recipeId) {

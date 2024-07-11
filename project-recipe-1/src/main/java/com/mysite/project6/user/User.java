@@ -33,6 +33,9 @@ public class User {
 	private Long id;
 	
 	@Column(unique=true)
+	private String userID;
+	
+	@Column(unique = true)
 	private String username;
 	
 	private String password;

@@ -18,7 +18,7 @@ import com.mysite.project6.user.User;
 import com.mysite.project6.user.UserRepository;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class AnswerController {
 
 	@Autowired

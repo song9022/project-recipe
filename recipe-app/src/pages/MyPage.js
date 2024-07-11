@@ -94,7 +94,6 @@ const MyPage = () => {
 
       <Content>
         <CenterImage src={image} alt="profile" />
-        <input type="file" accept="image/*" onChange={handleImageChange} />
         <NicknameContainer>
           {isEditing ? (
             <NicknameInput

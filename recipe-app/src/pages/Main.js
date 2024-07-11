@@ -45,6 +45,7 @@ function Main() {
           <img src="https://via.placeholder.com/800x400" alt="Slide 7" />
         </div>
       </Slider>
+      <div></div>
       <Slider {...settings} className="slider">
         <div>
           <img src="https://via.placeholder.com/800x400" alt="Slide 1" />
@@ -68,7 +69,6 @@ function Main() {
           <img src="https://via.placeholder.com/800x400" alt="Slide 7" />
         </div>
       </Slider>
-      <p>환영합니다! 여기는 메인 페이지입니다.</p>
     </div>
   );
 };

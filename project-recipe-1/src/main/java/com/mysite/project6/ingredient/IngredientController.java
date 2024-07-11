@@ -14,7 +14,6 @@ import com.mysite.project6.recipe.Recipe;
 import com.mysite.project6.recipe.RecipeRepository;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
 public class IngredientController {
 
 //	@Autowired

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   LoginPage,
@@ -10,70 +10,16 @@ import {
 } from '../styles/Login';
 
 const Login = ({ setIsLoggedIn }) => {
-  const [user, setUser] = useState({
-    userID: "",
-    userPW: ""
-  });
-  const [userCheck, setUserCheck] = useState([]);
-  // const [userInfo, setUserInfo] = useState([]);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
-  // 가입된 정보가 있는지 확인
-  const userInfoCheck = () => {
-    fetch("http://localhost:8080/api/users")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      // 아이디 중복 검사
-      .then((data) => {
-        setUserCheck(data._embedded.users);
-      })
-
-      .catch((error) => {
-        console.error("Error fetching recipes:", error);
-      })
-  }
-
-  useEffect(() => {
-    userInfoCheck();
-  }, []);
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let userInfo = []
-
-    const isUserID = userCheck.some((UC) => UC.userID === user.userID);
-    if (!isUserID) {
-      alert("없는 아이디입니다.");
-      return;
-    }
-
-    const isPassword = userCheck.some((UC) => {
-      if (UC.userID === user.userID && UC.password === user.userPW) {
-      userInfo.push(UC); // 조건을 만족하는 UC 정보를 저장
-      console.log(UC)
-      console.log(userInfo)
-      return true; // 조건을 만족하면 true 반환
-      }
-      return false; // 조건을 만족하지 않으면 false 반환
-    });
-    if(!isPassword) {
-      alert("비밀번호가 틀렸습니다.");
-      return;
-    }
-
+    // 로그인 로직 추가 (예: API 호출)
     setIsLoggedIn(true);
-    const userData = JSON.stringify(userInfo)
-    navigate(`/?userData=${encodeURIComponent(userData)}`);
+    navigate('/');
   };
-
-  const userInfoChange = (e) => {
-    setUser({...user, [e.target.name]:e.target.value})
-  }
 
   return (
     <LoginPage>
@@ -81,12 +27,11 @@ const Login = ({ setIsLoggedIn }) => {
         <LoginTitle>로그인</LoginTitle>
         <LoginForm onSubmit={handleSubmit}>
           <div>
-            <label>아이디:</label>
+            <label>이메일:</label>
             <LoginInput
-              type="text"
-              name='userID'
-              value={user.userID}
-              onChange={userInfoChange}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
@@ -94,9 +39,8 @@ const Login = ({ setIsLoggedIn }) => {
             <label>비밀번호:</label>
             <LoginInput
               type="password"
-              name='userPW'
-              value={user.userPW}
-              onChange={userInfoChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>

@@ -6,7 +6,7 @@ function Main() {
   const settings = {
     dots: true,
     infinite: true,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
     speed: 2000,
@@ -18,7 +18,34 @@ function Main() {
     <div>
       <h2>추천 페이지</h2>
         <div>
-          <h4>10분 아침메뉴 추천</h4>
+          <h4>🥞 레시피샵의 추천 레시피</h4>
+        </div>
+      <Slider {...settings} className="slider">
+        <div>
+          <img src="https://via.placeholder.com/250x400" alt="Slide 1" />
+        </div>
+        <div>
+          <img src="https://via.placeholder.com/250x400" alt="Slide 2" />
+        </div>
+        <div>
+          <img src="https://via.placeholder.com/250x400" alt="Slide 3" />
+        </div>
+        <div>
+          <img src="https://via.placeholder.com/250x400" alt="Slide 4" />
+        </div>
+        <div>
+          <img src="https://via.placeholder.com/250x400" alt="Slide 5" />
+        </div>
+        <div>
+          <img src="https://via.placeholder.com/250x400" alt="Slide 6" />
+        </div>
+        <div>
+          <img src="https://via.placeholder.com/250x400" alt="Slide 7" />
+        </div>
+      </Slider>
+
+      <div>
+          <h4>🥂 유튜브 인기 레시피</h4>
         </div>
       <Slider {...settings} className="slider">
         <div>
@@ -45,34 +72,7 @@ function Main() {
       </Slider>
 
       <div>
-          <h4>점심메뉴 추천</h4>
-        </div>
-      <Slider {...settings} className="slider">
-        <div>
-          <img src="https://via.placeholder.com/800x400" alt="Slide 1" />
-        </div>
-        <div>
-          <img src="https://via.placeholder.com/800x400" alt="Slide 2" />
-        </div>
-        <div>
-          <img src="https://via.placeholder.com/800x400" alt="Slide 3" />
-        </div>
-        <div>
-          <img src="https://via.placeholder.com/800x400" alt="Slide 4" />
-        </div>
-        <div>
-          <img src="https://via.placeholder.com/800x400" alt="Slide 5" />
-        </div>
-        <div>
-          <img src="https://via.placeholder.com/800x400" alt="Slide 6" />
-        </div>
-        <div>
-          <img src="https://via.placeholder.com/800x400" alt="Slide 7" />
-        </div>
-      </Slider>
-
-      <div>
-          <h4>저녁메뉴 추천</h4>
+          <h4>🥗 SNS 인기 레시피</h4>
         </div>
       <Slider {...settings} className="slider">
         <div>

@@ -12,7 +12,7 @@ import {
 const Review = () => {
   return (
     <ReviewPage>
-      <h2>요리 후기 게시판</h2>
+      <h2>🍳 내가 직접 만들어본 요리 이야기</h2>
       <ReviewButton to="/review/write">글쓰기</ReviewButton>
       <ReviewList>
         {reviews.map((review) => (

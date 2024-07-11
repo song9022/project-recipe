@@ -76,9 +76,6 @@ const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
           <NavItem>
             <Link to="/review"><PiPenBold size={40} /></Link>
           </NavItem>
-          <NavItem>
-            <Link to="/fridge">냉장고 털이</Link>
-          </NavItem>
         </NavList>
       </BottomNav>
     </div>

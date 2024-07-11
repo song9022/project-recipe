@@ -30,7 +30,7 @@ export const ReviewButton = styled.button`
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background-color: #93A9D1;
+  background-color: #DD6213;
   color: white;
   cursor: pointer;
 

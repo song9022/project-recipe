@@ -9,13 +9,13 @@ export const ReviewButton = styled(Link)`
   display: inline-block;
   padding: 10px 20px;
   margin-bottom: 20px;
-  background-color: #93A9D1;
+  background-color: #DD6213;
   color: white;
   text-decoration: none;
   border-radius: 5px;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #EC9736;
   }
 `;
 

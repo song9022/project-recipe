@@ -25,7 +25,7 @@ const Login = ({ setIsLoggedIn }) => {
   return (
     <LoginPage>
       <LoginContainer>
-        <PiBreadBold size={60} color='#93A9D1' />
+        <PiBreadBold size={60} color='#DD6213' />
         <LoginTitle>로그인</LoginTitle>
         <LoginForm onSubmit={handleSubmit}>
           <div>

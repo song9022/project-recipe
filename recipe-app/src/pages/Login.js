@@ -8,6 +8,7 @@ import {
   LoginContainer,
   LoginTitle
 } from '../styles/Login';
+import { PiBreadBold } from "react-icons/pi";
 
 const Login = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
@@ -24,6 +25,7 @@ const Login = ({ setIsLoggedIn }) => {
   return (
     <LoginPage>
       <LoginContainer>
+        <PiBreadBold size={60} color='#93A9D1' />
         <LoginTitle>로그인</LoginTitle>
         <LoginForm onSubmit={handleSubmit}>
           <div>

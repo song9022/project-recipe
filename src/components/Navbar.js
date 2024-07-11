@@ -11,6 +11,7 @@ import {
   NavList,
   NavItem
 } from '../styles/Navbar';
+import MyPage from '../pages/MyPage';
 
 const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
   const [input, setInput] = useState('');
@@ -49,6 +50,9 @@ const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
           {isLoggedIn ? (
             <>
               <NavButton to="/mypage" className='mypage-button'>My Page</NavButton>
+              {/* <MyPage ></MyPage> */}
+
+
               <NavButton as="button" className='logout-button' onClick={handleLogout}>
                 Logout
               </NavButton>
@@ -56,6 +60,9 @@ const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
           ) : (
             <>
               <NavButton to="/login" className='login-button'>Login</NavButton>
+              
+
+
               <NavButton to="/signup" className='signup-button'>Sign Up</NavButton>
             </>
           )}

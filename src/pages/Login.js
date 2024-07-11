@@ -15,6 +15,7 @@ const Login = ({ setIsLoggedIn }) => {
     userPW: ""
   });
   const [userCheck, setUserCheck] = useState([]);
+  // const [userInfo, setUserInfo] = useState([]);
   const navigate = useNavigate();
 
   // 가입된 정보가 있는지 확인
@@ -43,21 +44,31 @@ const Login = ({ setIsLoggedIn }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+    let userInfo = []
+
     const isUserID = userCheck.some((UC) => UC.userID === user.userID);
     if (!isUserID) {
       alert("없는 아이디입니다.");
       return;
     }
 
-    const isPassword = userCheck.some((UC) => UC.userID === user.userID && UC.password === user.userPW)
+    const isPassword = userCheck.some((UC) => {
+      if (UC.userID === user.userID && UC.password === user.userPW) {
+      userInfo.push(UC); // 조건을 만족하는 UC 정보를 저장
+      console.log(UC)
+      console.log(userInfo)
+      return true; // 조건을 만족하면 true 반환
+      }
+      return false; // 조건을 만족하지 않으면 false 반환
+    });
     if(!isPassword) {
       alert("비밀번호가 틀렸습니다.");
       return;
     }
 
     setIsLoggedIn(true);
-    navigate('/');
+    const userData = JSON.stringify(userInfo)
+    navigate(`/?userData=${encodeURIComponent(userData)}`);
   };
 
   const userInfoChange = (e) => {

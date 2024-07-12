@@ -39,29 +39,29 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function SearchRecipes() {
-  const [keyword, setKeyword] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [searchType, setSearchType] = useState("name"); // 기본적으로는 레시피 이름으로 검색
+export default function SearchRecipes({searchResults}) {
+//   const [keyword, setKeyword] = useState("");
+//   const [searchResults, setSearchResults] = useState([]);
+//   const [searchType, setSearchType] = useState("name"); // 기본적으로는 레시피 이름으로 검색
 
-  const handleSearch = () => {
-    axios
-      .get(
-        `http://localhost:8080/api/recipes/search?keyword=${keyword}&searchType=${searchType}`
-      )
-      .then((response) => {
-        setSearchResults(response.data);
-      })
-      .catch((error) => {
-        console.error("Error searching recipes:", error);
-      });
-  };
+//   const handleSearch = () => {
+//     axios
+//       .get(
+//         `http://localhost:8080/api/recipes/search?keyword=${searchQuery.keyword}&searchType=${searchQuery.searchType}`
+//       )
+//       .then((response) => {
+//         setSearchResults(response.data);
+//       })
+//       .catch((error) => {
+//         console.error("Error searching recipes:", error);
+//       });
+//   };
 
-  console.log(keyword);
+//   console.log(keyword);
 
   return (
     <div>
-      <input
+      {/* <input
         type="text"
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
@@ -72,8 +72,8 @@ export default function SearchRecipes() {
       >
         <option value="name">Recipe Name</option>
         <option value="ingredient">Ingredient Name</option>
-      </select>
-      <button onClick={handleSearch}>Search</button>
+      </select> */}
+      {/* <button onClick={handleSearch}>Search</button> */}
       <ul>
         {searchResults.map((recipe) => (
           <li key={recipe.id}>

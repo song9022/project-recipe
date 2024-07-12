@@ -6,16 +6,16 @@ import RouterConfig from './routes/Router';
 import './App.css';
 
 const App = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState([])
 
   return (
     <Router>
       <div className="App">
-        <Navbar setSearchQuery={setSearchQuery} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} userData={userData} setUserDate={setUserData} />
+        <Navbar setSearchResults={setSearchResults} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} userData={userData} setUserDate={setUserData} />
         <div className="content">
-          <RouterConfig searchQuery={searchQuery} setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} userData={userData} setUserDate={setUserData} />
+          <RouterConfig searchResults={searchResults} setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} userData={userData} setUserDate={setUserData} setSearchResults={setSearchResults} />
         </div>
         <Footer />
       </div>

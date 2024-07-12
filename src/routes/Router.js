@@ -15,7 +15,7 @@ import Signup from '../pages/Signup';
 import MyPage from '../pages/MyPage';
 import SearchRecipes from '../pages/SearchRecipes';
 
-const RouterConfig = ({ searchQuery, setIsLoggedIn, isLoggedIn }) => {
+const RouterConfig = ({ searchResults, setIsLoggedIn, isLoggedIn }) => {
 
   const [userData, setUserData] = useState("")
 
@@ -23,7 +23,7 @@ const RouterConfig = ({ searchQuery, setIsLoggedIn, isLoggedIn }) => {
   <Routes>
     <Route path="/" element={<Main userData={userData}/>} />
     <Route path="/recommend" element={<Recommend userData={userData}/>} />
-    <Route path="/category" element={<Category searchQuery={searchQuery} userData={userData}/>} />
+    <Route path="/category" element={<Category searchResults={searchResults} userData={userData}/>} />
     <Route path="/ranking" element={<Ranking userData={userData}/>} />
     <Route path="/Recipedetail/:id" element={<RecipeDetail userData={userData}/>} />
     <Route path="/review" element={<Review userData={userData}/>} />
@@ -34,7 +34,7 @@ const RouterConfig = ({ searchQuery, setIsLoggedIn, isLoggedIn }) => {
     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUserData={setUserData} userData={userData} />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/mypage" element={<MyPage userData={userData} setUserData={setUserData} />} />
-    <Route path="/search-results" element={<SearchRecipes searchQuery={searchQuery} />} />
+    <Route path="/search-results" element={<SearchRecipes searchResults={searchResults} />} />
   </Routes>
   )
 };

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Write.css";
 
-const Write = ({ id }) => {
+const Write = ({ userData }) => {
   const [recipe, setRecipe] = useState({
     name: "",
     introduction: "",
@@ -10,12 +10,14 @@ const Write = ({ id }) => {
     amount: "",
     time: "",
     level: "",
-    userId: id,
+    userId: userData.userID,
     likedUsers: [],
     images: [],
     cookingSteps: [],
     ingredients: [], // ingredients를 배열로 관리
   });
+
+  console.log(recipe)
 
   // const [author, setAuthor] = useState("");
   const [image, setImage] = useState(null);

@@ -40,7 +40,7 @@ export const CenterImage = styled.img`
 
 export const RegisterButton = styled(Link)`
   padding: 10px 20px;
-  background-color: #28a745;
+  background-color: #B0BA1C;
   color: white;
   text-decoration: none;
   border-radius: 5px;
@@ -63,11 +63,11 @@ export const SaveButton = styled.button`
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: #DD6213;
   color: white;
   cursor: pointer;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #EC9736;
   }
 `;

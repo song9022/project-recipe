@@ -38,7 +38,7 @@ export const LoginInput = styled.input`
   font-size: 16px;
 
   &:focus {
-    border-color: #007bff;
+    border-color: #DD6213;
     outline: none;
   }
 `;
@@ -47,13 +47,13 @@ export const LoginButton = styled.button`
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: #DD6213;
   color: white;
   font-size: 16px;
   cursor: pointer;
   margin-top: 20px;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #EC9736;
   }
 `;

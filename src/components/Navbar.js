@@ -11,8 +11,10 @@ import {
   NavList,
   NavItem
 } from '../styles/Navbar';
+import { PiCookingPotFill, PiBooksDuotone, PiRankingFill, PiPenBold, PiMagnifyingGlassBold, PiFinnTheHumanFill, PiBreadBold, PiDoorBold } from "react-icons/pi";
+import SearchRecipes from '../pages/SearchRecipes';
 
-const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
+const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn, userData, setUserData }) => {
   const [input, setInput] = useState('');
   const navigate = useNavigate();
 
@@ -24,7 +26,7 @@ const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
     if (e.key === 'Enter' || e.type === 'click') {
       e.preventDefault();
       setSearchQuery(input);
-      navigate('/search-results');  //검색 결과 페이지로 이동
+      navigate('/category');
     }
   };
 
@@ -37,26 +39,29 @@ const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
     <div>
       <NavbarContainer>
         <Logo to="/">LOGO</Logo>
-        <SearchBar
+        {/* <SearchBar
           type="text"
           placeholder="Search recipes..."
           value={input}
           onChange={handleSearchChange}
           onKeyDown={handleSearchSubmit}
-        />
-        <SearchButton onClick={handleSearchSubmit}>Search</SearchButton>
+        /> */}
+        <SearchRecipes />
+        <SearchButton onClick={handleSearchSubmit}>
+        {/* <PiMagnifyingGlassBold size={40} /> */}
+        </SearchButton>
         <AuthButtons>
           {isLoggedIn ? (
             <>
-              <NavButton to="/mypage" className='mypage-button'>My Page</NavButton>
+              <NavButton to="/mypage" className='mypage-button'><PiFinnTheHumanFill size={40} /></NavButton>
               <NavButton as="button" className='logout-button' onClick={handleLogout}>
-                Logout
+              <PiDoorBold size={40} />
               </NavButton>
             </>
           ) : (
             <>
-              <NavButton to="/login" className='login-button'>Login</NavButton>
-              <NavButton to="/signup" className='signup-button'>Sign Up</NavButton>
+              <NavButton to="/login" className='login-button'><PiFinnTheHumanFill size={40} /></NavButton>
+              <NavButton to="/signup" className='signup-button'><PiBreadBold size={40} /></NavButton>
             </>
           )}
         </AuthButtons>
@@ -64,16 +69,16 @@ const Navbar = ({ setSearchQuery, isLoggedIn, setIsLoggedIn }) => {
       <BottomNav>
         <NavList>
           <NavItem>
-            <Link to="/recommend">추천</Link>
+            <Link to="/recommend"><PiCookingPotFill size={40} /></Link>
           </NavItem>
           <NavItem>
-            <Link to="/category">분류</Link>
+            <Link to="/category"><PiBooksDuotone size={40} /></Link>
           </NavItem>
           <NavItem>
-            <Link to="/ranking">랭킹</Link>
+            <Link to="/ranking"><PiRankingFill size={40} /></Link>
           </NavItem>
           <NavItem>
-            <Link to="/review">요리후기</Link>
+            <Link to="/review"><PiPenBold size={40} /></Link>
           </NavItem>
           <NavItem>
             <Link to="/fridge">냉장고 털이</Link>

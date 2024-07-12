@@ -8,13 +8,14 @@ import './App.css';
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState([])
 
   return (
     <Router>
       <div className="App">
-        <Navbar setSearchQuery={setSearchQuery} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+        <Navbar setSearchQuery={setSearchQuery} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} userData={userData} setUserDate={setUserData} />
         <div className="content">
-          <RouterConfig searchQuery={searchQuery} setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+          <RouterConfig searchQuery={searchQuery} setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} userData={userData} setUserDate={setUserData} />
         </div>
         <Footer />
       </div>

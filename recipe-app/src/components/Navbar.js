@@ -22,6 +22,7 @@ import {
   PiBreadBold,
   PiDoorBold,
 } from "react-icons/pi";
+import SearchRecipes from "../pages/SearchRecipes";
 import axios from "axios";
 
 const Navbar = ({
@@ -31,6 +32,7 @@ const Navbar = ({
   userData,
   setUserData,
 }) => {
+  const [input, setInput] = useState("");
   const [searchQuery, setSearchQuery] = useState({
     keyword: "",
     searchType: "",
@@ -44,8 +46,10 @@ const Navbar = ({
       )
       .then((response) => {
         setSearchResults(response.data);
-        navigate("/search-results");  // 검색 결과 페이지로 이동
+        // navigate("/search-results");  // 검색 결과 페이지로 이동
       })
+      .then(navigate("/search-results"))
+      
       .catch((error) => {
         console.error("Error searching recipes:", error);
       });
@@ -53,6 +57,14 @@ const Navbar = ({
 
   const handleSearchChange = (e) => {
     setSearchQuery({ ...searchQuery, [e.target.name]: e.target.value });
+  };
+
+  const handleSearchSubmit = (e) => {
+    if (e.key === "Enter" || e.type === "click") {
+      e.preventDefault();
+      setSearchQuery(input);
+      navigate("/category");
+    }
   };
 
   const handleLogout = () => {
@@ -70,8 +82,10 @@ const Navbar = ({
           name="keyword"
           value={searchQuery.keyword}
           onChange={handleSearchChange}
+          // onKeyDown={handleSearchSubmit}
         />
         <SearchSelect
+          placeholder="searchType"
           name="searchType"
           value={searchQuery.searchType}
           onChange={handleSearchChange}
@@ -79,9 +93,28 @@ const Navbar = ({
           <option value="name">레시피명</option>
           <option value="ingredient">재료</option>
         </SearchSelect>
-        <SearchButton onClick={handleSearch}>
-          <PiMagnifyingGlassBold size={40} />
-        </SearchButton>
+        {/* <SearchRecipes /> */}
+        <SearchButton
+            // onClick={() => {
+            //   if (searchQuery.keyword !== "" && searchQuery.searchType !== "") {
+            //     handleSearch(); // 검색 함수를 호출합니다.
+            //     // 검색 조건이 충족되면 Link로 이동하는 부분을 추가합니다.
+            //     return (
+            //       <NavItem>
+            //         <Link to="/search-results">
+            //           <PiMagnifyingGlassBold size={40} />
+            //         </Link>
+            //       </NavItem>
+            //     );
+            //   } else {
+            //     alert("키워드와 타입을 입력해주세요");
+            //     return null; // 이벤트 핸들러에서는 반환하는 JSX가 없어야 합니다.
+            //   }
+            // }}
+            onClick={handleSearch}
+          >
+            <PiMagnifyingGlassBold size={40} />
+          </SearchButton>
         <AuthButtons>
           {isLoggedIn ? (
             <>
@@ -110,6 +143,35 @@ const Navbar = ({
       </NavbarContainer>
       <BottomNav>
         <NavList>
+          {/* <SearchButton
+            onClick={() => {
+              if (searchQuery.keyword !== "" && searchQuery.searchType !== "") {
+                handleSearch(); // 검색 함수를 호출합니다.
+                // 검색 조건이 충족되면 Link로 이동하는 부분을 추가합니다.
+                return (
+                  <NavItem>
+                    <Link to="/search-results">
+                      <PiMagnifyingGlassBold size={40} />
+                    </Link>
+                  </NavItem>
+                );
+              } else {
+                alert("키워드와 타입을 입력해주세요");
+                return null; // 이벤트 핸들러에서는 반환하는 JSX가 없어야 합니다.
+              }
+            }}
+          >
+            {/* <PiMagnifyingGlassBold size={40} />
+          </SearchButton> */}
+          {/* {searchQuery.keyword !== "" && searchQuery.searchType !== "" ? (
+            <NavItem>
+              <Link to="/search-results"><PiMagnifyingGlassBold size={40} /></Link>
+            </NavItem>
+          ): (
+            <>
+              {alert("키워드와 타입을 입력해주세요")}
+            </>
+          )} */}
           <NavItem>
             <Link to="/recommend">
               <PiCookingPotFill size={40} />

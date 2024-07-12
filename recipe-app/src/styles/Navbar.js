@@ -34,6 +34,7 @@ export const SearchBar = styled.input`
   &:focus {
     outline: none; /* 포커스 시 기본 테두리 제거 */
     border-bottom: 2px solid #DD6213; /* 포커스 시 언더라인 추가 */
+    color: none;
   }
 `;
 

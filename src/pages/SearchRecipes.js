@@ -40,6 +40,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 export default function SearchRecipes({searchResults}) {
+    console.log("test")
 //   const [keyword, setKeyword] = useState("");
 //   const [searchResults, setSearchResults] = useState([]);
 //   const [searchType, setSearchType] = useState("name"); // 기본적으로는 레시피 이름으로 검색

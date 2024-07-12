@@ -45,7 +45,10 @@ const Navbar = ({
       )
       .then((response) => {
         setSearchResults(response.data);
+        // navigate("/search-results");  // 검색 결과 페이지로 이동
       })
+      .then(navigate("/search-results"))
+      
       .catch((error) => {
         console.error("Error searching recipes:", error);
       });

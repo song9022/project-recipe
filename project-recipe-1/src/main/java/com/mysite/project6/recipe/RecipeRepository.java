@@ -26,8 +26,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 	// 재료 이름으로 검색
 	@Query("SELECT DISTINCT r FROM Recipe r JOIN r.ingredients i WHERE LOWER(i.ingredient) LIKE LOWER(concat('%', :ingredient, '%'))")
 	List<Recipe> findByIngredientContaining(@Param("ingredient") String ingredient);
-	
+
 	// 레시피 이름 또는 재료 이름으로 검색
-    @Query("SELECT DISTINCT r FROM Recipe r LEFT JOIN r.ingredients i WHERE LOWER(r.name) LIKE LOWER(concat('%', :keyword, '%')) OR LOWER(i.ingredient) LIKE LOWER(concat('%', :keyword, '%'))")
-    List<Recipe> findByKeyword(@Param("keyword") String keyword);
+	@Query("SELECT DISTINCT r FROM Recipe r LEFT JOIN r.ingredients i WHERE LOWER(r.name) LIKE LOWER(concat('%', :keyword, '%')) OR LOWER(i.ingredient) LIKE LOWER(concat('%', :keyword, '%'))")
+	List<Recipe> findByKeyword(@Param("keyword") String keyword);
 }

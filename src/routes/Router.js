@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Main from '../pages/Main';
 import Recommend from '../pages/Recommend';
@@ -15,23 +15,28 @@ import Signup from '../pages/Signup';
 import MyPage from '../pages/MyPage';
 import SearchRecipes from '../pages/SearchRecipes';
 
-const RouterConfig = ({ searchQuery, setIsLoggedIn, isLoggedIn }) => (
+const RouterConfig = ({ searchResults, setIsLoggedIn, isLoggedIn }) => {
+
+  const [userData, setUserData] = useState("")
+
+  return (
   <Routes>
-    <Route path="/" element={<Main />} />
-    <Route path="/recommend" element={<Recommend />} />
-    <Route path="/category" element={<Category searchQuery={searchQuery} />} />
-    <Route path="/ranking" element={<Ranking />} />
-    <Route path="/Recipedetail/:id" element={<RecipeDetail />} />
-    <Route path="/review" element={<Review />} />
-    <Route path="/review/:id" element={<ReviewDetail />} />
-    <Route path="/review/write" element={<ReviewWrite />} />
-    <Route path="/write" element={<Write />} />
-    <Route path="/fridge" element={<Fridge />} />
-    <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
+    <Route path="/" element={<Main userData={userData}/>} />
+    <Route path="/recommend" element={<Recommend userData={userData}/>} />
+    <Route path="/category" element={<Category searchResults={searchResults} userData={userData}/>} />
+    <Route path="/ranking" element={<Ranking userData={userData}/>} />
+    <Route path="/Recipedetail/:id" element={<RecipeDetail userData={userData}/>} />
+    <Route path="/review" element={<Review userData={userData}/>} />
+    <Route path="/review/:id" element={<ReviewDetail userData={userData}/>} />
+    <Route path="/review/write" element={<ReviewWrite userData={userData}/>} />
+    <Route path="/write" element={<Write userData={userData}/>} />
+    <Route path="/fridge" element={<Fridge userData={userData}/>} />
+    <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setUserData={setUserData} userData={userData} />} />
     <Route path="/signup" element={<Signup />} />
-    <Route path="/mypage" element={<MyPage />} />
-    <Route path="/search-results" element={<SearchRecipes searchQuery={searchQuery} />} /> {/* SearchResults 경로 추가 */}
+    <Route path="/mypage" element={<MyPage userData={userData} setUserData={setUserData} />} />
+    <Route path="/search-results" element={<SearchRecipes searchResults={searchResults} />} />
   </Routes>
-);
+  )
+};
 
 export default RouterConfig;

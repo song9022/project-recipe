@@ -12,31 +12,33 @@ import com.mysite.project6.recipe.RecipeRepository;
 @RestController
 public class BookmarkController {
 
-	 @Autowired
-	 private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-	 @Autowired
-	 private RecipeRepository recipeRepository;
+	@Autowired
+	private RecipeRepository recipeRepository;
 
-	 @PostMapping("/bookmarks/add")
-	 public ResponseEntity<Void> addBookmark(@RequestParam Long userId, @RequestParam Long recipeId) {
-		 User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-	     Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new IllegalArgumentException("Recipe not found"));
+	@PostMapping("/bookmarks/add")
+	public ResponseEntity<Void> addBookmark(@RequestParam Long userId, @RequestParam Long recipeId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+		Recipe recipe = recipeRepository.findById(recipeId)
+				.orElseThrow(() -> new IllegalArgumentException("Recipe not found"));
 
-	     user.getBookmarks().add(recipe);
-	     userRepository.save(user);
-	        
-	     return ResponseEntity.ok().build();
-	 }
+		user.getBookmarks().add(recipe);
+		userRepository.save(user);
 
-	    @PostMapping("/bookmarks/remove")
-	    public ResponseEntity<Void> removeBookmark(@RequestParam Long userId, @RequestParam Long recipeId) {
-	        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-	        Recipe recipe = recipeRepository.findById(recipeId).orElseThrow(() -> new IllegalArgumentException("Recipe not found"));
+		return ResponseEntity.ok().build();
+	}
 
-	        user.getBookmarks().remove(recipe);
-	        userRepository.save(user);
-	        
-	        return ResponseEntity.ok().build();
-	    }
+	@PostMapping("/bookmarks/remove")
+	public ResponseEntity<Void> removeBookmark(@RequestParam Long userId, @RequestParam Long recipeId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+		Recipe recipe = recipeRepository.findById(recipeId)
+				.orElseThrow(() -> new IllegalArgumentException("Recipe not found"));
+
+		user.getBookmarks().remove(recipe);
+		userRepository.save(user);
+
+		return ResponseEntity.ok().build();
+	}
 }

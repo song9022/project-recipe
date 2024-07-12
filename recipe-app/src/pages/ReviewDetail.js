@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import reviews from '../data/reviews';
 import {
   ReviewDetailPage,
+  ReviewCard,
   ReviewTitle,
   ReviewContent,
   ReviewAuthor,
@@ -20,11 +21,13 @@ const ReviewDetail = () => {
 
   return (
     <ReviewDetailPage>
-      <ReviewTitle>{review.title}</ReviewTitle>
-      <ReviewAuthor>{review.author}</ReviewAuthor>
-      <ReviewDate>{review.date}</ReviewDate>
-      {review.pic && <ReviewPic src={review.pic} alt={review.title} />}
-      <ReviewContent>{review.content}</ReviewContent>
+      <ReviewCard>
+        <ReviewTitle>{review.title}</ReviewTitle>
+        <ReviewAuthor>{review.author}</ReviewAuthor>
+        <ReviewDate>{review.date}</ReviewDate>
+        {review.pic && <ReviewPic src={review.pic} alt={review.title} />}
+        <ReviewContent>{review.content}</ReviewContent>
+      </ReviewCard>
     </ReviewDetailPage>
   );
 };

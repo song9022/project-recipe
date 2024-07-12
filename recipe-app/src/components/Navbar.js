@@ -39,20 +39,27 @@ const Navbar = ({
   });
   const navigate = useNavigate();
 
+  console.log(searchQuery);
+
   const handleSearch = () => {
-    axios
-      .get(
-        `http://localhost:8080/api/recipes/search?keyword=${searchQuery.keyword}&searchType=${searchQuery.searchType}`
-      )
-      .then((response) => {
-        setSearchResults(response.data);
-        // navigate("/search-results");  // 검색 결과 페이지로 이동
-      })
-      .then(navigate("/search-results"))
-      
-      .catch((error) => {
-        console.error("Error searching recipes:", error);
-      });
+    if (searchQuery.keyword !== "" && searchQuery.searchType !== "") {
+      axios
+        .get(
+          `http://localhost:8080/api/recipes/search?keyword=${searchQuery.keyword}&searchType=${searchQuery.searchType}`
+        )
+        .then((response) => {
+          setSearchResults(response.data);
+          // navigate("/search-results");  // 검색 결과 페이지로 이동
+        })
+        .then(navigate("/search-results"))
+
+        .catch((error) => {
+          console.error("Error searching recipes:", error);
+        });
+    }
+    else {
+      alert("키워드와 타입을 입력해주세요")
+    }
   };
 
   const handleSearchChange = (e) => {
@@ -90,31 +97,32 @@ const Navbar = ({
           value={searchQuery.searchType}
           onChange={handleSearchChange}
         >
+          <option value="">옵션을 선택해주세요</option>
           <option value="name">레시피명</option>
           <option value="ingredient">재료</option>
         </SearchSelect>
         {/* <SearchRecipes /> */}
         <SearchButton
-            // onClick={() => {
-            //   if (searchQuery.keyword !== "" && searchQuery.searchType !== "") {
-            //     handleSearch(); // 검색 함수를 호출합니다.
-            //     // 검색 조건이 충족되면 Link로 이동하는 부분을 추가합니다.
-            //     return (
-            //       <NavItem>
-            //         <Link to="/search-results">
-            //           <PiMagnifyingGlassBold size={40} />
-            //         </Link>
-            //       </NavItem>
-            //     );
-            //   } else {
-            //     alert("키워드와 타입을 입력해주세요");
-            //     return null; // 이벤트 핸들러에서는 반환하는 JSX가 없어야 합니다.
-            //   }
-            // }}
-            onClick={handleSearch}
-          >
-            <PiMagnifyingGlassBold size={40} />
-          </SearchButton>
+          // onClick={() => {
+          //   if (searchQuery.keyword !== "" && searchQuery.searchType !== "") {
+          //     handleSearch(); // 검색 함수를 호출합니다.
+          //     // 검색 조건이 충족되면 Link로 이동하는 부분을 추가합니다.
+          //     return (
+          //       <NavItem>
+          //         <Link to="/search-results">
+          //           <PiMagnifyingGlassBold size={40} />
+          //         </Link>
+          //       </NavItem>
+          //     );
+          //   } else {
+          //     alert("키워드와 타입을 입력해주세요");
+          //     return null; // 이벤트 핸들러에서는 반환하는 JSX가 없어야 합니다.
+          //   }
+          // }}
+          onClick={handleSearch}
+        >
+          <PiMagnifyingGlassBold size={40} />
+        </SearchButton>
         <AuthButtons>
           {isLoggedIn ? (
             <>

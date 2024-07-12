@@ -5,7 +5,8 @@ import {
   ReviewForm, 
   ReviewInput, 
   ReviewTextarea, 
-  ReviewButton 
+  ReviewButton, 
+  ReviewButtonContainer 
 } from '../styles/ReviewWrite';
 
 const ReviewWrite = () => {
@@ -47,7 +48,8 @@ const ReviewWrite = () => {
 
   return (
     <ReviewWritePage>
-      <h2>리뷰 작성</h2>
+      <h2>🍳 후기란</h2>
+      <p>직접 만들어본 요리의 후기를 작성해 보세요.</p>
       <ReviewForm onSubmit={handleSubmit}>
         <div>
           <label>제목:</label>
@@ -76,7 +78,9 @@ const ReviewWrite = () => {
             required 
           />
         </div>
-        <ReviewButton type="submit">작성</ReviewButton>
+        <ReviewButtonContainer>
+          <ReviewButton type="submit">작성</ReviewButton>
+        </ReviewButtonContainer>
       </ReviewForm>
     </ReviewWritePage>
   );

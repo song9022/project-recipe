@@ -5,6 +5,9 @@ import {
   ReviewDetailPage,
   ReviewTitle,
   ReviewContent,
+  ReviewAuthor,
+  ReviewDate,
+  ReviewPic
 } from '../styles/ReviewDetail';
 
 const ReviewDetail = () => {
@@ -18,8 +21,9 @@ const ReviewDetail = () => {
   return (
     <ReviewDetailPage>
       <ReviewTitle>{review.title}</ReviewTitle>
-      <p>작성자: {review.author}</p>
-      <p>작성일: {review.date}</p>
+      <ReviewAuthor>{review.author}</ReviewAuthor>
+      <ReviewDate>{review.date}</ReviewDate>
+      {review.pic && <ReviewPic src={review.pic} alt={review.title} />}
       <ReviewContent>{review.content}</ReviewContent>
     </ReviewDetailPage>
   );

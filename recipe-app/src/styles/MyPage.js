@@ -55,7 +55,7 @@ export const NicknameContainer = styled.div`
 
 export const NicknameInput = styled.input`
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #DD6213;
   border-radius: 4px;
 `;
 

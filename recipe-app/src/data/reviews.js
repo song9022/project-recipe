@@ -5,6 +5,7 @@ const reviews = [
     author: "Chef John",
     content: "This spaghetti recipe was amazing! My family loved it.",
     date: "2023-07-01",
+    pic: 'https://via.placeholder.com/800x400' // 외부 이미지 URL 추가
   },
   {
     id: 2,
@@ -12,6 +13,7 @@ const reviews = [
     author: "Chef Emily",
     content: "The chicken curry turned out great. Highly recommend this recipe!",
     date: "2023-07-02",
+    pic: 'https://via.placeholder.com/800x400' // 외부 이미지 URL 추가
   },
   // 더 많은 데이터 추가...
 ];

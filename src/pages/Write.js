@@ -3,6 +3,10 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Write.css";
 
 const Write = ({ userData }) => {
+  // const [author, setAuthor] = useState("");
+  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
+
   const [recipe, setRecipe] = useState({
     name: "",
     introduction: "",
@@ -12,16 +16,12 @@ const Write = ({ userData }) => {
     level: "",
     userId: userData.userID,
     likedUsers: [],
-    images: [],
+    images: image,
     cookingSteps: [],
     ingredients: [], // ingredients를 배열로 관리
   });
 
   console.log(recipe)
-
-  // const [author, setAuthor] = useState("");
-  const [image, setImage] = useState(null);
-  const navigate = useNavigate();
 
   const recipeChange = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });

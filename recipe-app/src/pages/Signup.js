@@ -8,6 +8,7 @@ import {
   SignupContainer,
   SignupTitle
 } from '../styles/Signup';
+import { PiBreadBold } from "react-icons/pi";
 
 const Signup = () => {
   const [username, setUsername] = useState('');
@@ -32,6 +33,7 @@ const Signup = () => {
   return (
     <SignupPage>
       <SignupContainer>
+        <PiBreadBold size={60} color='#DD6213' />
         <SignupTitle>회원가입</SignupTitle>
         <SignupForm onSubmit={handleSubmit}>
           <div>
@@ -53,9 +55,9 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label>이메일:</label>
+            <label>아이디:</label>
             <SignupInput
-              type="email"
+              type="id"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

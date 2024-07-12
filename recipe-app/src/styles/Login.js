@@ -5,7 +5,7 @@ export const LoginPage = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f7f7f7;
+  background-color: #F8F6DF;
 `;
 
 export const LoginContainer = styled.div`
@@ -32,7 +32,7 @@ export const LoginForm = styled.form`
 
 export const LoginInput = styled.input`
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #B0BA1C;
   border-radius: 4px;
   width: 100%;
   font-size: 16px;

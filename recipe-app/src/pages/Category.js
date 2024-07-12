@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   CategoryPage,
   Filters,
@@ -12,6 +13,7 @@ import {
   RankingDetails
 } from '../styles/Category';
 import rankings from '../data/data';
+import { FaThumbsUp} from 'react-icons/fa';
 
 const Category = ({ searchQuery }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -77,11 +79,13 @@ const Category = ({ searchQuery }) => {
       <RankingList>
         {filteredRankings.map((post) => (
           <RankingItem key={post.id}>
-            <img src={post.image} alt={post.title} className="ranking-image" />
+          <Link to={`/Recipedetail/${post.id}`}>
+            <RankingImage src={post.image} alt={post.title} />
+          </Link>
             <RankingDetails>
               <h3>{post.title}</h3>
               <p>작성자: {post.author}</p>
-              <p>별점: {post.rating}</p>
+              <p><FaThumbsUp color='#EC9736' /> {post.good}</p>
             </RankingDetails>
           </RankingItem>
         ))}

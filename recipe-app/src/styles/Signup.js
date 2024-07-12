@@ -5,7 +5,7 @@ export const SignupPage = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #f7f7f7;
+  background-color: #F8F6DF;
 `;
 
 export const SignupContainer = styled.div`
@@ -32,7 +32,7 @@ export const SignupForm = styled.form`
 
 export const SignupInput = styled.input`
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid #B0BA1C;
   border-radius: 4px;
   width: 100%;
   font-size: 16px;
@@ -54,6 +54,6 @@ export const SignupButton = styled.button`
   margin-top: 20px;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #EC9736;
   }
 `;

@@ -1,32 +1,7 @@
 import styled from 'styled-components';
 
-export const CategoryPage = styled.div`
+export const RankingPage = styled.div`
   padding: 20px;
-`;
-
-export const Filters = styled.div`
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-`;
-
-export const FilterGroup = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-export const FilterGroupTitle = styled.h3`
-  margin-bottom: 10px;
-`;
-
-export const FilterGroupLabel = styled.label`
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-`;
-
-export const FilterGroupInput = styled.input`
-  margin-right: 5px;
 `;
 
 export const RankingList = styled.div`

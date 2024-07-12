@@ -16,6 +16,8 @@ export const ReviewCard = styled.div`
   margin-bottom: 20px;
   max-width: 600px; /* 카드 최대 너비 설정 */
   width: 100%; /* 카드 너비를 100%로 설정하여 중앙 정렬 */
+  border: 1px solid #B0BA1C;
+  
 `;
 
 

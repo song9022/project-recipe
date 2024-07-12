@@ -1,27 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import rankings from '../data/data';
-import '../styles/Category.css';
+import {
+  RankingPage,
+  RankingList,
+  RankingItem,
+  RankingImage,
+  RankingDetails
+} from '../styles/Ranking';
+import { FaThumbsUp} from 'react-icons/fa';
 
 const Ranking = () => {
   return (
-    <div className="category-page">
+    <RankingPage>
       <h2>랭킹 페이지</h2>
-      <div className="category-list">
+      <RankingList>
         {rankings.map((post) => (
-          <div key={post.id} className="category-item">
+          <RankingItem key={post.id}>
             <Link to={`/Recipedetail/${post.id}`}>
-              <img src={post.image} alt={post.title} className="category-image" />
+              <RankingImage src={post.image} alt={post.title} />
             </Link>
-            <div className="category-details">
+            <RankingDetails>
               <h3>{post.title}</h3>
               <p>작성자: {post.author}</p>
-              <p>좋아요: {post.good}</p>
-            </div>
-          </div>
+              <p><FaThumbsUp color='#EC9736' /> {post.good}</p>
+            </RankingDetails>
+          </RankingItem>
         ))}
-      </div>
-    </div>
+      </RankingList>
+    </RankingPage>
   );
 };
 

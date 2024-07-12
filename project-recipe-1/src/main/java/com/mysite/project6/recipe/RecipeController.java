@@ -16,11 +16,14 @@ import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.cookingstep.CookingStepRepository;
 import com.mysite.project6.image.Image;
 import com.mysite.project6.image.ImageRepository;
+import com.mysite.project6.image.ImageService;
 import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.ingredient.IngredientRepository;
 import com.mysite.project6.user.User;
 import com.mysite.project6.user.UserRepository;
 import com.mysite.project6.user.UserService;
+
+import jakarta.validation.Valid;
 
 //@RestController
 //@RequestMapping("/recipes")
@@ -45,46 +48,8 @@ import com.mysite.project6.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-//@RestController
-//@CrossOrigin(origins = "http://localhost:3000")
-//public class RecipeController {
-//
-//    @Autowired
-//    private RecipeRepository recipeRepository;
-//
-//    @Autowired
-//    private IngredientRepository ingredientRepository;
-//    
-//    @Autowired
-//    private CookingStepRepository cookingStepRepository;
-//
-//    //사진 넣기 전
-//    @PostMapping("/recipes/add")
-//    public Recipe createRecipe(@RequestBody Recipe recipe) {
-//        
-//    	
-//    	// 재료들이 속한 레시피를 설정
-//        List<Ingredient> ingredients = recipe.getIngredients();
-//        if (ingredients != null) {
-//            for (Ingredient ingredient : ingredients) {
-//                ingredient.setRecipe(recipe);
-//            }
-//        }
-//        
-//        // 요리 단계들이 속한 레시피를 설정
-//        List<CookingStep> cookingSteps = recipe.getCookingSteps();
-//        if (cookingSteps != null) {
-//            for (CookingStep step : cookingSteps) {
-//                step.setRecipe(recipe);
-//            }
-//        }
-//        Recipe savedRecipe = recipeRepository.save(recipe);
-//        return recipeRepository.save(recipe);
-//    }
-//    
-//}
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -92,6 +57,9 @@ public class RecipeController {
 
 	@Autowired
 	private RecipeRepository recipeRepository;
+
+	@Autowired
+	private RecipeService recipeService;
 
 	@Autowired
 	private IngredientRepository ingredientRepository;
@@ -104,30 +72,6 @@ public class RecipeController {
 
 	@Autowired
 	private UserRepository userRepository;
-
-//    // 사진이 없는 경우의 레시피 생성
-//    @PostMapping("/recipes/add")
-//    public ResponseEntity<Recipe> createRecipe(@RequestBody Recipe recipe) {
-//        
-//        // 재료들이 속한 레시피를 설정
-//        List<Ingredient> ingredients = recipe.getIngredients();
-//        if (ingredients != null) {
-//            for (Ingredient ingredient : ingredients) {
-//                ingredient.setRecipe(recipe);
-//            }
-//        }
-//        
-//        // 요리 단계들이 속한 레시피를 설정
-//        List<CookingStep> cookingSteps = recipe.getCookingSteps();
-//        if (cookingSteps != null) {
-//            for (CookingStep step : cookingSteps) {
-//                step.setRecipe(recipe);
-//            }
-//        }
-//
-//        Recipe savedRecipe = recipeRepository.save(recipe);
-//        return new ResponseEntity<>(savedRecipe, HttpStatus.CREATED);
-//    }
 
 	// 사진과 함께 레시피 생성
 //	@PostMapping("/recipes/add")
@@ -160,72 +104,88 @@ public class RecipeController {
 //		Recipe savedRecipe = recipeRepository.save(recipe);
 //		return new ResponseEntity<>(savedRecipe, HttpStatus.CREATED);
 //	}
-	
-	//사진과 함께 레시피 저장
+
+	// 사진과 함께 레시피 저장
 	@PostMapping("/recipes/add")
-	public ResponseEntity<Recipe> createRecipe(@RequestPart("recipe") Recipe recipe,
-	                                           @RequestParam(value = "file", required = false) MultipartFile file) {
-	    // 레시피와 관련된 데이터 처리
-
-		// 재료들이 속한 레시피를 설정
-		List<Ingredient> ingredients = recipe.getIngredients();
-		if (ingredients != null) {
-			for (Ingredient ingredient : ingredients) {
-				ingredient.setRecipe(recipe);
-			}
-		}
-//
-//		// 요리 단계들이 속한 레시피를 설정
-		List<CookingStep> cookingSteps = recipe.getCookingSteps();
-		if (cookingSteps != null) {
-			for (CookingStep step : cookingSteps) {
-				step.setRecipe(recipe);
-			}
-		}
-		
-	    if (file != null) {
-	        try {
-	            byte[] photoData = file.getBytes();
-	            Image image = new Image(photoData, recipe); // 이미지와 레시피 연결
-	            imageRepository.save(image);
-	        } catch (IOException e) {
-	            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-	        }
-	    }
-
-	    Recipe savedRecipe = recipeRepository.save(recipe);
-	    return new ResponseEntity<>(savedRecipe, HttpStatus.CREATED);
+	public ResponseEntity<Recipe> createRecipe(@RequestPart("recipe") @Valid Recipe recipe,
+			@RequestPart(value = "file", required = false) MultipartFile file) {
+		Recipe savedRecipe = recipeService.saveRecipe(recipe, file);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedRecipe);
 	}
 
-
+//	// 이미지 업로드
+//    @PostMapping("/recipes/{id}/upload-image")
+//    public ResponseEntity<String> uploadRecipeImage(@PathVariable Integer id,
+//                                                    @RequestParam("file") MultipartFile file) {
+//        imageService.uploadRecipeImage(id, file);
+//        return ResponseEntity.ok("Image uploaded successfully");
+//    }
 	// 이미지 파일 업로드 처리
-	@PostMapping("/recipes/upload-photos")
-	public ResponseEntity<List<Image>> uploadPhotos(@RequestParam("file") List<MultipartFile> files,
-			@RequestParam("recipeId") Integer recipeId) {
-		try {
-			Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
-			if (!recipeOptional.isPresent()) {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
-			Recipe recipe = recipeOptional.get();
+//	@PostMapping("/recipes/upload-photos")
+//	public ResponseEntity<List<Image>> uploadPhotos(@RequestParam("file") List<MultipartFile> files,
+//			@RequestParam("id") Integer recipeId) {
+//		try {
+//			Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
+//			if (!recipeOptional.isPresent()) {
+//				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//			}
+//			Recipe recipe = recipeOptional.get();
+//
+//			List<Image> savedImages = new ArrayList<>();
+//
+//			for (MultipartFile file : files) {
+//				byte[] imageData = file.getBytes();
+//				Image image = new Image(imageData, recipe); // 레시피 설정
+//				imageRepository.save(image);
+//				savedImages.add(image);
+//			}
+//
+//			// 저장된 이미지 목록을 반환
+//			return new ResponseEntity<>(savedImages, HttpStatus.OK);
+//		} catch (IOException e) {
+//			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//		}
+//	}
 
-			List<Image> savedImages = new ArrayList<>();
+//	// 이미지 파일 업로드 처리
+//	@PostMapping("/images/upload")
+//	public ResponseEntity<String> handleFileUpload(@RequestParam("file") MultipartFile file) {
+//	    if (!file.isEmpty()) {
+//	        try {
+//	            byte[] bytes = file.getBytes();
+//	            // 파일 저장 로직
+//	            // 예: Files.write(Paths.get("파일경로"), bytes);
+//	            return new ResponseEntity<>("File uploaded successfully", HttpStatus.OK);
+//	        } catch (IOException e) {
+//	            return new ResponseEntity<>("Failed to upload file", HttpStatus.INTERNAL_SERVER_ERROR);
+//	        }
+//	    } else {
+//	        return new ResponseEntity<>("File is empty", HttpStatus.BAD_REQUEST);
+//	    }
+//	}
 
-			for (MultipartFile file : files) {
-				byte[] photoData = file.getBytes();
-				Image image = new Image(photoData, recipe); // 레시피 설정
-				imageRepository.save(image);
-				savedImages.add(image);
-			}
+//	@PostMapping("/recipes/add")
+//    public ResponseEntity<Recipe> createRecipeWithImage(@RequestPart("recipe") Recipe recipe,
+//                                                        @RequestPart(value = "file", required = false) MultipartFile file) {
+//        try {
+//            Recipe savedRecipe = recipeService.saveRecipeWithImage(recipe, file);
+//            return new ResponseEntity<>(savedRecipe, HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+//
+//    @PostMapping("/recipes/upload-photos")
+//    public ResponseEntity<List<Image>> uploadPhotos(@RequestParam("files") List<MultipartFile> files,
+//                                                    @RequestParam("recipeId") Integer recipeId) {
+//        try {
+//            List<Image> savedImages = recipeService.saveRecipeImages(files, recipeId);
+//            return new ResponseEntity<>(savedImages, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
-			// 저장된 이미지 목록을 반환
-			return new ResponseEntity<>(savedImages, HttpStatus.OK);
-		} catch (IOException e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	
 //	@PostMapping("/recipes/{recipeId}/like")
 //	public ResponseEntity<String> likeRecipe(@PathVariable Integer recipeId, @RequestParam Long userId) {
 //		Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
@@ -286,67 +246,67 @@ public class RecipeController {
 			throw new IllegalArgumentException("Invalid search type: " + searchType);
 		}
 	}
-	
-	private RecipeService recipeService;
+
 	private UserService userService;
-	
+
 	// 좋아요 기능
 	@GetMapping("/like/{id}")
 	public ResponseEntity<?> recipelike(Principal principal, @PathVariable("id") Integer id) {
-	    if (principal == null) {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be logged in to vote.");
-	    }
+		if (principal == null) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("You must be logged in to vote.");
+		}
 
-	    try {
-	        Recipe recipe = this.recipeService.getRecipe(id);
-	        User user = this.userService.getUser(principal.getName());
+		try {
+			Recipe recipe = this.recipeService.getRecipe(id);
+			User user = this.userService.getUser(principal.getName());
 
-	        if (recipe == null || user == null) {
-	            throw new IllegalArgumentException("Invalid question ID or user.");
-	        }
+			if (recipe == null || user == null) {
+				throw new IllegalArgumentException("Invalid question ID or user.");
+			}
 
-	        this.recipeService.like(recipe, user);
-	    } catch (Exception e) {
-	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while processing your vote.");
-	    }
+			this.recipeService.like(recipe, user);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("An error occurred while processing your vote.");
+		}
 
-	    return ResponseEntity.ok("Vote registered successfully");
+		return ResponseEntity.ok("Vote registered successfully");
 	}
-	
+
 	// 레시피 수정
 	@Autowired
-    public RecipeController(RecipeService recipeService) {
-        this.recipeService = recipeService;
-    }
+	public RecipeController(RecipeService recipeService) {
+		this.recipeService = recipeService;
+	}
 
-    @GetMapping("/api/recipes/{id}")
-    public ResponseEntity<RecipeForm> getRecipe(@PathVariable("id") Integer id) {
-        Recipe recipe = this.recipeService.getRecipe(id);
+	@GetMapping("/api/recipes/{id}")
+	public ResponseEntity<RecipeForm> getRecipe(@PathVariable("id") Integer id) {
+		Recipe recipe = this.recipeService.getRecipe(id);
 
-        if (recipe == null) {
-            return ResponseEntity.notFound().build();
-        }
+		if (recipe == null) {
+			return ResponseEntity.notFound().build();
+		}
 
-        RecipeForm recipeForm = new RecipeForm();
-        recipeForm.setName(recipe.getName());
-        recipeForm.setIntroduction(recipe.getIntroduction());
+		RecipeForm recipeForm = new RecipeForm();
+		recipeForm.setName(recipe.getName());
+		recipeForm.setIntroduction(recipe.getIntroduction());
 
-        return ResponseEntity.ok(recipeForm);
-    }
+		return ResponseEntity.ok(recipeForm);
+	}
 
-    @PostMapping("/api/recipes/modify/{id}")
-    public ResponseEntity<?> modifyRecipe(@PathVariable("id") Integer id, @RequestBody RecipeForm recipeForm) {
-        Recipe recipe = this.recipeService.getRecipe(id);
+	@PostMapping("/api/recipes/modify/{id}")
+	public ResponseEntity<?> modifyRecipe(@PathVariable("id") Integer id, @RequestBody RecipeForm recipeForm) {
+		Recipe recipe = this.recipeService.getRecipe(id);
 
-        if (recipe == null) {
-            return ResponseEntity.notFound().build();
-        }
+		if (recipe == null) {
+			return ResponseEntity.notFound().build();
+		}
 
-        recipe.setName(recipeForm.getName());
-        recipe.setIntroduction(recipeForm.getIntroduction());
-        this.recipeService.saveRecipe(recipe);
+		recipe.setName(recipeForm.getName());
+		recipe.setIntroduction(recipeForm.getIntroduction());
+		this.recipeService.saveRecipe(recipe, null);
 
-        return ResponseEntity.ok("Recipe modified successfully");
-    }
+		return ResponseEntity.ok("Recipe modified successfully");
+	}
 
 }

@@ -28,9 +28,26 @@ export const SearchBar = styled.input`
   width: 17.5%; /* 서치바의 길이를 줄임 */
   min-height: 30px;
   padding: 8px;
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 4px;
   margin: 0 10px; /* 요소 사이의 간격 조절 */
+  &:focus {
+    outline: none; /* 포커스 시 기본 테두리 제거 */
+    border-bottom: 2px solid #DD6213; /* 포커스 시 언더라인 추가 */
+  }
+`;
+
+export const SearchSelect = styled.select`
+  width: 17.5%; /* 서치바의 길이를 줄임 */
+  min-height: 30px;
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  margin: 0 10px; /* 요소 사이의 간격 조절 */
+  &:focus {
+    outline: none; /* 포커스 시 기본 테두리 제거 */
+    border-bottom: 2px solid #DD6213; /* 포커스 시 언더라인 추가 */
+  }
 `;
 
 export const SearchButton = styled.button`

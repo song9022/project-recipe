@@ -13,7 +13,8 @@ import { FaThumbsUp} from 'react-icons/fa';
 const Ranking = () => {
   return (
     <RankingPage>
-      <h2>랭킹 페이지</h2>
+      <h2>🍳 레시피 랭킹</h2>
+      <p>인기있는 레시피를 한 눈에</p>
       <RankingList>
         {rankings.map((post) => (
           <RankingItem key={post.id}>

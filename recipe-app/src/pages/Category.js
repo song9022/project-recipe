@@ -47,7 +47,8 @@ const Category = ({ searchQuery }) => {
 
   return (
     <CategoryPage>
-      <h2>분류 페이지</h2>
+      <h2>🍳 레시피 분류</h2>
+      <p>내가 원하는 레시피를 직접 찾아보세요</p>
       <Filters>
         <FilterGroup>
           <div>

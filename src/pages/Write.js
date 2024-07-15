@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Write.css";
 
 export default function Write({ userData }) {
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   const navigate = useNavigate();
 
   const userId = !userData ? alert("로그인을 해주세요") : userData.id;
@@ -25,8 +25,9 @@ export default function Write({ userData }) {
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
+    //const file = e.target.files[0];
+    const files = Array.from(e.target.files)
+    setImages(files);
   };
 
   const ingredientChange = (index, e) => {
@@ -75,7 +76,10 @@ export default function Write({ userData }) {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append("file", image); // 사진 파일 추가
+    images.forEach((image, index) => {
+      formData.append(`files`, image); // 사진 파일 추가
+    });
+    //formData.append("file", image); // 사진 파일 추가
     formData.append("recipe", JSON.stringify(recipe)); // 레시피 데이터 추가
 
     fetch("http://localhost:8080/recipes/add", {

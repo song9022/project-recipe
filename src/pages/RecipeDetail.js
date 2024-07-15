@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import rankings from '../data/data';
 import { 
   RecipeDetailPage, 
   RecipeTitle, 
@@ -20,13 +19,17 @@ import {
 } from '../styles/RecipeDetail';
 import { FaThumbsUp, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 
-const RecipeDetail = () => {
-
+const RecipeDetail = ({ setIsLoggedIn, setUserData, userData }) => {
   const { id } = useParams();
 
   const [recipe, setRecipe] = useState(null);
   const [ingredients, setIngredients] = useState([]);
   const [cookingSteps, setCookingSteps] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
+  const [commentAuthor, setCommentAuthor] = useState('작성자1');
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editingCommentText, setEditingCommentText] = useState('');
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -38,7 +41,6 @@ const RecipeDetail = () => {
         const data = await response.json();
         setRecipe(data);
 
-        
         // Fetch ingredients using the ingredients.href
         const ingredientsResponse = await fetch(data._links.ingredients.href);
         if (!ingredientsResponse.ok) {
@@ -54,62 +56,97 @@ const RecipeDetail = () => {
         const cookingStepsData = await cookingStepsResponse.json();
         setCookingSteps(cookingStepsData._embedded.cookingSteps);
 
-    } catch (error) {
-      console.error('Error fetching recipe:', error);
-    }
-  };
+        // Fetch comments for the recipe
+        const commentsResponse = await fetch(`http://localhost:8080/api/comments/recipe/${id}`);
+        if (!commentsResponse.ok) {
+          throw new Error('Failed to fetch comments');
+        }
+        const commentsData = await commentsResponse.json();
+        setComments(commentsData);
+
+      } catch (error) {
+        console.error('Error fetching recipe:', error);
+      }
+    };
 
     fetchRecipe();
   }, [id]);
 
-
-  console.log(recipe)
-  console.log(cookingSteps)
-  console.log(ingredients)
-
-  const [likes, setLikes] = useState(0);
-  const [bookmarked, setBookmarked] = useState(false);
-  const [comments, setComments] = useState([]);
-  const [newComment, setNewComment] = useState('');
-  const [commentAuthor, setCommentAuthor] = useState('작성자1');
-  const [editingCommentId, setEditingCommentId] = useState(null);
-  const [editingCommentText, setEditingCommentText] = useState('');
-
   const handleLikeClick = () => {
-    setLikes(likes + 1);
+    // Implement like functionality
+    // For demonstration purposes, let's keep it empty for now
   };
 
   const handleBookmarkClick = () => {
-    setBookmarked(!bookmarked);
+    // Implement bookmark functionality
+    // For demonstration purposes, let's keep it empty for now
   };
 
-  const handleCommentSubmit = (e) => {
+  const handleCommentSubmit = async (e) => {
     e.preventDefault();
     if (editingCommentId !== null) {
-      setComments(comments.map(comment => 
-        comment.id === editingCommentId ? { ...comment, text: editingCommentText } : comment
-      ));
-      setEditingCommentId(null);
-      setEditingCommentText('');
+      // If editing existing comment
+      try {
+        const response = await fetch(`http://localhost:8080/api/comments/${editingCommentId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: editingCommentText }),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to update comment');
+        }
+        const updatedComment = await response.json();
+        setComments(comments.map(comment =>
+          comment.id === editingCommentId ? { ...comment, text: updatedComment.text } : comment
+        ));
+        setEditingCommentId(null);
+        setEditingCommentText('');
+      } catch (error) {
+        console.error('Error updating comment:', error);
+      }
     } else {
-      const newCommentObj = {
-        id: Date.now(),
-        text: newComment,
-        author: commentAuthor
-      };
-      setComments([...comments, newCommentObj]);
-      setNewComment('');
-      setCommentAuthor(`작성자${comments.length + 2}`);
+      // If adding new comment
+      try {
+        const response = await fetch(`http://localhost:8080/api/comments/recipe/${id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ text: newComment, author: commentAuthor }),
+        });
+        if (!response.ok) {
+          throw new Error('Failed to create comment');
+        }
+        const newCommentObj = await response.json();
+        setComments([...comments, newCommentObj]);
+        setNewComment('');
+        setCommentAuthor(`작성자${comments.length + 2}`);
+      } catch (error) {
+        console.error('Error creating comment:', error);
+      }
     }
   };
 
   const handleCommentEdit = (id, text) => {
+    // Set editing state for comment
     setEditingCommentId(id);
     setEditingCommentText(text);
   };
 
-  const handleCommentDelete = (id) => {
-    setComments(comments.filter(comment => comment.id !== id));
+  const handleCommentDelete = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/comments/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) {
+        throw new Error('Failed to delete comment');
+      }
+      setComments(comments.filter(comment => comment.id !== id));
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
   };
 
   if (!recipe) {
@@ -122,10 +159,10 @@ const RecipeDetail = () => {
       <RecipeImage src={recipe.image} alt={recipe.name} />
       <ButtonGroup>
         <LikeButton onClick={handleLikeClick}>
-          <FaThumbsUp /> {likes}
+          <FaThumbsUp /> 0
         </LikeButton>
         <BookmarkButton onClick={handleBookmarkClick}>
-          {bookmarked ? <FaBookmark /> : <FaRegBookmark />}
+          <FaRegBookmark />
         </BookmarkButton>
       </ButtonGroup>
       <RecipeInfo>
@@ -138,22 +175,22 @@ const RecipeDetail = () => {
         <p>{recipe.description}</p>
       </RecipeSection>
       <RecipeContent>
-         <h3>재료</h3>
-         <ul>
+        <h3>재료</h3>
+        <ul>
           {ingredients.map((ingredient, index) => (
             <li key={index}>
               {ingredient.amount} {ingredient.ingredient}
             </li>
           ))}
         </ul>
-  <h3>요리 순서</h3>
-  <ol>
-    {cookingSteps.map((step, index) => (
-      <li key={index}>
-        <strong>Step {step.stepNumber}:</strong> {step.description}
-      </li>
-    ))}
-  </ol>
+        <h3>요리 순서</h3>
+        <ol>
+          {cookingSteps.map((step, index) => (
+            <li key={index}>
+              <strong>Step {step.stepNumber}:</strong> {step.description}
+            </li>
+          ))}
+        </ol>
       </RecipeContent>
       <CommentsSection>
         <h3>댓글</h3>
@@ -166,23 +203,21 @@ const RecipeDetail = () => {
             required
           />
           <CommentButton type="submit">{editingCommentId !== null ? '수정' : '입력'}</CommentButton>
-        </CommentForm>    
+        </CommentForm>
+        <CommentList>
+          {comments.map((comment) => (
+            <CommentItem key={comment.id}>
+              <p><strong>{comment.author}</strong>: {comment.text}</p>
+              <div>
+                <CommentButton onClick={() => handleCommentEdit(comment.id, comment.text)}>수정</CommentButton>
+                <CommentButton onClick={() => handleCommentDelete(comment.id)}>삭제</CommentButton>
+              </div>
+            </CommentItem>
+          ))}
+        </CommentList>
       </CommentsSection>
     </RecipeDetailPage>
   );
 };
-
-
-//     <CommentList>
-    //       {comments.map((comment) => (
-    //         <CommentItem key={comment.id}>
-    //           <p><strong>{comment.author}</strong>: {comment.text}</p>
-    //           <div>
-    //             <CommentButton onClick={() => handleCommentEdit(comment.id, comment.text)}>수정</CommentButton>
-    //             <CommentButton onClick={() => handleCommentDelete(comment.id)}>삭제</CommentButton>
-    //           </div>
-    //         </CommentItem>
-    //       ))}
-    //     </CommentList>
 
 export default RecipeDetail;

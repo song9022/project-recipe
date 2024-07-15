@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mysite.project6.comment.Comment;
+import com.mysite.project6.comment.CommentRepository;
 import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.cookingstep.CookingStepRepository;
 import com.mysite.project6.ingredient.Ingredient;
@@ -56,6 +58,14 @@ public class MainController {
 	@GetMapping("/user")
 	public Iterable<User> getUser() {
 		return userRepository.findAll();
+	}
+	
+	@Autowired
+	private CommentRepository commentRepository;
+	
+	@GetMapping("/comment")
+	public Iterable<Comment> getComment() {
+		return commentRepository.findAll();
 	}
 //	
 ////	@CrossOrigin(origins = "http://localhost:3001")

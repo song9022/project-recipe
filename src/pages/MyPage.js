@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../components/modal/Modal";
 import {
   MyPageContainer,
@@ -11,6 +11,7 @@ import {
   NicknameInput,
   SaveButton,
 } from "../styles/MyPage";
+import { Link } from "react-router-dom";
 
 const MyPage = ({ userData, setUserData }) => {
   const [activeTab, setActiveTab] = useState("레시피");
@@ -37,7 +38,14 @@ const MyPage = ({ userData, setUserData }) => {
     setIsEditing(!isEditing);
   };
 
+  console.log(userData);
+
   const updateNickname = () => {
+    if (!userData || !userData._links || !userData._links.self) {
+      console.error("userData or _links.self is undefined");
+      return;
+    }
+
     fetch(userData._links.self.href, {
       method: "PUT",
       headers: {
@@ -61,8 +69,43 @@ const MyPage = ({ userData, setUserData }) => {
       });
   };
 
+  useEffect(() => {
+    if (userData && userData._links && userData._links.self) {
+      updateNickname(); // userData가 유효할 때에만 updateNickname 함수 호출
+    }
+  }, []);
+
+  const reUpdateNickname = () => {
+    if (!userData || !userData.id) {
+      console.error("로그인을 해주세요");
+      return;
+    }
+
+    fetch(`http://localhost:8080/api/users/${userData.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((updatedUserData) => {
+        console.log("Nickname updated successfully:", updatedUserData);
+        setUserData(updatedUserData); // 업데이트된 사용자 데이터로 상태 업데이트
+        setIsEditing(false); // 수정 모드 종료
+      })
+      .catch((error) => {
+        console.error("Error updating nickname:", error);
+      });
+  };
+
   const saveNickname = () => {
-    updateNickname();
+    reUpdateNickname();
   };
 
   const openModal = (tab) => {
@@ -73,20 +116,6 @@ const MyPage = ({ userData, setUserData }) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-
-  const recipes = [
-    {
-      id: 1,
-      title: "Delicious Spaghetti",
-      description: "A delightful spaghetti recipe",
-    },
-    {
-      id: 2,
-      title: "Tasty Chicken Curry",
-      description: "A flavorful chicken curry",
-    },
-    // 더 많은 레시피 추가
-  ];
 
   const reviews = [
     {
@@ -171,12 +200,20 @@ const MyPage = ({ userData, setUserData }) => {
           <div>
             <h2>내가 작성한 레시피</h2>
             <ul>
-              {recipes.map((recipe) => (
-                <li key={recipe.id}>
-                  <h3>{recipe.title}</h3>
-                  <p>{recipe.description}</p>
-                </li>
-              ))}
+              {userData.recipes &&
+                userData.recipes.map((recipe) => (
+                  <li key={recipe.id}>
+                    <Link to={`/Recipedetail/${recipe.id}`}>
+                    <img
+                      src={recipe.photo}
+                      alt={recipe.name}
+                      className="category-image"
+                    />
+                  </Link>
+                    <h3>{recipe.name}</h3>
+                    <p>{recipe.introduction}</p>
+                  </li>
+                ))}
             </ul>
           </div>
         )}

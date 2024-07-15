@@ -25,10 +25,12 @@ public class Image {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
 	
-	@Lob
-	@Column(name = "photo")
-	private byte[] photoData;
-	
+//	@Lob
+//	@Column(name = "image", length = 1048576)
+//	private byte[] image;
+   
+	private String imagePath; // 이미지 파일의 경로
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="recipe_id")
 	@JsonBackReference
@@ -38,9 +40,8 @@ public class Image {
     public Image() {
     }
 
-    // 생성자
-    public Image(byte[] photoData, Recipe recipe) {
-        this.photoData = photoData;
-        this.recipe = recipe;
+ // 생성자
+    public Image(String imagePath) {
+        this.imagePath = imagePath;
     }
 }

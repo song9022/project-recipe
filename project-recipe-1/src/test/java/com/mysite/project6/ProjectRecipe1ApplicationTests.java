@@ -2,17 +2,30 @@ package com.mysite.project6;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.cookingstep.CookingStepRepository;
+import com.mysite.project6.image.Image;
+import com.mysite.project6.image.ImageRepository;
 import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.ingredient.IngredientRepository;
 import com.mysite.project6.recipe.Recipe;
@@ -23,19 +36,19 @@ class ProjectRecipe1ApplicationTests {
 
 	@Autowired
 	private RecipeRepository recipeRepository;
-	
+
 	@Autowired
 	private IngredientRepository ingredientRepository;
-	
-	@Autowired 
+
+	@Autowired
 	private CookingStepRepository cookingStepRepository;
-	
+
 	@Test
 	void contextLoads() {
-		
+
 //		Recipe recipe = new Recipe("라면", null, "라면입니다", "중식", 3, 30, "중");
 //		recipeRepository.save(recipe);
-		
+
 //		Recipe recipe = new Recipe("우동", null, "우동입니다", "일식", 3, 30, "하", null);
 //		recipeRepository.save(recipe);
 //		
@@ -51,10 +64,10 @@ class ProjectRecipe1ApplicationTests {
 //		recipe.setLevel("하");
 //		recipe.setUser(null);
 //		
-		
+
 //		CookingStep cookingStep = new CookingStep(1, "안녕하세요", recipe);
 //		cookingStepRepository.save(cookingStep);
-		
+
 //		Optional<Recipe> oi = this.recipeRepository.findById(102);
 //		assertTrue(oi.isPresent());
 //		Recipe r = oi.get();
@@ -279,6 +292,36 @@ class ProjectRecipe1ApplicationTests {
 //		r.setTime(time);
 //		this.recipeRepository.save(r);
 //	}
-}
-}
 
+		
+	
+	}
+	
+	
+
+    @Autowired
+    private ImageRepository imageRepository;
+
+   
+
+    
+//    @Test
+//    public void testUploadImage() throws IOException {
+//        // 임시 이미지 파일 생성 (테스트 파일 경로에 맞게 수정 필요)
+//        Path path = Paths.get("C:\\Users\\ITPS\\Documents\\dev\\frameworks\\spring\\project-recipe-1\\src\\test\\java\\com\\mysite\\project6\\test-image.jpg");
+//        String name = "test-image.jpg";
+//        String originalFileName = "test-image.jpg";
+//        String contentType = "image/jpeg";
+//        byte[] content = Files.readAllBytes(path);
+//
+//        Recipe recipe = new Recipe("우동",  "우동입니다", "일식", 3, 30, "하");
+//		recipeRepository.save(recipe);
+//		
+//        Image image = new Image(content, recipe);
+//		imageRepository.save(image);
+//
+//		Optional<Recipe> oi = this.recipeRepository.findById(102);
+//		assertTrue(oi.isPresent());
+//		Recipe r = oi.get();
+//    }
+}

@@ -9,4 +9,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public interface UserRepository extends JpaRepository<User, Integer>{
 
 	Optional<User> findByUsername(String username);
+
+	
+	Optional<User> findById(Long userID);
+	
+	
 }

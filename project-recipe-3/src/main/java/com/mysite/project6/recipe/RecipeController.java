@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mysite.project6.cookingstep.CookingStep;
@@ -53,6 +55,21 @@ public class RecipeController {
         
         return recipeRepository.save(recipe);
     }
+    
+ // 레시피 이름 또는 재료 이름으로 검색
+ 	@GetMapping("/api/recipes/search")
+ 	public List<Recipe> searchRecipes(@RequestParam String keyword, @RequestParam String searchType) {
+ 		if ("name".equals(searchType)) {
+ 			return recipeRepository.findByNameContainingIgnoreCase(keyword);
+ 		} else if ("ingredient".equals(searchType)) {
+ 			return recipeRepository.findByIngredientContaining(keyword);
+ 		} else {
+ 			throw new IllegalArgumentException("Invalid search type: " + searchType);
+ 		}
+ 	}
+ 	
+// 	private RecipeService recipeService;
+// 	private UserService userService;
     
 }
 

@@ -41,7 +41,7 @@ export const LikeButton = styled.button`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #EC9736;
   }
 
   svg {
@@ -157,7 +157,7 @@ export const CommentButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #0056b3;
+    background-color: #EC9736;
   }
 `;
 
@@ -181,5 +181,24 @@ export const CommentItem = styled.li`
   div {
     display: flex;
     gap: 10px;
+  }
+`;
+
+export const CommentButtonGroup = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+export const EditButton = styled.button`
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #DD6213;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+
+  &:hover {
+    background-color: #EC9736;
   }
 `;

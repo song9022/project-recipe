@@ -16,7 +16,9 @@ import {
   CommentInput,
   CommentButton,
   CommentList,
-  CommentItem
+  CommentItem,
+  CommentButtonGroup,
+  EditButton
 } from '../styles/RecipeDetail';
 import { FaThumbsUp, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 
@@ -69,6 +71,11 @@ const RecipeDetail = () => {
     setComments(comments.filter(comment => comment.id !== id));
   };
 
+  const handleEditPost = () => {
+    // 여기에 게시글 수정 로직을 추가합니다.
+    alert('게시글 수정 기능이 구현되었습니다.');
+  };
+
   if (!recipe) {
     return <div>Recipe not found</div>;
   }
@@ -108,6 +115,7 @@ const RecipeDetail = () => {
           ))}
         </ol>
       </RecipeContent>
+      <EditButton onClick={handleEditPost}>게시글 수정</EditButton>
       <CommentsSection>
         <h3>댓글</h3>
         <CommentForm onSubmit={handleCommentSubmit}>
@@ -124,10 +132,10 @@ const RecipeDetail = () => {
           {comments.map((comment) => (
             <CommentItem key={comment.id}>
               <p><strong>{comment.author}</strong>: {comment.text}</p>
-              <div>
+              <CommentButtonGroup>
                 <CommentButton onClick={() => handleCommentEdit(comment.id, comment.text)}>수정</CommentButton>
                 <CommentButton onClick={() => handleCommentDelete(comment.id)}>삭제</CommentButton>
-              </div>
+              </CommentButtonGroup>
             </CommentItem>
           ))}
         </CommentList>

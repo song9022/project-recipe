@@ -14,9 +14,14 @@ import {
   FormRow,
   AddButton,
   RemoveButton
-} from '../styles/Write';
+} from "../styles/Write";
 
-const Write = () => {
+export default function Write({ userData }) {
+  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
+
+  const userId = !userData ? alert("로그인을 해주세요") : userData.id;
+
   const [recipe, setRecipe] = useState({
     name: "",
     introduction: "",
@@ -24,21 +29,13 @@ const Write = () => {
     amount: "",
     time: "",
     level: "",
+    user: userId,
     cookingSteps: [],
-    ingredients: [], // ingredients를 배열로 관리
+    ingredients: [], 
   });
-
-  const [author, setAuthor] = useState("");
-  const [image, setImage] = useState(null);
-  const navigate = useNavigate();
 
   const recipeChange = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
   };
 
   const ingredientChange = (index, e) => {
@@ -84,31 +81,16 @@ const Write = () => {
   };
 
   const handleSave = () => {
-    const formData = new FormData();
-    formData.append('name', recipe.name);
-    formData.append('introduction', recipe.introduction);
-    formData.append('category', recipe.category);
-    formData.append('amount', recipe.amount);
-    formData.append('time', recipe.time);
-    formData.append('level', recipe.level);
-    formData.append('author', author);
-    formData.append('image', image);
-    recipe.ingredients.forEach((ingredient, index) => {
-      formData.append(`ingredients[${index}][ingredient]`, ingredient.ingredient);
-      formData.append(`ingredients[${index}][amount]`, ingredient.amount);
-    });
-    recipe.cookingSteps.forEach((step, index) => {
-      formData.append(`cookingSteps[${index}][stepNumber]`, step.stepNumber);
-      formData.append(`cookingSteps[${index}][description]`, step.description);
-    });
-
     fetch("http://localhost:8080/recipes/add", {
       method: "POST",
-      body: formData,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(recipe),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Recipe saved:", data);
+      })
+      .then(() => {
         navigate("/category");
       })
       .catch((err) => console.error("Failed to save recipe:", err));
@@ -132,30 +114,12 @@ const Write = () => {
           <Input name="name" value={recipe.name} onChange={recipeChange} />
         </FormGroup>
         <FormGroup>
-          <Label>작성자:</Label>
-          <Input
-            type="text"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            required
-          />
-        </FormGroup>
-        <FormGroup>
           <Label>요리 소개:</Label>
           <Textarea
             name="introduction"
             value={recipe.introduction}
             onChange={recipeChange}
           ></Textarea>
-        </FormGroup>
-        <FormGroup>
-          <Label>요리 대표 사진:</Label>
-          <Input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            required
-          />
         </FormGroup>
         <FormGroup>
           <Label>카테고리:</Label>
@@ -256,19 +220,12 @@ const Write = () => {
           </AddButton>
         </FormGroup>
         <FormButtons>
-          <SubmitButton type="submit">
-            작성 완료
-          </SubmitButton>
-          <CancelButton
-            type="button"
-            onClick={handleCancel}
-          >
+          <SubmitButton type="submit">작성 완료</SubmitButton>
+          <CancelButton type="button" onClick={handleCancel}>
             취소
           </CancelButton>
         </FormButtons>
       </Form>
     </WritePage>
   );
-};
-
-export default Write;
+}

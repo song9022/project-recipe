@@ -31,7 +31,7 @@ export const Input = styled.input`
   max-width: 600px; /* input의 최대 너비를 600px로 설정 */
   padding: 8px;
   margin: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #B0BA1C;
   border-radius: 4px;
 `;
 

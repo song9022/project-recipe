@@ -2,17 +2,25 @@ package com.mysite.project6.photo;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,47 +38,41 @@ public class PhotoController {
 
 	@Autowired
 	private RecipeRepository recipeRepository;
+
+	@Autowired
+	private PhotoRepository photoRepository;
 	
 	@Value("${file.upload.path}")
 	private String filepath;
 	
-	@Autowired
-	private PhotoRepository photoRepository;
+	@GetMapping("/static/files/{filename:.+}")
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+        try {
+            // 요청된 파일 경로를 실제 파일 경로로 변환
+            Path filePath = Paths.get(filepath).resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            // 파일이 존재하고 읽을 수 있는지 확인
+            if (resource.exists() && resource.isReadable()) {
+                // 다운로드할 때 파일 이름을 정확히 설정하기 위해 HttpHeaders를 사용
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"");
+
+                // 파일을 ResponseEntity를 통해 반환
+                return ResponseEntity.ok()
+                        .headers(headers)
+                        .body(resource);
+            } else {
+                // 파일이 존재하지 않는 경우 404 에러 반환
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+        } catch (MalformedURLException e) {
+            // 파일 경로를 URL로 변환하는 중에 예외가 발생한 경우 처리
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 	
-//	@PostMapping("/recipes/add")
-//    public ResponseEntity<Recipe> addRecipe(@RequestBody Recipe recipe) {
-//        Recipe savedRecipe = recipeRepository.save(recipe);
-//        return ResponseEntity.ok().body(savedRecipe);
-//    }
-//	
-//	@PostMapping("/recipes/upload")
-//    public ResponseEntity<List<Photo>> uploadFile(@RequestParam(value = "file") MultipartFile[] files,
-//    		@RequestParam("recipe") String recipeJson) {
-//		
-//		Recipe recipe = convertJsonToRecipe(recipeJson); // JSON을 Recipe 객체로 변환
-//        
-//		if (recipe == null) {
-//            throw new RuntimeException("Recipe data is invalid");
-//        }
-//		
-//		List<Photo> entities = new ArrayList<>();
-//        for (MultipartFile file : files) {
-//            String fileName = generateFileName(Objects.requireNonNull(file.getOriginalFilename()));
-//            saveFile(file, fileName);
-//
-//            Photo photo = new Photo();
-//            photo.setPhoto(filepath + fileName); // 파일 경로 설정
-//            photo.setRecipe(recipe);
-//            entities.add(photo);
-//        }
-//
-//        List<Photo> savedPhotos = photoRepository.saveAll(entities);
-//
-//        recipe.getPhotos().addAll(savedPhotos);
-//        recipeRepository.save(recipe);
-//
-//        return ResponseEntity.ok().body(savedPhotos);
-//    }
 	
 	@PostMapping("/recipes/add")
 	@Transactional

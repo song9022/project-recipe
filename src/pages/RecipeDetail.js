@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import rankings from '../data/data';
 import { 
@@ -21,8 +21,51 @@ import {
 import { FaThumbsUp, FaBookmark, FaRegBookmark } from 'react-icons/fa';
 
 const RecipeDetail = () => {
+
   const { id } = useParams();
-  const recipe = rankings.find((recipe) => recipe.id === parseInt(id));
+
+  const [recipe, setRecipe] = useState(null);
+  const [ingredients, setIngredients] = useState([]);
+  const [cookingSteps, setCookingSteps] = useState([]);
+
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/recipes/${id}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setRecipe(data);
+
+        
+        // Fetch ingredients using the ingredients.href
+        const ingredientsResponse = await fetch(data._links.ingredients.href);
+        if (!ingredientsResponse.ok) {
+          throw new Error('Failed to fetch ingredients');
+        }
+        const ingredientsData = await ingredientsResponse.json();
+        setIngredients(ingredientsData._embedded.ingredients);
+        
+        const cookingStepsResponse = await fetch(data._links.cookingSteps.href);
+        if (!cookingStepsResponse.ok) {
+          throw new Error('Failed to fetch cooking steps');
+        }
+        const cookingStepsData = await cookingStepsResponse.json();
+        setCookingSteps(cookingStepsData._embedded.cookingSteps);
+
+    } catch (error) {
+      console.error('Error fetching recipe:', error);
+    }
+  };
+
+    fetchRecipe();
+  }, [id]);
+
+
+  console.log(recipe)
+  console.log(cookingSteps)
+  console.log(ingredients)
 
   const [likes, setLikes] = useState(0);
   const [bookmarked, setBookmarked] = useState(false);
@@ -75,8 +118,8 @@ const RecipeDetail = () => {
 
   return (
     <RecipeDetailPage>
-      <RecipeTitle>{recipe.title}</RecipeTitle>
-      <RecipeImage src={recipe.image} alt={recipe.title} />
+      <RecipeTitle>{recipe.name}</RecipeTitle>
+      <RecipeImage src={recipe.image} alt={recipe.name} />
       <ButtonGroup>
         <LikeButton onClick={handleLikeClick}>
           <FaThumbsUp /> {likes}
@@ -88,25 +131,29 @@ const RecipeDetail = () => {
       <RecipeInfo>
         <p><strong>카테고리:</strong> {recipe.category}</p>
         <p><strong>난이도:</strong> {recipe.level}</p>
-        <p><strong>요리 정보:</strong> {recipe.info}</p>
+        <p><strong>요리 정보:</strong> {recipe.introduction}</p>
       </RecipeInfo>
       <RecipeSection>
         <h3>작성자: {recipe.author}</h3>
         <p>{recipe.description}</p>
       </RecipeSection>
       <RecipeContent>
-        <h3>재료</h3>
-        <ul>
-          {recipe.ingredients.map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
+         <h3>재료</h3>
+         <ul>
+          {ingredients.map((ingredient, index) => (
+            <li key={index}>
+              {ingredient.amount} {ingredient.ingredient}
+            </li>
           ))}
         </ul>
-        <h3>요리 순서</h3>
-        <ol>
-          {recipe.steps.map((step, index) => (
-            <li key={index}>{step}</li>
-          ))}
-        </ol>
+  <h3>요리 순서</h3>
+  <ol>
+    {cookingSteps.map((step, index) => (
+      <li key={index}>
+        <strong>Step {step.stepNumber}:</strong> {step.description}
+      </li>
+    ))}
+  </ol>
       </RecipeContent>
       <CommentsSection>
         <h3>댓글</h3>
@@ -119,21 +166,23 @@ const RecipeDetail = () => {
             required
           />
           <CommentButton type="submit">{editingCommentId !== null ? '수정' : '입력'}</CommentButton>
-        </CommentForm>
-        <CommentList>
-          {comments.map((comment) => (
-            <CommentItem key={comment.id}>
-              <p><strong>{comment.author}</strong>: {comment.text}</p>
-              <div>
-                <CommentButton onClick={() => handleCommentEdit(comment.id, comment.text)}>수정</CommentButton>
-                <CommentButton onClick={() => handleCommentDelete(comment.id)}>삭제</CommentButton>
-              </div>
-            </CommentItem>
-          ))}
-        </CommentList>
+        </CommentForm>    
       </CommentsSection>
     </RecipeDetailPage>
   );
 };
+
+
+//     <CommentList>
+    //       {comments.map((comment) => (
+    //         <CommentItem key={comment.id}>
+    //           <p><strong>{comment.author}</strong>: {comment.text}</p>
+    //           <div>
+    //             <CommentButton onClick={() => handleCommentEdit(comment.id, comment.text)}>수정</CommentButton>
+    //             <CommentButton onClick={() => handleCommentDelete(comment.id)}>삭제</CommentButton>
+    //           </div>
+    //         </CommentItem>
+    //       ))}
+    //     </CommentList>
 
 export default RecipeDetail;

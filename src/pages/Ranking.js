@@ -25,24 +25,28 @@ const Ranking = () => {
       fetchData()
     },[])
 
-
+  console.log(recipes)
 
   return (
     <div className="category-page">
       <h2>랭킹 페이지</h2>
       <div className="category-list">
-        {recipes.map((post) => (
-          <div key={post._links.self} className="category-item">
-            <Link to={`/Recipedetail/${post.id}`}>
-              <img src={post.image} alt={post.title} className="category-image" />
+      {recipes.map((post) => {
+        const match = post._links.self.href.match(/\d+$/);
+        const id = match ? parseInt(match[0], 10) : null;
+
+        return (
+          <div key={id} className="category-item">
+            <Link to={`/Recipedetail/${id}`}>
+              <img src={post.image} alt={post.name} className="category-image" />
             </Link>
             <div className="category-details">
-              <h3>{post.title}</h3>
+              <h3>{post.name}</h3>
               <p>작성자: {post.author}</p>
               <p>좋아요: {post.good}</p>
             </div>
           </div>
-        ))}
+        )})}
       </div>
     </div>
   );

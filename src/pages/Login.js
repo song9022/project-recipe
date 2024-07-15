@@ -37,6 +37,8 @@ const Login = ({ setIsLoggedIn, setUserData, userData }) => {
       });
   };
 
+  console.log(userCheck)
+
   useEffect(() => {
     userInfoCheck();
   }, []);

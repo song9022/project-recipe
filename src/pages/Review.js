@@ -9,7 +9,9 @@ import {
   ReviewLink,
 } from '../styles/Review';
 
+
 const Review = () => {
+  
   return (
     <ReviewPage>
       <h2>🍳 내가 직접 만들어본 요리 이야기</h2>

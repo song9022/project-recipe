@@ -44,16 +44,15 @@ const Signup = () => {
     fetchDuple();
   }, []);
 
-  console.log(userDuple)
+  console.log(userDuple);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (user.password !== confirmPassword) {
       setErrorMessage("비밀번호가 일치하지 않습니다.");
       return;
-    }
-    else if (user.password === confirmPassword) {
-      setErrorMessage("")
+    } else if (user.password === confirmPassword) {
+      setErrorMessage("");
     }
 
     // 중복 검사 실시
@@ -81,7 +80,7 @@ const Signup = () => {
     }
 
     // 회원 가입 정보를 데이터베이스에 저장
-    fetch("http://localhost:8080/users/signup", {
+    fetch("http://localhost:8080/api/users/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user),
@@ -91,13 +90,11 @@ const Signup = () => {
         console.log(data);
       })
       .catch((err) => console.error("Failed to save recipe:", err));
-
   };
 
   const userChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
-
 
   return (
     <SignupPage>

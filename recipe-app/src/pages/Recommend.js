@@ -1,6 +1,5 @@
 import React from 'react';
-import Slider from 'react-slick';
-import '../styles/Recommend.css';
+import { SliderContainer, RecommendWrapper, SectionTitle, SubTitle } from '../styles/Recommend';
 
 const getYoutubeThumbnail = (url) => {
   const videoId = url.split('v=')[1]?.split('&')[0];
@@ -36,22 +35,20 @@ function Recommend() {
   ];
 
   const snsLinks = [
-    'https://www.tiktok.com/@dasol2__/video/7219599689212038401?is_from_webapp=1&sender_device=pc' ,
-    'https://example.com/2' ,
-    'https://example.com/3' ,
-    'https://example.com/4' ,
-    'https://example.com/5' ,
-    'https://example.com/6' ,
+    'https://www.tiktok.com/@dasol2__/video/7219599689212038401?is_from_webapp=1&sender_device=pc',
+    'https://example.com/2',
+    'https://example.com/3',
+    'https://example.com/4',
+    'https://example.com/5',
+    'https://example.com/6',
     'https://example.com/7'
   ];
 
   return (
-    <div>
-      <h2>🍳 레시피샵이 추천하는 요리법</h2>
-      <div>
-        <h4>🥞 레시피샵의 추천 레시피</h4>
-      </div>
-      <Slider {...settings} className="slider">
+    <RecommendWrapper>
+      <SectionTitle>🍳 레시피샵이 추천하는 요리법</SectionTitle>
+      <SubTitle>🥞 레시피샵의 추천 레시피</SubTitle>
+      <SliderContainer {...settings}>
         <div>
           <img src="https://via.placeholder.com/800x400" alt="Slide 1" />
         </div>
@@ -73,12 +70,10 @@ function Recommend() {
         <div>
           <img src="https://via.placeholder.com/800x400" alt="Slide 7" />
         </div>
-      </Slider>
+      </SliderContainer>
 
-      <div>
-        <h4>🥂 유튜브 인기 레시피</h4>
-      </div>
-      <Slider {...settings} className="slider">
+      <SubTitle>🥂 유튜브 인기 레시피</SubTitle>
+      <SliderContainer {...settings}>
         {youtubeLinks.map((link, index) => (
           <div key={index}>
             <a href={link} target="_blank" rel="noopener noreferrer">
@@ -89,12 +84,10 @@ function Recommend() {
             </a>
           </div>
         ))}
-      </Slider>
+      </SliderContainer>
 
-      <div>
-        <h4>🥗 SNS 인기 레시피</h4>
-      </div>
-      <Slider {...settings} className="slider">
+      <SubTitle>🥗 SNS 인기 레시피</SubTitle>
+      <SliderContainer {...settings}>
         {snsLinks.map((link, index) => (
           <div key={index}>
             <a href={link} target="_blank" rel="noopener noreferrer">
@@ -105,8 +98,8 @@ function Recommend() {
             </a>
           </div>
         ))}
-      </Slider>
-    </div>
+      </SliderContainer>
+    </RecommendWrapper>
   );
 }
 

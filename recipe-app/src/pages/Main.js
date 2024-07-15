@@ -1,5 +1,4 @@
 import React from 'react';
-import Slider from 'react-slick';
 import '../styles/Main.css';
 import mainImage from '../assets/main.gif'; // 이미지 파일 import
 

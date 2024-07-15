@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   CategoryPage,
@@ -7,13 +7,14 @@ import {
   FilterGroupTitle,
   FilterGroupLabel,
   FilterGroupInput,
+  FilterGroupRow,
   RankingList,
   RankingItem,
   RankingImage,
   RankingDetails
 } from '../styles/Category';
 import rankings from '../data/data';
-import { FaThumbsUp} from 'react-icons/fa';
+import { FaThumbsUp } from 'react-icons/fa';
 
 const Category = ({ searchQuery }) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -49,39 +50,45 @@ const Category = ({ searchQuery }) => {
       <h2>분류 페이지</h2>
       <Filters>
         <FilterGroup>
-          <FilterGroupTitle>카테고리</FilterGroupTitle>
-          <FilterGroupLabel>
-            <FilterGroupInput type="checkbox" value="한식" onChange={handleCategoryChange} /> 한식
-          </FilterGroupLabel>
-          <FilterGroupLabel>
-            <FilterGroupInput type="checkbox" value="일식" onChange={handleCategoryChange} /> 일식
-          </FilterGroupLabel>
-          <FilterGroupLabel>
-            <FilterGroupInput type="checkbox" value="중식" onChange={handleCategoryChange} /> 중식
-          </FilterGroupLabel>
-          <FilterGroupLabel>
-            <FilterGroupInput type="checkbox" value="양식" onChange={handleCategoryChange} /> 양식
-          </FilterGroupLabel>
-        </FilterGroup>
-        <FilterGroup>
-          <FilterGroupTitle>난이도</FilterGroupTitle>
-          <FilterGroupLabel>
-            <FilterGroupInput type="checkbox" value="상" onChange={handleLevelChange} /> 상
-          </FilterGroupLabel>
-          <FilterGroupLabel>
-            <FilterGroupInput type="checkbox" value="중" onChange={handleLevelChange} /> 중
-          </FilterGroupLabel>
-          <FilterGroupLabel>
-            <FilterGroupInput type="checkbox" value="하" onChange={handleLevelChange} /> 하
-          </FilterGroupLabel>
+          <div>
+            <FilterGroupTitle>카테고리:</FilterGroupTitle>
+            <FilterGroupRow>
+              <FilterGroupLabel>
+                <FilterGroupInput type="checkbox" value="한식" onChange={handleCategoryChange} /> 한식
+              </FilterGroupLabel>
+              <FilterGroupLabel>
+                <FilterGroupInput type="checkbox" value="일식" onChange={handleCategoryChange} /> 일식
+              </FilterGroupLabel>
+              <FilterGroupLabel>
+                <FilterGroupInput type="checkbox" value="중식" onChange={handleCategoryChange} /> 중식
+              </FilterGroupLabel>
+              <FilterGroupLabel>
+                <FilterGroupInput type="checkbox" value="양식" onChange={handleCategoryChange} /> 양식
+              </FilterGroupLabel>
+            </FilterGroupRow>
+          </div>
+          <div>
+            <FilterGroupTitle>난이도:</FilterGroupTitle>
+            <FilterGroupRow>
+              <FilterGroupLabel>
+                <FilterGroupInput type="checkbox" value="상" onChange={handleLevelChange} /> 상
+              </FilterGroupLabel>
+              <FilterGroupLabel>
+                <FilterGroupInput type="checkbox" value="중" onChange={handleLevelChange} /> 중
+              </FilterGroupLabel>
+              <FilterGroupLabel>
+                <FilterGroupInput type="checkbox" value="하" onChange={handleLevelChange} /> 하
+              </FilterGroupLabel>
+            </FilterGroupRow>
+          </div>
         </FilterGroup>
       </Filters>
       <RankingList>
         {filteredRankings.map((post) => (
           <RankingItem key={post.id}>
-          <Link to={`/Recipedetail/${post.id}`}>
-            <RankingImage src={post.image} alt={post.title} />
-          </Link>
+            <Link to={`/Recipedetail/${post.id}`}>
+              <RankingImage src={post.image} alt={post.title} />
+            </Link>
             <RankingDetails>
               <h3>{post.title}</h3>
               <p>작성자: {post.author}</p>

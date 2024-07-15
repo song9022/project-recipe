@@ -9,7 +9,6 @@ import Review from '../pages/Review';
 import ReviewDetail from '../pages/ReviewDetail';
 import ReviewWrite from '../pages/ReviewWrite';
 import Write from '../pages/Write';
-import Fridge from '../pages/Fridge';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import MyPage from '../pages/MyPage';
@@ -26,7 +25,6 @@ const RouterConfig = ({ searchQuery, setIsLoggedIn, isLoggedIn }) => (
     <Route path="/review/:id" element={<ReviewDetail />} />
     <Route path="/review/write" element={<ReviewWrite />} />
     <Route path="/write" element={<Write />} />
-    <Route path="/fridge" element={<Fridge />} />
     <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
     <Route path="/signup" element={<Signup />} />
     <Route path="/mypage" element={<MyPage />} />

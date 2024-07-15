@@ -6,13 +6,18 @@ export const CategoryPage = styled.div`
 
 export const Filters = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 20px;
   margin-bottom: 20px;
+  border: 1px solid #EC9736; /* 외부 라인 */
+  border-radius: 5px; /* 둥근 모서리 */
+  padding: 10px; /* 내부 여백 */
 `;
 
 export const FilterGroup = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* 세로 정렬 */
+  gap: 20px; /* 그룹 간의 간격 */
 `;
 
 export const FilterGroupTitle = styled.h3`
@@ -22,11 +27,17 @@ export const FilterGroupTitle = styled.h3`
 export const FilterGroupLabel = styled.label`
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
+  margin-right: 15px; /* 각 체크박스 사이의 간격 */
 `;
 
 export const FilterGroupInput = styled.input`
   margin-right: 5px;
+`;
+
+export const FilterGroupRow = styled.div`
+  display: flex;
+  flex-direction: row; /* 가로 정렬 */
+  gap: 10px; /* 각 체크박스 사이의 간격 */
 `;
 
 export const RankingList = styled.div`

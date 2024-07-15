@@ -13,6 +13,8 @@ import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.ingredient.IngredientRepository;
 import com.mysite.project6.recipe.Recipe;
 import com.mysite.project6.recipe.RecipeRepository;
+import com.mysite.project6.user.User;
+import com.mysite.project6.user.UserRepository;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -46,6 +48,14 @@ public class MainController {
 	@GetMapping("/cookingstep")
 	public Iterable<CookingStep> getCookingStep() {
 		return cookingStepRepository.findAll();
+	}
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@GetMapping("/user")
+	public Iterable<User> getUser() {
+		return userRepository.findAll();
 	}
 //	
 ////	@CrossOrigin(origins = "http://localhost:3001")

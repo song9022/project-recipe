@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.mysite.project6.answer.Answer;
 import com.mysite.project6.recipe.Recipe;
 
 import jakarta.persistence.CascadeType;
@@ -45,6 +46,10 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Recipe> recipes = new ArrayList<>();
+	
+//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonManagedReference
+//    private List<Answer> answers = new ArrayList<>();
 
 	public User(String userID, String username, String password, String email, List<Recipe> recipes) {
 		super();

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.mysite.project6.answer.Answer;
 import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.photo.Photo;
@@ -68,6 +69,10 @@ public class Recipe {
     @JsonManagedReference
     private List<Photo> photos = new ArrayList<>(); // 레시피가 가지는 사진들
     
+//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonManagedReference
+//    private List<Answer> answers = new ArrayList<>();
+   
  // 기본 생성자 
     public Recipe() {
     }

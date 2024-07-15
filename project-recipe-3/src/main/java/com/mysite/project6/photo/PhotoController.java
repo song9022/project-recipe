@@ -74,7 +74,7 @@ public class PhotoController {
 	
 	@PostMapping("/recipes/add")
 	@Transactional
-	public ResponseEntity<Recipe> addRecipe(@RequestParam(value = "file") MultipartFile[] files,
+	public ResponseEntity<Recipe> addRecipe(@RequestParam(value = "files") MultipartFile[] files,
 	        @RequestParam("recipe") String recipeJson) {
 	    
 	    // Convert JSON to Recipe object

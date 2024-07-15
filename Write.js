@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Write.css";
 
@@ -7,18 +7,6 @@ export default function Write({ userData }) {
   const navigate = useNavigate();
 
   const userId = !userData ? alert("로그인을 해주세요") : userData.id;
-  // // URL에서 숫자 부분 추출
-  // const extractUserId = () => {
-  //   const match = url.match(/\d+$/);
-  //   if (match) {
-  //     return parseInt(match[0], 10); // 정수로 변환하여 반환
-  //   } else {
-  //     return null; // 매치되는 부분이 없으면 null 반환
-  //   }
-  // };
-
-  console.log("userid", userId);
-  console.log(typeof userId);
 
   const [recipe, setRecipe] = useState({
     name: "",
@@ -28,21 +16,18 @@ export default function Write({ userData }) {
     time: "",
     level: "",
     user: userId,
-    // likedUsers: [],
     cookingSteps: [],
-    ingredients: [], // ingredients를 배열로 관리
+    ingredients: [],
   });
-
-  console.log(typeof recipe.user);
 
   const recipeChange = (e) => {
     setRecipe({ ...recipe, [e.target.name]: e.target.value });
   };
 
-  // const handleImageChange = (e) => {
-  //   const file = e.target.files[0];
-  //   setImage(file);
-  // };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+  };
 
   const ingredientChange = (index, e) => {
     const newIngredients = [...recipe.ingredients];
@@ -86,50 +71,39 @@ export default function Write({ userData }) {
     setRecipe({ ...recipe, cookingSteps: newSteps });
   };
 
-  const handleSave = () => {
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("file", image); // 사진 파일 추가
+    formData.append("recipe", JSON.stringify(recipe)); // 레시피 데이터 추가
+
     fetch("http://localhost:8080/recipes/add", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(recipe),
+      body: formData,
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Recipe saved:", data);
         // 저장 후 필요한 동작 수행
-      })
-      .then(() => {
-        navigate("/category");
+        navigate("/mypage"); // 저장 후 페이지 이동
       })
       .catch((err) => console.error("Failed to save recipe:", err));
   };
 
   const handleCancel = () => {
-    navigate("/category");
+    navigate("/mypage"); // 취소 버튼 클릭 시 이동할 페이지로 이동
   };
 
   return (
     <>
       <div className="write-page">
         <h2>글 작성</h2>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSave();
-          }}
-        >
+        <form onSubmit={handleSave} encType="multipart/form-data">
           <div className="form-group">
             <label>레시피 제목:</label>
             <input name="name" value={recipe.name} onChange={recipeChange} />
           </div>
-          {/*<div className="form-group">
-          <label>작성자:</label>
-          <input
-            type="text"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            required
-          />
-        </div>  */}
           <div className="form-group">
             <label>요리 소개:</label>
             <textarea
@@ -140,12 +114,13 @@ export default function Write({ userData }) {
           </div>
           <div className="form-group">
             <label>요리 대표 사진:</label>
-            {/* <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            // required
-          /> */}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageChange}
+              required
+              multiple
+            />
           </div>
           <div className="form-group">
             <label>카테고리:</label>

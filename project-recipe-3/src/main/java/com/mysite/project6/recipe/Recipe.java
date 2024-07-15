@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.ingredient.Ingredient;
+import com.mysite.project6.photo.Photo;
 import com.mysite.project6.user.User;
 
 import jakarta.persistence.CascadeType;
@@ -39,8 +40,8 @@ public class Recipe {
     
     private String name;            // 요리 이름
     
-    @Lob
-    private byte[] photo;           // 요리 사진 (이미지 파일의 바이트 배열)
+//    @Lob
+//    private byte[] photo;           // 요리 사진 (이미지 파일의 바이트 배열)
     
     @Column(columnDefinition = "TEXT")
     private String introduction;    // 요리 소개
@@ -63,14 +64,17 @@ public class Recipe {
     @JsonManagedReference
     private List<Ingredient> ingredients = new ArrayList<>();
    
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Photo> photos = new ArrayList<>(); // 레시피가 가지는 사진들
+    
  // 기본 생성자 
     public Recipe() {
     }
     
     // 생성자
-    public Recipe(String name, byte[] photo, String introduction, String category, Integer amount, Integer time, String level) {
+    public Recipe(String name, String introduction, String category, Integer amount, Integer time, String level) {
         this.name = name;
-        this.photo = photo;
         this.introduction = introduction;
         this.category = category;
         this.amount = amount;
@@ -84,11 +88,10 @@ public class Recipe {
     @JsonBackReference
     private User user;	//레시피는 한 사용자 한테만 종속됨
 
-	public Recipe(String name, byte[] photo, String introduction, String category, Integer amount, Integer time,
+	public Recipe(String name, String introduction, String category, Integer amount, Integer time,
 			String level, User user) {
 		super();
 		this.name = name;
-		this.photo = photo;
 		this.introduction = introduction;
 		this.category = category;
 		this.amount = amount;

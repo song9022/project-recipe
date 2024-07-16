@@ -260,6 +260,9 @@ const RecipeDetail = ({ userData }) => {
     return <div>Recipe not found</div>;
   }
 
+  console.log(comments)
+  console.log(recipe)
+
   return (
     <RecipeDetailPage>
       <RecipeTitle>{recipe.name}</RecipeTitle>

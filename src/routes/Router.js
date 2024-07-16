@@ -36,7 +36,7 @@ const RouterConfig = ({ searchResults, setIsLoggedIn, isLoggedIn }) => {
     <Route path="/signup" element={<Signup />} />
     <Route path="/mypage" element={<MyPage userData={userData} setUserData={setUserData} />} />
     <Route path="/search-results" element={<SearchRecipes searchResults={searchResults} />} />
-    <Route path="/edit" element={<Edit userData={userData} setUserData={setUserData}/>}/>
+    <Route path="/edit/:id" element={<Edit userData={userData} setUserData={setUserData}/>}/>
   </Routes>
   )
 };

@@ -103,8 +103,6 @@ const RecipeDetail = ({ userData }) => {
       .then((updatedUserData) => {
         console.log("updated successfully:", updatedUserData);
         setUserInfo(updatedUserData); // 업데이트된 사용자 데이터로 상태 업데이트
-        console.log("유저 정보");
-        console.log(userInfo);
       })
       .catch((error) => {
         console.error("Error updating nickname:", error);
@@ -115,7 +113,7 @@ const RecipeDetail = ({ userData }) => {
     if (userData && userData._links && userData._links.self) {
       userRecipes();
     }
-  }, [userData]);
+  },[]);
 
   const navigate = useNavigate();
 
@@ -127,8 +125,10 @@ const RecipeDetail = ({ userData }) => {
     setBookmarked(!bookmarked);
   };
 
-  const handleCommentEdit = (id, text) => {
-    setEditingCommentId(id);
+  const handleCommentEdit = (comment, text) => {
+    const commentId = comment._links.self.href
+    const coid = commentId.match(/\d+$/)[0];
+    setEditingCommentId(coid);
     setEditingCommentText(text);
   };
 
@@ -142,8 +142,6 @@ const RecipeDetail = ({ userData }) => {
   useEffect(()=>{
     userName()
   },[userData])
-
-  console.log(commentAuthor)
 
 
 
@@ -175,6 +173,9 @@ const RecipeDetail = ({ userData }) => {
       }
   };
 
+  console.log(editingCommentId)
+  console.log(`comments : ${comments}`)
+
   const handleCommentSubmit = async (e) => {
     // 로그인 후 댓글 가능
     if(userData === "") {
@@ -183,8 +184,6 @@ const RecipeDetail = ({ userData }) => {
     }
     // 작성자를 저장하여 수정 가능 여부에 사용
     setCommentAuthor(userData.username)
-
-    console.log(commentAuthor)
 
     e.preventDefault();
 
@@ -209,6 +208,9 @@ const RecipeDetail = ({ userData }) => {
         setEditingCommentText('');
       } catch (error) {
         console.error('Error updating comment:', error);
+        alert("수정 권한이 없습니다.")
+        setEditingCommentId(null);
+        setEditingCommentText('');
       }
     } else {
       // If adding new comment
@@ -226,17 +228,31 @@ const RecipeDetail = ({ userData }) => {
         const newCommentObj = await response.json();
         setComments([...comments, newCommentObj]);
         setNewComment('');
-        // setCommentAuthor(`작성자${comments.length + 2}`);
       } catch (error) {
         console.error('Error creating comment:', error);
       }
     }
+    // 댓글 추가 및 수정 후 서버에서 새로운 댓글 목록을 가져와서 상태 업데이트
+    axios.get(`http://localhost:8080/api/recipes/${id}/comments`)
+    .then(response => {
+      if (response.data && response.data._embedded && response.data._embedded.comments) {
+        setComments(response.data._embedded.comments);
+        console.log('Comment deleted successfully');
+      } else {
+        console.error('Invalid response format:', response);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching comments:', error);
+    });
   };
+
+  console.log(userData)
 
   const HandleEditPost = () => {
     // userData가 존재하지 않거나 userData.recipes가 존재하지 않으면 "로그인 해주세요" 경고 메시지 표시
     if (!userInfo || !userInfo.recipes) {
-      alert("로그인 해주세요");
+      alert(userInfo);
       return;
     }
 
@@ -250,7 +266,7 @@ const RecipeDetail = ({ userData }) => {
 
     if (recipeToEdit) {
       console.log("수정할 레시피를 찾았습니다.");
-      navigate("/edit");
+      navigate(`/edit/${id}`);
     } else {
       alert("권한이 없습니다.");
     }
@@ -340,15 +356,19 @@ const RecipeDetail = ({ userData }) => {
             </CommentButton>
             </CommentForm>
         <CommentList>
-          {comments.map((comment) => (
-            <CommentItem key={comment.id}>
-              <p><strong>{comment.name}</strong>: {comment.text}</p>
-              <div>
-                <CommentButton onClick={() => handleCommentEdit(comment.id, comment.text)}>수정</CommentButton>
-                <CommentButton onClick={() => handleCommentDelete(comment._links.self.href, comment.name)}>삭제</CommentButton>
-              </div>
-            </CommentItem>
-          ))}
+        {comments.map((comment) => {
+        console.log(comment); // 댓글 객체 출력
+
+        return (
+          <CommentItem key={comment.id}>
+            <p><strong>{comment.name}</strong>: {comment.text}</p>
+            <div>
+              <CommentButton onClick={() => handleCommentEdit(comment, comment.text)}>수정</CommentButton>
+              <CommentButton onClick={() => handleCommentDelete(comment._links.self.href, comment.name)}>삭제</CommentButton>
+            </div>
+          </CommentItem>
+        );
+      })}
         </CommentList>
       </CommentsSection>
     </RecipeDetailPage>

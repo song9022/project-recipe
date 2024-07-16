@@ -25,11 +25,11 @@ public class RecipeDto {
 
     private String level;
 
-    private List<Ingredient> ingredients;
-    
-    private List<CookingStep> cookingSteps;
-    
-    private User user;
+//    private List<Ingredient> ingredients;
+//    
+//    private List<CookingStep> cookingSteps;
+//    
+//    private User user;
 
     // getters and setters
 }

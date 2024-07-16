@@ -118,11 +118,21 @@ const RecipeDetail = ({ userData }) => {
   const navigate = useNavigate();
 
   const handleLikeClick = () => {
-    setLikes(likes + 1);
+    if (userData !== "") { // userData가 비어있지 않으면 로그인 상태
+      setLikes(likes + 1); // 클라이언트 상에서만 좋아요 카운트 업데이트
+      // 서버에 좋아요 요청 보내는 부분은 생략
+    } else {
+      alert("로그인 후 이용 가능합니다."); // 로그인되지 않은 경우 경고 메시지 표시
+    }
   };
 
   const handleBookmarkClick = () => {
-    setBookmarked(!bookmarked);
+    if (userData !== "") { // userData가 비어있지 않으면 로그인 상태
+      setBookmarked(!bookmarked); // 북마크 상태 토글
+      // 북마크 상태 업데이트 API 요청 등 추가 로직 구현
+    } else {
+      alert("로그인 후 이용 가능합니다."); // 로그인되지 않은 경우 경고 메시지 표시
+    }
   };
 
   const handleCommentEdit = (comment, text) => {
@@ -294,10 +304,10 @@ const RecipeDetail = ({ userData }) => {
       );
     })}
       <ButtonGroup>
-        <LikeButton onClick={handleLikeClick}>
+        <LikeButton onClick={handleLikeClick} disabled={userData === ""}>
           <FaThumbsUp /> {likes}
         </LikeButton>
-        <BookmarkButton onClick={handleBookmarkClick}>
+        <BookmarkButton onClick={handleBookmarkClick} disabled={userData === ""}>
           {bookmarked ? <FaBookmark /> : <FaRegBookmark />}
         </BookmarkButton>
       </ButtonGroup>

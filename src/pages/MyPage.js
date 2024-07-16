@@ -60,9 +60,8 @@ const MyPage = ({ userData, setUserData }) => {
         return response.json();
       })
       .then((updatedUserData) => {
-        console.log("Nickname updated successfully:", updatedUserData);
+        console.log("updated successfully:", updatedUserData);
         setUserData(updatedUserData); // 업데이트된 사용자 데이터로 상태 업데이트
-        setIsEditing(false); // 수정 모드 종료
       })
       .catch((error) => {
         console.error("Error updating nickname:", error);
@@ -77,7 +76,7 @@ const MyPage = ({ userData, setUserData }) => {
 
   const reUpdateNickname = () => {
     if (!userData || !userData.id) {
-      console.error("로그인을 해주세요");
+      alert("로그인을 해주세요")
       return;
     }
 

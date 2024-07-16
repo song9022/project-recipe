@@ -1,15 +1,16 @@
 import React from 'react';
 import { SliderContainer, RecommendWrapper, SectionTitle, SubTitle } from '../styles/Recommend';
+import image1 from '../assets/S1.jpg';
+import image2 from '../assets/S2.jpg';
+import image3 from '../assets/S3.jpg';
+import image4 from '../assets/S4.jpg';
+import image5 from '../assets/S5.jpg';
+import image6 from '../assets/S6.jpg';
+import image7 from '../assets/S7.jpg';
 
 const getYoutubeThumbnail = (url) => {
   const videoId = url.split('v=')[1]?.split('&')[0];
   return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-};
-
-const getSNSImageThumbnail = (url) => {
-  // SNS 링크에서 썸네일 이미지를 가져오는 로직을 구현합니다.
-  // 현재 예시로는 단순히 대체 이미지를 반환합니다.
-  return 'https://via.placeholder.com/800x400'; // 실제로는 각 SNS API에서 썸네일을 가져오는 로직을 구현해야 합니다.
 };
 
 function Recommend() {
@@ -35,14 +36,16 @@ function Recommend() {
   ];
 
   const snsLinks = [
-    'https://www.tiktok.com/@dasol2__/video/7219599689212038401?is_from_webapp=1&sender_device=pc',
-    'https://example.com/2',
-    'https://example.com/3',
-    'https://example.com/4',
-    'https://example.com/5',
-    'https://example.com/6',
-    'https://example.com/7'
+    'https://m.post.naver.com/viewer/postView.naver?volumeNo=35458088&memberNo=56808127',
+    'https://m.post.naver.com/viewer/postView.naver?volumeNo=37931657&memberNo=24082060&searchKeyword=%EB%A0%88%EC%8B%9C%ED%94%BC&searchRank=2',
+    'https://m.post.naver.com/viewer/postView.naver?volumeNo=38105943&memberNo=32549856&searchKeyword=%EB%A0%88%EC%8B%9C%ED%94%BC&searchRank=4',
+    'https://m.post.naver.com/viewer/postView.naver?volumeNo=37735623&memberNo=36529745&searchKeyword=%EB%A0%88%EC%8B%9C%ED%94%BC&searchRank=5',
+    'https://m.post.naver.com/viewer/postView.naver?volumeNo=29807305&memberNo=32806001&searchKeyword=%EB%A0%88%EC%8B%9C%ED%94%BC&searchRank=8',
+    'https://m.post.naver.com/viewer/postView.naver?volumeNo=18647259&memberNo=10710648&searchKeyword=%EB%A0%88%EC%8B%9C%ED%94%BC&searchRank=15',
+    'https://m.post.naver.com/viewer/postView.naver?volumeNo=37737151&memberNo=2044761&searchRank=21'
   ];
+
+  const snsImages = [image1, image2, image3, image4, image5, image6, image7];
 
   return (
     <RecommendWrapper>
@@ -75,7 +78,7 @@ function Recommend() {
       <SubTitle>🥂 유튜브 인기 레시피</SubTitle>
       <SliderContainer {...settings}>
         {youtubeLinks.map((link, index) => (
-          <div key={index}>
+          <div key={index} style={{ padding: '0 10px' }}>
             <a href={link} target="_blank" rel="noopener noreferrer">
               <img
                 src={getYoutubeThumbnail(link)}
@@ -89,10 +92,10 @@ function Recommend() {
       <SubTitle>🥗 SNS 인기 레시피</SubTitle>
       <SliderContainer {...settings}>
         {snsLinks.map((link, index) => (
-          <div key={index}>
+          <div key={index} style={{ padding: '0 10px' }}>
             <a href={link} target="_blank" rel="noopener noreferrer">
               <img
-                src={getSNSImageThumbnail(link)}
+                src={snsImages[index]}
                 alt={`Slide ${index + 1}`}
               />
             </a>

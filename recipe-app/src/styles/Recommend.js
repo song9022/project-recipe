@@ -7,7 +7,8 @@ export const SliderContainer = styled(Slider)`
 
   img {
     width: 90%;
-    height: auto;
+    max-height: 150px;
+    height: 100%;
     border-radius: 10px;
   }
 `;
@@ -20,6 +21,7 @@ export const SectionTitle = styled.h2`
   margin-bottom: 20px;
 `;
 
-export const SubTitle = styled.h4`
-  margin-top: 20px;
+export const SubTitle = styled.h3`
+  margin-top: 50px;
+  margin-left: 150px;
 `;

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const WritePage = styled.div`
   padding: 20px;
@@ -31,7 +31,7 @@ export const Input = styled.input`
   max-width: 600px; /* input의 최대 너비를 600px로 설정 */
   padding: 8px;
   margin: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #B0BA1C;
   border-radius: 4px;
 `;
 
@@ -39,7 +39,7 @@ export const Textarea = styled.textarea`
   width: 100%; /* textarea의 너비를 100%로 조정 */
   max-width: 600px; /* textarea의 최대 너비를 600px로 설정 */
   padding: 8px;
-  border: 1px solid #b0ba1c;
+  border: 1px solid #B0BA1C;
   border-radius: 4px;
   resize: vertical;
   height: 100px;
@@ -49,7 +49,7 @@ export const Select = styled.select`
   width: 100%; /* select의 너비를 100%로 조정 */
   max-width: 200px; /* select의 최대 너비를 줄임 */
   padding: 8px;
-  border: 1px solid #b0ba1c;
+  border: 1px solid #B0BA1C;
   border-radius: 4px;
 `;
 
@@ -65,11 +65,11 @@ export const SubmitButton = styled.button`
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  background-color: #dd6213;
+  background-color: #DD6213;
   color: white;
 
   &:hover {
-    background-color: #ec9736;
+    background-color: #EC9736;
   }
 `;
 
@@ -97,12 +97,12 @@ export const AddButton = styled.button`
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  background-color: #dd6213;
+  background-color: #DD6213;
   color: white;
   cursor: pointer;
 
   &:hover {
-    background-color: #ec9736;
+    background-color: #EC9736;
   }
 `;
 

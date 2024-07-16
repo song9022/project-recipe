@@ -14,6 +14,7 @@ import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import MyPage from '../pages/MyPage';
 import SearchRecipes from '../pages/SearchRecipes';
+import Edit from '../pages/Editform';
 
 const RouterConfig = ({ searchResults, setIsLoggedIn, isLoggedIn }) => {
 
@@ -35,6 +36,7 @@ const RouterConfig = ({ searchResults, setIsLoggedIn, isLoggedIn }) => {
     <Route path="/signup" element={<Signup />} />
     <Route path="/mypage" element={<MyPage userData={userData} setUserData={setUserData} />} />
     <Route path="/search-results" element={<SearchRecipes searchResults={searchResults} />} />
+    <Route path="/edit" element={<Edit userData={userData} setUserData={setUserData}/>}/>
   </Routes>
   )
 };

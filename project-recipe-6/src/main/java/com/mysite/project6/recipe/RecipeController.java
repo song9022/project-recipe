@@ -1,24 +1,41 @@
 package com.mysite.project6.recipe;
 
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mysite.project6.cookingstep.CookingStep;
 import com.mysite.project6.cookingstep.CookingStepRepository;
+import com.mysite.project6.ingredient.Ingredient;
 import com.mysite.project6.ingredient.IngredientRepository;
+import com.mysite.project6.photo.Photo;
 import com.mysite.project6.photo.PhotoRepository;
+import com.mysite.project6.user.User;
 
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class RecipeController {
 
 	@Autowired
@@ -31,7 +48,7 @@ public class RecipeController {
 	private CookingStepRepository cookingStepRepository;
 
 	@Autowired
-	private PhotoRepository photoRepository;	
+	private PhotoRepository photoRepository;
 
 	// 레시피 이름 또는 재료 이름으로 검색
 	@GetMapping("/api/recipes/search")
@@ -44,26 +61,12 @@ public class RecipeController {
 			throw new IllegalArgumentException("Invalid search type: " + searchType);
 		}
 	}
+
 	
-	@PutMapping("/recipes/{id}")
-    public ResponseEntity<Recipe> updateRecipe(@PathVariable Integer id, @RequestBody RecipeDto updatedRecipeDto) {
-        Recipe recipe = recipeRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Recipe not found with id: " + id));
 
-        // RecipeDto에서 amount와 time을 Integer로 변환하여 엔티티에 설정
-        recipe.setName(updatedRecipeDto.getName());
-        recipe.setIntroduction(updatedRecipeDto.getIntroduction());
-        recipe.setCategory(updatedRecipeDto.getCategory());
-        recipe.setAmount(Integer.parseInt(updatedRecipeDto.getAmount())); // String을 Integer로 변환
-        recipe.setTime(Integer.parseInt(updatedRecipeDto.getTime()));     // String을 Integer로 변환
-        recipe.setLevel(updatedRecipeDto.getLevel());
-        // 필요한 경우 다른 필드들도 업데이트
+	
 
-        Recipe savedRecipe = recipeRepository.save(recipe);
-        return ResponseEntity.ok(savedRecipe);
-    }
+    
 
-// 	private RecipeService recipeService;
-// 	private UserService userService;
-
+	
 }

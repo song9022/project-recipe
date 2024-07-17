@@ -1,7 +1,9 @@
 package com.mysite.project6.recipe;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -22,12 +24,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
 
 @Entity
 @Getter
@@ -74,6 +76,7 @@ public class Recipe {
     @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
    
+    private int likeCount;	//좋아요 받은 횟수
  // 기본 생성자 
     public Recipe() {
     }
@@ -106,7 +109,12 @@ public class Recipe {
 		this.user = user;
 	}
     
+	@ManyToMany(mappedBy = "bookmarkedRecipes")
+//	@JsonBackReference
+    private Set<User> bookmarkedByUsers = new HashSet<>();
     
+    @ManyToMany(mappedBy = "likedRecipes")
+    private Set<User> likedByUsers = new HashSet<>();
     
     
 }

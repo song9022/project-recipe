@@ -1,8 +1,12 @@
 package com.mysite.project6.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -10,19 +14,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mysite.project6.recipe.Recipe;
+import com.mysite.project6.recipe.RecipeRepository;
+
 import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
 
-	private final UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-    
+	@Autowired
+	private RecipeRepository recipeRepository;
+   
     @PostMapping("/signup")
     public ResponseEntity<String> signUp(@RequestBody User user) {
         // 사용자 정보를 받아와서 저장하는 로직
@@ -59,4 +65,58 @@ public class UserController {
         return ResponseEntity.ok(savedUser);
     }
     
+    @Autowired
+    private UserService userService;
+    
+    @PostMapping("/{userId}/recipes/{recipeId}/bookmark")
+    public ResponseEntity<?> bookmarkRecipe(@PathVariable Long userId, @PathVariable Integer recipeId) {
+    	try {
+            userService.bookmarkRecipe(userId, recipeId);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Bookmark operation failed: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{userId}/recipes/{recipeId}/bookmark")
+    public ResponseEntity<?> removeBookmark(@PathVariable Long userId, @PathVariable Integer recipeId) {
+    	try {
+            userService.removeBookmark(userId, recipeId);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Remove bookmark operation failed: " + e.getMessage());
+        }
+    }
+    
+    @PostMapping("/{userId}/recipes/{recipeId}/like")
+    public ResponseEntity<?> likeRecipe(@PathVariable Long userId, @PathVariable Integer recipeId) {
+    	try {
+    		userService.likeRecipe(userId, recipeId);
+    		return ResponseEntity.ok().build();
+    	} catch (Exception e) {
+    		return ResponseEntity.badRequest().body("Like operation failed: " + e.getMessage());
+    	}
+    }
+    
+    @DeleteMapping("/{userId}/recipes/{recipeId}/like")
+    public ResponseEntity<?> removeLike(@PathVariable Long userId, @PathVariable Integer recipeId) {
+    	try {
+    		userService.removeLike(userId, recipeId);
+    		return ResponseEntity.ok().build();
+    	} catch (Exception e) {
+    		return ResponseEntity.badRequest().body("Remove like operation failed: " + e.getMessage());
+    	}
+    }
+    
+    @GetMapping("/recipes/{recipeId}/likes")
+    public ResponseEntity<?> getLikeCount(@PathVariable Integer recipeId) {
+        Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+
+        if (optionalRecipe.isPresent()) {
+            Recipe recipe = optionalRecipe.get();
+            return ResponseEntity.ok(recipe.getLikeCount());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

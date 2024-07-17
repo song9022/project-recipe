@@ -25,12 +25,14 @@ const RecipeDetail = ({ userData }) => {
   const { id } = useParams();
   const [userInfo, setUserInfo] = useState([]);
 
-  const [recipe, setRecipe] = useState(null);
+  //const [recipe, setRecipe] = useState(null);
+  const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const [cookingSteps, setCookingSteps] = useState([]);
   const [images, setImages] = useState([]);
   const [comments, setComments] = useState([]);
   const [likes, setLikes] = useState(0);
+  const [liked, setLiked] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [newComment, setNewComment] = useState("");
   const [commentAuthor, setCommentAuthor] = useState("작성자1");
@@ -46,6 +48,7 @@ const RecipeDetail = ({ userData }) => {
         }
         const data = await response.json();
         setRecipe(data);
+
 
         const ingredientsResponse = await fetch(data._links.ingredients.href);
         if (!ingredientsResponse.ok) {
@@ -77,10 +80,43 @@ const RecipeDetail = ({ userData }) => {
       } catch (error) {
         console.error("Error fetching recipe:", error);
       }
+
+
     };
 
     fetchRecipe();
-  }, [id]);
+  }, [id, userData]);
+
+
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      try {
+        if (!userData || !userData._links || !userData._links.self || !recipe || !recipe._links || !recipe._links.self) {
+          return; // userData나 recipe가 없으면 무시
+        }
+
+        const storedLikeStatus = JSON.parse(localStorage.getItem('likeStatus'));
+        const userId = userData._links.self.href.split('/').pop();
+        const recipeId = recipe._links.self.href.split('/').pop();
+
+        if (storedLikeStatus && storedLikeStatus.userId === userId && storedLikeStatus.recipeId === recipeId) {
+          setLiked(storedLikeStatus.isLiked);
+        }
+
+        // 서버에서 실제 좋아요 수를 받아오는 요청
+        const response = await fetch(`http://localhost:8080/api/recipes/${recipeId}/likes`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch likes');
+        }
+        const data = await response.json();
+        setLikes(data.likes);
+      } catch (error) {
+        console.error('Error fetching likes:', error);
+      }
+    };
+
+    fetchLikeStatus();
+  }, [recipe, userData]);
 
   const userRecipes = () => {
     if (!userData || !userData._links || !userData._links.self) {
@@ -113,17 +149,154 @@ const RecipeDetail = ({ userData }) => {
     if (userData && userData._links && userData._links.self) {
       userRecipes();
     }
-  },[]);
+  }, [userData]);
+
+  
 
   const navigate = useNavigate();
 
+  // const handleLikeClick = () => {
+  //   if (userData !== "") { // userData가 비어있지 않으면 로그인 상태
+  //     setLikes(likes + 1); // 클라이언트 상에서만 좋아요 카운트 업데이트
+  //     // 서버에 좋아요 요청 보내는 부분은 생략
+  //   } else {
+  //     alert("로그인 후 이용 가능합니다."); // 로그인되지 않은 경우 경고 메시지 표시
+  //   }
+  // };
+
   const handleLikeClick = () => {
-    setLikes(likes + 1);
+    if (userData !== "") {
+      const isCurrentlyLiked = liked;
+      const newLikeState = !isCurrentlyLiked;
+      setLiked(newLikeState);
+      updateLikeStatus(newLikeState);
+    } else {
+      alert("로그인 후 이용 가능합니다.");
+    }
+  };
+  
+
+  const updateLikeStatus = (isLiked) => {
+    const userId = userData._links.self.href.split('/').pop(); // 현재 로그인한 사용자의 ID
+    const recipeId = recipe._links.self.href.split('/').pop(); // 북마크할 레시피의 ID
+
+    const url = `http://localhost:8080/api/users/${userId}/recipes/${recipeId}/like`;
+
+    const method = isLiked ? 'POST' : 'DELETE'; // 북마크 추가 또는 삭제에 따라 HTTP 메서드 선택
+
+    fetch(url, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        // 추가적인 필드나 데이터 전송이 필요한 경우 추가할 수 있음
+      }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('좋아요 상태 업데이트에 실패했습니다.');
+      }
+      console.log('좋아요 상태 업데이트 성공');
+      // 서버에서 실제 좋아요 갯수를 받아오는 요청
+      fetch(`http://localhost:8080/api/recipes/${recipeId}/likes`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('좋아요 갯수를 가져오는 데 실패했습니다.');
+          }
+          return response.json();
+        })
+        .then(data => {
+          setLikes(data.likes); // 실제 좋아요 갯수를 상태에 업데이트
+          // 추가적인 클라이언트 측 로직이 필요한 경우 구현
+          localStorage.setItem('likeStatus', JSON.stringify({ userId, recipeId, isLiked }));
+          setLiked(isLiked);
+        })
+        .catch(error => {
+          console.error('Error fetching likes:', error);
+        });
+    })
+    .catch(error => {
+      console.error('Error updating like status:', error);
+      // 오류 처리 로직 추가
+    });
   };
 
+useEffect(() => {
+
+  if (userData && recipe && userData._links && userData._links.self && recipe._links && recipe._links.self) {
+    const storedLikeStatus = JSON.parse(localStorage.getItem('likeStatus'));
+    const userId = userData._links.self.href.split('/').pop();
+    const recipeId = recipe._links.self.href.split('/').pop();
+
+    if (storedLikeStatus && storedLikeStatus.userId === userId && storedLikeStatus.recipeId === recipeId) {
+      setLiked(storedLikeStatus.isLiked);
+    }
+  }
+}, [recipe, userData]);
+  
+
+  
+
   const handleBookmarkClick = () => {
-    setBookmarked(!bookmarked);
+    if (userData !== "") {
+      const isCurrentlyBookmarked = bookmarked;
+      const newBookmarkState = !isCurrentlyBookmarked;
+      setBookmarked(newBookmarkState);
+      updateBookmarkStatus(newBookmarkState);
+    } else {
+      alert("로그인 후 이용 가능합니다.");
+    }
   };
+  
+
+  const updateBookmarkStatus = (isBookmarked) => {
+    const userId = userData._links.self.href.split('/').pop(); // 현재 로그인한 사용자의 ID
+    const recipeId = recipe._links.self.href.split('/').pop(); // 북마크할 레시피의 ID
+
+    const url = `http://localhost:8080/api/users/${userId}/recipes/${recipeId}/bookmark`;
+
+    const method = isBookmarked ? 'POST' : 'DELETE'; // 북마크 추가 또는 삭제에 따라 HTTP 메서드 선택
+
+    fetch(url, {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            // 추가적인 필드나 데이터 전송이 필요한 경우 추가할 수 있음
+          }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('북마크 상태 업데이트에 실패했습니다.');
+        }
+        console.log('북마크 상태 업데이트 성공');
+        // 추가적인 클라이언트 측 로직이 필요한 경우 구현
+        localStorage.setItem('bookmarkStatus', JSON.stringify({ userId, recipeId, isBookmarked }));
+        setBookmarked(isBookmarked);
+    })
+    .catch(error => {
+        console.error('Error updating bookmark status:', error);
+        // 오류 처리 로직 추가
+    });
+};
+
+// 페이지 로드 시 로컬 스토리지에서 북마크 상태 가져오기
+useEffect(() => {
+
+  if (userData && recipe && userData._links && userData._links.self && recipe._links && recipe._links.self) {
+    const storedBookmarkStatus = JSON.parse(localStorage.getItem('bookmarkStatus'));
+    const userId = userData._links.self.href.split('/').pop();
+    const recipeId = recipe._links.self.href.split('/').pop();
+
+    if (storedBookmarkStatus && storedBookmarkStatus.userId === userId && storedBookmarkStatus.recipeId === recipeId) {
+      setBookmarked(storedBookmarkStatus.isBookmarked);
+    }
+  }
+}, [recipe, userData]);
+
+
 
   const handleCommentEdit = (comment, text) => {
     const commentId = comment._links.self.href
@@ -247,12 +420,10 @@ const RecipeDetail = ({ userData }) => {
     });
   };
 
-  console.log(userData)
-
   const HandleEditPost = () => {
     // userData가 존재하지 않거나 userData.recipes가 존재하지 않으면 "로그인 해주세요" 경고 메시지 표시
     if (!userInfo || !userInfo.recipes) {
-      alert(userInfo);
+      alert("로그인 해주세요");
       return;
     }
 
@@ -266,7 +437,7 @@ const RecipeDetail = ({ userData }) => {
 
     if (recipeToEdit) {
       console.log("수정할 레시피를 찾았습니다.");
-      navigate(`/edit/${id}`);
+      navigate("/edit");
     } else {
       alert("권한이 없습니다.");
     }
@@ -296,10 +467,10 @@ const RecipeDetail = ({ userData }) => {
       );
     })}
       <ButtonGroup>
-        <LikeButton onClick={handleLikeClick}>
+        <LikeButton onClick={handleLikeClick} disabled={userData === ""}>
           <FaThumbsUp /> {likes}
         </LikeButton>
-        <BookmarkButton onClick={handleBookmarkClick}>
+        <BookmarkButton onClick={handleBookmarkClick} disabled={userData === ""}>
           {bookmarked ? <FaBookmark /> : <FaRegBookmark />}
         </BookmarkButton>
       </ButtonGroup>
